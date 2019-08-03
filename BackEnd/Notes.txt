@@ -1,0 +1,2 @@
+MongoDB service start
+sudo service mongod start

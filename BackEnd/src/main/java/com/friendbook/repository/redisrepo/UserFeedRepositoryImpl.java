@@ -1,6 +1,5 @@
 package com.friendbook.repository.redisrepo;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,16 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.friendbook.model.Post;
 import com.friendbook.repository.mongorepo.UserRepository;
-
+import com.friendbook.utility.RedisUtility;
 
 @Repository
 public class UserFeedRepositoryImpl implements UserFeedRepository
@@ -39,14 +31,16 @@ public class UserFeedRepositoryImpl implements UserFeedRepository
         mapObject.put("Count", count);
         mapObject.put("StartIndex", startIndex);
         mapObject.put("StopIndex", stopIndex);
-        strRedisTemplate.opsForHash().put(KEY, usrID + "_OBJECT", createStringFromObject(mapObject));
+        String tmp = RedisUtility.createStringFromObject(mapObject);
+        if(tmp != null)
+            strRedisTemplate.opsForHash().put(KEY, usrID + "_OBJECT", tmp);
     }
 
     @Override
     public void saveUserFeed(String usrID, List<Post> usrfd)
     {
         createUserFeedCounter(usrID, usrfd.size(),0,9);
-
+        List<Map<String,Object>> usrfdtmp = new ArrayList<Map<String,Object>>();
         for(int i = 0; i < usrfd.size(); i++)
         {
             Map<String, Object> map = new HashMap<>();
@@ -59,46 +53,57 @@ public class UserFeedRepositoryImpl implements UserFeedRepository
             map.put("dislikes", usrfd.get(i).getDislikes());
             map.put("numComments", usrfd.get(i).getNumComments());
             map.put("locklikesdislikes", false);
-            strRedisTemplate.opsForList().leftPush(usrID + "_DATA", createStringFromObject(map));
+            usrfdtmp.add(map);
         }
+        String tmp = RedisUtility.createStringFromObjectList(usrfdtmp);
+        if(tmp != null)
+            strRedisTemplate.opsForList().leftPush(usrID + "_DATA", tmp);
     }
 
     @Override
     public List<Map<String,Object>> getUserFeed(String usrID)
     {
-        List<Map<String,Object>> fpreturn = new ArrayList<Map<String,Object>>();
+        List<Map<String,Object>> fpreturn = new ArrayList<Map<String, Object>>();
         Map<String, Object> mapObject;
         List<String> tmplist;
 
         String tmp = (String) strRedisTemplate.opsForHash().get(KEY, usrID + "_OBJECT");
-        mapObject = createObjectFromString(tmp);
-
-        int Count = (int) mapObject.get("Count");
-        int StartIndex = (int) mapObject.get("StartIndex");
-        int StopIndex = (int) mapObject.get("StopIndex");
-
-        if(StartIndex < Count)
+        if(tmp != null)
         {
-            if (StopIndex > Count)
-                StopIndex = Count;
-
-            tmplist = strRedisTemplate.opsForList().range(usrID + "_DATA", StartIndex, StopIndex);
-
-            StartIndex = StopIndex + 1;
-            StopIndex += 10;
-            mapObject.put("StartIndex", StartIndex);
-            mapObject.put("StopIndex", StopIndex);
-
-            strRedisTemplate.opsForHash().put(KEY, usrID + "_OBJECT", createStringFromObject(mapObject));
-
-            for( int i = 0 ; i < tmplist.size() ; i++ )
+            mapObject = RedisUtility.createObjectFromString(tmp);
+            if(mapObject != null)
             {
-                mapObject = null;
-                mapObject = createObjectFromString(tmplist.get(i));
-                fpreturn.add(mapObject);
+                int Count = (int) mapObject.get("Count");
+                int StartIndex = (int) mapObject.get("StartIndex");
+                int StopIndex = (int) mapObject.get("StopIndex");
+
+                if(StartIndex < Count)
+                {
+                    if (StopIndex > Count)
+                        StopIndex = Count;
+
+                    tmplist = strRedisTemplate.opsForList().range(usrID + "_DATA", StartIndex, StopIndex);
+
+                    StartIndex = StopIndex + 1;
+                    StopIndex += 10;
+                    mapObject.put("StartIndex", StartIndex);
+                    mapObject.put("StopIndex", StopIndex);
+
+                    strRedisTemplate.opsForHash().put(KEY, usrID + "_OBJECT", RedisUtility.createStringFromObject(mapObject));
+
+                    for( int i = 0 ; i < tmplist.size() ; i++ )
+                    {
+                        mapObject = null;
+                        mapObject = RedisUtility.createObjectFromString(tmplist.get(i));
+                        fpreturn.add(mapObject);
+                    }
+                }
+
             }
+
+
         }
-        return fpreturn;
+        return null;
     }
 
     @Override
@@ -107,7 +112,7 @@ public class UserFeedRepositoryImpl implements UserFeedRepository
         //PageNum is initialized with 0
         Map<String, Object> mapObject = new HashMap<>();
         mapObject.put("Count", pageNum);
-        strRedisTemplate.opsForHash().put(KEY, usrID + "_WALLCOUNT", createStringFromObject(mapObject));
+        strRedisTemplate.opsForHash().put(KEY, usrID + "_WALLCOUNT", RedisUtility.createStringFromObject(mapObject));
     }
 
     @Override
@@ -115,47 +120,9 @@ public class UserFeedRepositoryImpl implements UserFeedRepository
     {
         Map<String, Object> mapObject;
         String tmp = (String) strRedisTemplate.opsForHash().get(KEY, usrID + "_WALLCOUNT");
-        mapObject = createObjectFromString(tmp);
+        mapObject = RedisUtility.createObjectFromString(tmp);
 
         int pageNum = (int) mapObject.get("Count");
         return pageNum;
-    }
-
-    private String createStringFromObject(Map<String, Object> redisObject)
-    {
-        ObjectMapper mapper = new ObjectMapper();
-        try
-        {
-            return mapper.writeValueAsString(redisObject);
-        }
-        catch (JsonProcessingException e)
-        {
-
-        }
-        return null;
-    }
-
-    private Map<String, Object> createObjectFromString(String tmp)
-    {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-
-        try
-        {
-            return mapper.readValue(tmp, new TypeReference<Map<String, Object>>(){});
-        }
-        catch (JsonParseException e)
-        {
-
-        }
-        catch (JsonMappingException e)
-        {
-
-        }
-        catch (IOException e)
-        {
-
-        }
-        return null;
     }
 }
