@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -38,7 +39,7 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
     public void logoutUser(String userID)
     {
         String tmp = (String) strRedisTemplate.opsForHash().get(KEY, userID + "_ONLINE_STATUS");
-        Map<String, Object> mapObject = RedisUtility.createObjectFromString(tmp);
+        Map<String, Object> mapObject = RedisUtility.createObjectFromString(tmp, new TypeReference<Map<String, Object>>(){});
         mapObject.put("isOnline", "no");
         LocalDateTime date = LocalDateTime.now();
         mapObject.put("LogoutTime", date.format(DateTimeFormatter.ISO_DATE_TIME));
@@ -54,7 +55,7 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
         {
             try
             {
-                Map<String, Object> mapObject = RedisUtility.createObjectFromString(tmp);
+                Map<String, Object> mapObject = RedisUtility.createObjectFromString(tmp, new TypeReference<Map<String, Object>>(){});
                 String status = (String) mapObject.get("isOnline");
                 if(status.equals("yes"))
                 {
@@ -71,7 +72,6 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
         }
         else
         {
-            System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ String is null");
             return false;
         }
         return false;

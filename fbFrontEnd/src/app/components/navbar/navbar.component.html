@@ -1,0 +1,15 @@
+<div class="nav-bar-friendbook" *ngIf="isLoggedIn$ | async">
+    <div class="nav-item-title">
+        FriendBook
+    </div>
+    <input type="search" value="search" id="navbar-search">    
+    <div class="nav-item-notification">
+        <i (click)="onNotificationClicked()"><img src="/icons/speech-bubble.svg" width="50" height="50"></i> 
+    </div>
+    <div class="nav-item-wall">
+        <i (click)="onWallClicked()"><img src="/icons/firewall.svg" width="50" height="50"></i> 
+    </div>
+    <div class="nav-item-newsfeed">
+        <i (click)="onNewsFeedClicked()"><img src="/icons/home.svg" width="50" height="50"></i> 
+    </div>
+ </div>

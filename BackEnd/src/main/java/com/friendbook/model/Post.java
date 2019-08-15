@@ -3,6 +3,7 @@ package com.friendbook.model;
 import java.util.Date;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -47,6 +48,7 @@ public class Post
         this.id = id;
     }
 
+    @JsonIgnore
     public String getAuthorID() {
         return authorID;
     }

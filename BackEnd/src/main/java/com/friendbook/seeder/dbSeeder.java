@@ -77,7 +77,7 @@ public class dbSeeder implements CommandLineRunner
     {
         this.mongoOps = new MongoTemplate(new MongoClient("localhost", 27017), "FriendBookDB");
 
-        InitializeMongoDB();
+        //InitializeMongoDB();
         InitializeRedisCache();
         System.out.println("************************************************Done************************************************");
     }
@@ -114,9 +114,15 @@ public class dbSeeder implements CommandLineRunner
         {
             String Name[] = usrnames[i].split(" ");
             User currentUser = usrrep.findByEmail(Name[0] + Name[1] + "@foo.com");
-            List<Post> fp = fprep.getPostsOfFriends(currentUser.getUserFriends());
-            usrfdrep.saveUserFeed(currentUser.getId(), fp);
-            usrfdrep.setUserWallPostCounter(currentUser.getId(), 0);
+            if(!currentUser.getUserFriends().isEmpty())
+            {
+                List<Post> fp = fprep.getPostsOfFriends(currentUser.getUserFriends());
+                if(!fp.isEmpty())
+                {
+                    usrfdrep.saveUserFeed(currentUser.getId(), fp);
+                    usrfdrep.setUserWallPostCounter(currentUser.getId(), 0);
+                }
+            }
         }
     }
 
@@ -141,16 +147,11 @@ public class dbSeeder implements CommandLineRunner
 
     private void InitializeFeedPosts()
     {
-        int Likes = 0;
-        int Dislikes = 0;
         int numComments = multipleOfComments;
 
         for(int i = 0; i < MaxPosts; i++)
         {
-            Likes = ThreadLocalRandom.current().nextInt(0, 101);
-            Dislikes = ThreadLocalRandom.current().nextInt(0, 101);
-
-            fparr[i] = new Post("AuthorID", GenerateRandomDate(), generateRandomPost(), Likes, Dislikes, numComments);
+            fparr[i] = new Post("AuthorID", GenerateRandomDate(), generateRandomPost(), 0, 0, numComments);
         }
     }
 
@@ -369,7 +370,7 @@ public class dbSeeder implements CommandLineRunner
         int postIndex = 0;
         int friendArrayIndex = 0;
         int userIndexInc = multipleOfPosts * multipleOfComments;
-        String[] friendsArray = null;
+        String[] friendsArray;
 
         friendsArray = users.get(userIndex).getUserFriends().toArray(new String[NoOfFriends]);
 
@@ -382,7 +383,6 @@ public class dbSeeder implements CommandLineRunner
                 if(i % userIndexInc == 0)
                 {
                     userIndex++;
-                    friendsArray = null;
                     friendsArray = users.get(userIndex).getUserFriends().toArray(new String[NoOfFriends]);
                 }
             }
