@@ -32,5 +32,4 @@ export class AppComponent
         this.scrSrv.sendScrollMessage('wall');
     }
   }
-
 }

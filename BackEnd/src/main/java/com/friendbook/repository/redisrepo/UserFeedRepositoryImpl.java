@@ -1,10 +1,12 @@
 package com.friendbook.repository.redisrepo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.friendbook.repository.mongorepo.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
@@ -24,55 +26,81 @@ public class UserFeedRepositoryImpl implements UserFeedRepository
     @Autowired
     public StringRedisTemplate strRedisTemplate;
 
-    @Override
-    public void createUserFeedCounter(String usrID, int count, int startIndex, int stopIndex)
+    @Autowired
+    private PostRepository fprep;
+
+    private List<String> getPostJson(String usrID, List<Post> pstlst)
+    {
+        List<String> tmpret = new ArrayList<String>();
+        for(Post pst : pstlst)
+        {
+            String tmp = RedisUtility.createJsonFromPosts(pst);
+            if(tmp != null)
+            {
+                String lockStatus;
+
+                if(pst.hasUserLikedPost(pst.getAuthorID()) || pst.hasUserDislikedPost(pst.getAuthorID()))
+                    lockStatus = ",\"locklikesdislikes\":\"true\"}";
+                else
+                    lockStatus = ",\"locklikesdislikes\":\"false\"}";
+
+                String tmpappend = tmp.substring(0,tmp.length()-1) + ",\"fullName\":\"" +
+                        userRepository.getFullNameByID(pst.getAuthorID()) + "\",\"imgPath\":\"" +
+                        userRepository.getImageByID(pst.getAuthorID()) + "\"}";
+                tmpret.add(tmpappend);
+            }
+            else
+                return null;
+        }
+        return tmpret;
+    }
+
+    private void createCounter(String usrID, int size, int startIndex, int stopIndex, String typeOfCounter)
     {
         Map<String, Object> mapObject = new HashMap<>();
-        mapObject.put("Count", count);
+        mapObject.put("Size", size);
         mapObject.put("StartIndex", startIndex);
         mapObject.put("StopIndex", stopIndex);
         String tmp = RedisUtility.createStringFromObject(mapObject);
         if(tmp != null)
         {
-            strRedisTemplate.opsForHash().put(KEY, usrID + "_OBJECT", tmp);
+            strRedisTemplate.opsForHash().put(KEY, usrID + typeOfCounter, tmp);
         }
     }
 
     @Override
-    public void saveUserFeed(String usrID, List<Post> usrfd)
+    public void saveUserData(String usrID, List<Post> usrfd, String typeOfCounter, String typeOfData)
     {
-        createUserFeedCounter(usrID, usrfd.size(), 0, 9);
-        for(Post pst : usrfd)
+        createCounter(usrID, usrfd.size(), 0, 9, typeOfCounter);
+        List<String> tmpret = getPostJson(usrID, usrfd);
+        if(tmpret != null)
         {
-            String tmp = RedisUtility.createJsonFromPosts(pst);
-            if(tmp != null)
-            {
-                String tmpappend = tmp.substring(0,tmp.length()-1) + "," + "\"fullName\":" + "\"" +
-                        userRepository.getFullNameByID(pst.getAuthorID()) + "\"" + "," + "\"imgPath\":" + "\"" +
-                        userRepository.getImageByID(pst.getAuthorID()) + "\"" + "}";
-                strRedisTemplate.opsForList().leftPush(usrID + "_DATA", tmpappend);
-            }
-
+            strRedisTemplate.opsForList().rightPushAll(usrID + typeOfData, tmpret);
         }
     }
 
     @Override
-    public List<String> getUserFeed(String usrID)
+    public List<String> getUserData(String usrID, String typeOfCounter, String typeOfData)
     {
         Map<String, Object> mapObject;
-        String tmp = (String) strRedisTemplate.opsForHash().get(KEY, usrID + "_OBJECT");
+        String tmp = (String) strRedisTemplate.opsForHash().get(KEY, usrID + typeOfCounter);
         if(tmp != null)
         {
             mapObject = RedisUtility.createObjectFromString(tmp, new TypeReference<Map<String, Object>>(){});
             if(mapObject != null)
             {
-                int Count = (int) mapObject.get("Count");
+                int Size = (int) mapObject.get("Size");
                 int StartIndex = (int) mapObject.get("StartIndex");
                 int StopIndex = (int) mapObject.get("StopIndex");
-                if (StopIndex > Count)
-                    StopIndex = Count;
 
-                List<String> tmplist = strRedisTemplate.opsForList().range(usrID + "_DATA", StartIndex, StopIndex);
+                System.out.println("Before Size " + Size + " StartIndex " + StartIndex + " StopIndex " + StopIndex);
+
+                if (StartIndex > Size) //There is no more data
+                    return null;
+                if (StopIndex > Size)
+                    StopIndex = Size;
+
+                List<String> tmplist = strRedisTemplate.opsForList().range(usrID + typeOfData, StartIndex, StopIndex);
                 if(tmplist != null)
                 {
                     StartIndex = StopIndex + 1;
@@ -80,7 +108,10 @@ public class UserFeedRepositoryImpl implements UserFeedRepository
                     mapObject.put("StartIndex", StartIndex);
                     mapObject.put("StopIndex", StopIndex);
 
-                    strRedisTemplate.opsForHash().put(KEY, usrID + "_OBJECT", RedisUtility.createStringFromObject(mapObject));
+                    System.out.println("After Size " + Size + " StartIndex " + StartIndex + " StopIndex " + StopIndex);
+
+                    strRedisTemplate.opsForHash().put(KEY, usrID + typeOfCounter, RedisUtility.createStringFromObject(mapObject));
+                    System.out.println(typeOfCounter + "  " + typeOfData + " Size : " + tmplist.size());
                     return tmplist;
                 }
                 else
@@ -97,22 +128,36 @@ public class UserFeedRepositoryImpl implements UserFeedRepository
     }
 
     @Override
-    public void setUserWallPostCounter(String usrID, int pageNum)
+    public List<String> getUserWallPosts(String usrID)
     {
-        //PageNum is initialized with 0
-        Map<String, Object> mapObject = new HashMap<>();
-        mapObject.put("Count", pageNum);
-        strRedisTemplate.opsForHash().put(KEY, usrID + "_WALLCOUNT", RedisUtility.createStringFromObject(mapObject));
-    }
-
-    @Override
-    public int getUserWallPostCounter(String usrID)
-    {
-        Map<String, Object> mapObject;
-        String tmp = (String) strRedisTemplate.opsForHash().get(KEY, usrID + "_WALLCOUNT");
-        mapObject = RedisUtility.createObjectFromString(tmp, new TypeReference<Map<String, Object>>(){});
-
-        int pageNum = (int) mapObject.get("Count");
-        return pageNum;
+        List<String> tmpret = new ArrayList<String>();
+        int pagesize = 10;
+        String tmp = (String) strRedisTemplate.opsForHash().get(KEY, usrID + "_WALLCOUNTER");
+        if(tmp == null)
+        {
+            List<Post> fp = fprep.findByOwnerID(usrID);
+            if(fp != null)
+            {
+                System.out.println("From database size fp " + fp.size());
+                if(fp.size() <= pagesize)
+                {
+                    tmpret = getPostJson(usrID, fp);
+                    //These are just dummy values so that getuserData returns null next time
+                    createCounter(usrID, fp.size(),20, 30, "_WALLCOUNTER");
+                }
+                else
+                {
+                    tmpret = getPostJson(usrID, fp.subList(0, pagesize));
+                    createCounter(usrID, fp.size(), 10, 19, "_WALLCOUNTER");
+                    saveUserData(usrID, fp.subList(pagesize, fp.size()), "_WALLCOUNTER", "_WALLDATA");
+                }
+                System.out.println("Size tmpret " + tmpret.size());
+            }
+        }
+        else
+        {
+            tmpret = getUserData(usrID, "_WALLCOUNTER", "_WALLDATA");
+        }
+        return tmpret;
     }
 }

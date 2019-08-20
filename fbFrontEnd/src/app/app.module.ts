@@ -1,7 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule }   from '@angular/forms';
 import { TimeAgoPipe } from 'time-ago-pipe';
+import { NgChatModule } from 'ng-chat';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +13,7 @@ import { NPostDirective } from './components/newpost/newpost.directive';
 import { LoginComponent } from './components/login/login.component';
 import { WallComponent } from './components/wall/wall.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { ChatcontainerComponent } from './components/chatcontainer/chatcontainer.component';
 
 @NgModule({
   declarations: [
@@ -21,12 +24,15 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     LoginComponent,
     WallComponent,
     NavbarComponent,
-    TimeAgoPipe
+    TimeAgoPipe,
+    ChatcontainerComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgChatModule
   ],
   providers: [],
   bootstrap: [AppComponent],

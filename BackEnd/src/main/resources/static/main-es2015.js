@@ -30,7 +30,18 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-navbar></app-navbar>\n<router-outlet></router-outlet>"
+module.exports = "<app-navbar></app-navbar>\n<app-chatcontainer></app-chatcontainer>\n<router-outlet></router-outlet>"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/components/chatcontainer/chatcontainer.component.html":
+/*!*************************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/components/chatcontainer/chatcontainer.component.html ***!
+  \*************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class = \"\" *ngIf=\"isLoggedIn$ | async\">\n    <ng-chat class = \"container-friends\" [adapter]=\"adapter\" [userId]=\"999\" [historyEnabled]=\"true\" [historyPageSize]=\"4\" \n        [hideFriendsList]=\"false\" [audioEnabled]=\"false\" (onMessagesSeen)=\"messageSeen($event)\" (onUserChatOpened)=\"userChatOpened($event)\" >\n    </ng-chat>\n</div>"
 
 /***/ }),
 
@@ -85,7 +96,7 @@ module.exports = "<div class = \"container-newsfeed\" >\n    <div class = \"cont
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class = \"container-wall\" >\n    <div class = \"container-wallposts\">\n        <div class = \"container-wallnewposts\">\n            <ng-template np-host></ng-template>\n        </div>        \n        <div class = \"container-wallnomoreposts\" *ngIf=\"wallnomoreposts\">There are no more posts to show right now</div>        \n    </div>    \n</div>"
+module.exports = "<div class = \"container-wall\" >\n    <div class = \"wall-newposteditor\"> \n        <textarea name = \"wallnewpostedit\" id = \"wallnewpostedit\" placeholder = \"Got something to say\" [(ngModel)]=\"wallNewPostText\"></textarea>\n        <button (click)=\"onAddNewWallPostClick()\">submit</button>\n    </div>\n    <div class = \"container-wallposts\">\n        <div class = \"container-wallnewposts\">\n            <ng-template np-host></ng-template>\n        </div>        \n        <div class = \"container-wallnomoreposts\" *ngIf=\"wallnomoreposts\">There are no more posts to show right now</div>        \n    </div>    \n</div>"
 
 /***/ }),
 
@@ -215,15 +226,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm2015/platform-browser.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
-/* harmony import */ var time_ago_pipe__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! time-ago-pipe */ "./node_modules/time-ago-pipe/esm2015/time-ago-pipe.js");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _components_newsfeed_newsfeed_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/newsfeed/newsfeed.component */ "./src/app/components/newsfeed/newsfeed.component.ts");
-/* harmony import */ var _components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/newpost/newpost.component */ "./src/app/components/newpost/newpost.component.ts");
-/* harmony import */ var _components_newpost_newpost_directive__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/newpost/newpost.directive */ "./src/app/components/newpost/newpost.directive.ts");
-/* harmony import */ var _components_login_login_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/login/login.component */ "./src/app/components/login/login.component.ts");
-/* harmony import */ var _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/wall/wall.component */ "./src/app/components/wall/wall.component.ts");
-/* harmony import */ var _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/navbar/navbar.component */ "./src/app/components/navbar/navbar.component.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+/* harmony import */ var time_ago_pipe__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! time-ago-pipe */ "./node_modules/time-ago-pipe/esm2015/time-ago-pipe.js");
+/* harmony import */ var ng_chat__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ng-chat */ "./node_modules/ng-chat/fesm2015/ng-chat.js");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _components_newsfeed_newsfeed_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/newsfeed/newsfeed.component */ "./src/app/components/newsfeed/newsfeed.component.ts");
+/* harmony import */ var _components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/newpost/newpost.component */ "./src/app/components/newpost/newpost.component.ts");
+/* harmony import */ var _components_newpost_newpost_directive__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/newpost/newpost.directive */ "./src/app/components/newpost/newpost.directive.ts");
+/* harmony import */ var _components_login_login_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/login/login.component */ "./src/app/components/login/login.component.ts");
+/* harmony import */ var _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/wall/wall.component */ "./src/app/components/wall/wall.component.ts");
+/* harmony import */ var _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/navbar/navbar.component */ "./src/app/components/navbar/navbar.component.ts");
+/* harmony import */ var _components_chatcontainer_chatcontainer_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/chatcontainer/chatcontainer.component */ "./src/app/components/chatcontainer/chatcontainer.component.ts");
+
+
+
 
 
 
@@ -242,26 +259,168 @@ let AppModule = class AppModule {
 AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
         declarations: [
-            _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
-            _components_newsfeed_newsfeed_component__WEBPACK_IMPORTED_MODULE_7__["NewsfeedComponent"],
-            _components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_8__["NewpostComponent"],
-            _components_newpost_newpost_directive__WEBPACK_IMPORTED_MODULE_9__["NPostDirective"],
-            _components_login_login_component__WEBPACK_IMPORTED_MODULE_10__["LoginComponent"],
-            _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_11__["WallComponent"],
-            _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_12__["NavbarComponent"],
-            time_ago_pipe__WEBPACK_IMPORTED_MODULE_4__["TimeAgoPipe"]
+            _app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"],
+            _components_newsfeed_newsfeed_component__WEBPACK_IMPORTED_MODULE_9__["NewsfeedComponent"],
+            _components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_10__["NewpostComponent"],
+            _components_newpost_newpost_directive__WEBPACK_IMPORTED_MODULE_11__["NPostDirective"],
+            _components_login_login_component__WEBPACK_IMPORTED_MODULE_12__["LoginComponent"],
+            _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_13__["WallComponent"],
+            _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_14__["NavbarComponent"],
+            time_ago_pipe__WEBPACK_IMPORTED_MODULE_5__["TimeAgoPipe"],
+            _components_chatcontainer_chatcontainer_component__WEBPACK_IMPORTED_MODULE_15__["ChatcontainerComponent"]
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
-            _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"],
-            _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"]
+            _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormsModule"],
+            _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"],
+            _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
+            ng_chat__WEBPACK_IMPORTED_MODULE_6__["NgChatModule"]
         ],
         providers: [],
-        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]],
-        entryComponents: [_components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_8__["NewpostComponent"]]
+        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"]],
+        entryComponents: [_components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_10__["NewpostComponent"]]
     })
 ], AppModule);
 
+
+
+/***/ }),
+
+/***/ "./src/app/components/chatcontainer/chatcontainer.component.css":
+/*!**********************************************************************!*\
+  !*** ./src/app/components/chatcontainer/chatcontainer.component.css ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvY2hhdGNvbnRhaW5lci9jaGF0Y29udGFpbmVyLmNvbXBvbmVudC5jc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/components/chatcontainer/chatcontainer.component.ts":
+/*!*********************************************************************!*\
+  !*** ./src/app/components/chatcontainer/chatcontainer.component.ts ***!
+  \*********************************************************************/
+/*! exports provided: ChatcontainerComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChatcontainerComponent", function() { return ChatcontainerComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
+/* harmony import */ var src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/communication.service */ "./src/app/services/communication.service.ts");
+/* harmony import */ var _chatcontrol__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./chatcontrol */ "./src/app/components/chatcontainer/chatcontrol.ts");
+
+
+
+
+
+var stompClient = null;
+let ChatcontainerComponent = class ChatcontainerComponent {
+    constructor(authService, commService) {
+        this.authService = authService;
+        this.commService = commService;
+        this.adapter = new _chatcontrol__WEBPACK_IMPORTED_MODULE_4__["ChatControl"]();
+    }
+    ngOnInit() {
+        this.isLoggedIn$ = this.authService.isLoggedIn;
+        this.isLoggedIn$.subscribe(res => {
+            if (res == true) {
+                this.getFriendsList();
+            }
+        });
+    }
+    getFriendsList() {
+        this.commService.getFriendsList().subscribe(res => {
+            this.adapter.setFriendsList(res);
+        }, error => { console.log(error); });
+    }
+};
+ChatcontainerComponent.ctorParameters = () => [
+    { type: src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__["AuthenticationService"] },
+    { type: src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_3__["CommunicationService"] }
+];
+ChatcontainerComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+        selector: 'app-chatcontainer',
+        template: __webpack_require__(/*! raw-loader!./chatcontainer.component.html */ "./node_modules/raw-loader/index.js!./src/app/components/chatcontainer/chatcontainer.component.html"),
+        styles: [__webpack_require__(/*! ./chatcontainer.component.css */ "./src/app/components/chatcontainer/chatcontainer.component.css")]
+    })
+], ChatcontainerComponent);
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/chatcontainer/chatcontrol.ts":
+/*!*********************************************************!*\
+  !*** ./src/app/components/chatcontainer/chatcontrol.ts ***!
+  \*********************************************************/
+/*! exports provided: ChatControl */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ChatControl", function() { return ChatControl; });
+/* harmony import */ var ng_chat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ng-chat */ "./node_modules/ng-chat/fesm2015/ng-chat.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+
+
+
+class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
+    constructor() {
+        super(...arguments);
+        this.mockedHistory = [];
+        this.mockedParticipants = [
+            {
+                participantType: ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantType"].User,
+                id: 1,
+                displayName: "Arya Stark",
+                avatar: "https://66.media.tumblr.com/avatar_9dd9bb497b75_128.pnj",
+                status: ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Online
+            },
+        ];
+    }
+    listFriends() {
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["of"])(this.mockedParticipants.map(user => {
+            let participantResponse = new ng_chat__WEBPACK_IMPORTED_MODULE_0__["ParticipantResponse"]();
+            participantResponse.participant = user;
+            participantResponse.metadata =
+                {
+                    totalUnreadMessages: Math.floor(Math.random() * 10)
+                };
+            return participantResponse;
+        }));
+    }
+    setFriendsList(frnds) {
+        var i;
+        var len = frnds.length;
+        console.log(frnds);
+        this.mockedParticipants.length = 0;
+        frnds.forEach(t => {
+            var pRes = {
+                participantType: ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantType"].User,
+                id: t.imagePath,
+                displayName: t.fullName,
+                avatar: "/images/" + t.imagePath + ".jpg",
+                status: ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Online
+            };
+            this.mockedParticipants.push(pRes);
+        });
+        this.listFriends().subscribe(res => { this.onFriendsListChanged(res); });
+    }
+    insertMessage(userID, message) {
+    }
+    getMessageHistory(userId) {
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["of"])(this.mockedHistory).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["delay"])(500));
+    }
+    sendMessage(message) {
+        this.callHome(message.toId, message.fromId, message.message);
+    }
+}
 
 
 /***/ }),
@@ -451,7 +610,7 @@ let NewpostComponent = class NewpostComponent {
         */
         if (this.feedID.length > 5) {
             if (this.locklikedislikes == false) {
-                this.commService.addLikes(localStorage.getItem('userImageID'), this.feedID).subscribe(res => {
+                this.commService.addLikes(this.feedID).subscribe(res => {
                     this.locklikedislikes = true;
                     this.likes++;
                 }, error => { console.log(error); });
@@ -461,7 +620,7 @@ let NewpostComponent = class NewpostComponent {
     onAddDislikes() {
         if (this.feedID.length > 5) {
             if (this.locklikedislikes == false) {
-                this.commService.addDislikes(localStorage.getItem('userImageID'), this.feedID).subscribe(res => {
+                this.commService.addDislikes(this.feedID).subscribe(res => {
                     this.locklikedislikes = true;
                     this.dislikes++;
                 }, error => { console.log(error); });
@@ -480,7 +639,7 @@ let NewpostComponent = class NewpostComponent {
     }
     onEnterComment(commentbox) {
         if (this.feedID.length > 5) {
-            this.commService.addComment(localStorage.getItem('userImageID'), this.feedID, commentbox).subscribe(res => {
+            this.commService.addComment(this.feedID, commentbox).subscribe(res => {
                 console.log(res);
                 if (this.showComments == false) {
                     this.onGetComments();
@@ -627,10 +786,9 @@ let NewsfeedComponent = class NewsfeedComponent {
         });
     }
     getFeedPosts() {
-        this.commService.getPosts().subscribe(res => {
+        this.commService.getNewsFeed().subscribe(res => {
             let limit = res.length;
-            homePostsCounter += limit;
-            console.log(homePostsCounter);
+            console.log(limit);
             for (let i = 0; i < limit; i++) {
                 var abc = JSON.parse(res[i]);
                 const componentRef = this.viewContainerRef.createComponent(this.componentFactory);
@@ -673,7 +831,7 @@ NewsfeedComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvd2FsbC93YWxsLmNvbXBvbmVudC5jc3MifQ== */"
+module.exports = ".container-wall\n{\n    margin-top: 50px;\n    margin-left: auto;\n    margin-right: auto;\n    width: 50%;\n}\n\n.container-wallnomoreposts\n{\n    margin-top: 10px;\n    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;\n    font-size: 30px;\n}\n\n.wall-newposteditor\n{\n    width: 80%;\n    margin-top: 100px;\n    margin-left: auto;\n    margin-right: auto;\n}\n\n.wall-newposteditor textarea\n{\n    width: 80%;\n    height: 60px;\n    border-radius: 5px;\n    margin-right: 5px;\n    border: 1px solid #D3D3D3;\n    font-size: 12px;\n}\n\n.wall-newposteditor button\n{\n    width: 10%;\n    height: 60px;\n    border: none;\n    border-radius: 10px;\n    background-color: #3498db;\n    color: #fff;\n    font-family: 'Bellota-BoldItalic', sans-serif;\n    text-shadow: #73B6E2 0.5px 0.5px 0px;\n    font-size: 90%;\n    position: absolute;\n    outline: 0;\n    margin: 0;\n    box-shadow: 0 9px #999;\n}\n\n.wall-newposteditor button:hover\n{\n    background-color: #3e8e41\n}\n\n.wall-newposteditor button:active\n{\n    background-color: #3e8e41;\n    box-shadow: 0 5px #666;\n    -webkit-transform: translateY(4px);\n            transform: translateY(4px);\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy93YWxsL3dhbGwuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7SUFFSSxnQkFBZ0I7SUFDaEIsaUJBQWlCO0lBQ2pCLGtCQUFrQjtJQUNsQixVQUFVO0FBQ2Q7O0FBRUE7O0lBRUksZ0JBQWdCO0lBQ2hCLHdFQUF3RTtJQUN4RSxlQUFlO0FBQ25COztBQUVBOztJQUVJLFVBQVU7SUFDVixpQkFBaUI7SUFDakIsaUJBQWlCO0lBQ2pCLGtCQUFrQjtBQUN0Qjs7QUFFQTs7SUFFSSxVQUFVO0lBQ1YsWUFBWTtJQUNaLGtCQUFrQjtJQUNsQixpQkFBaUI7SUFDakIseUJBQXlCO0lBQ3pCLGVBQWU7QUFDbkI7O0FBRUE7O0lBRUksVUFBVTtJQUNWLFlBQVk7SUFDWixZQUFZO0lBQ1osbUJBQW1CO0lBQ25CLHlCQUF5QjtJQUN6QixXQUFXO0lBQ1gsNkNBQTZDO0lBQzdDLG9DQUFvQztJQUNwQyxjQUFjO0lBQ2Qsa0JBQWtCO0lBQ2xCLFVBQVU7SUFDVixTQUFTO0lBQ1Qsc0JBQXNCO0FBQzFCOztBQUVBOztJQUVJO0FBQ0o7O0FBRUE7O0lBRUkseUJBQXlCO0lBQ3pCLHNCQUFzQjtJQUN0QixrQ0FBMEI7WUFBMUIsMEJBQTBCO0FBQzlCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy93YWxsL3dhbGwuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jb250YWluZXItd2FsbFxue1xuICAgIG1hcmdpbi10b3A6IDUwcHg7XG4gICAgbWFyZ2luLWxlZnQ6IGF1dG87XG4gICAgbWFyZ2luLXJpZ2h0OiBhdXRvO1xuICAgIHdpZHRoOiA1MCU7XG59XG5cbi5jb250YWluZXItd2FsbG5vbW9yZXBvc3RzXG57XG4gICAgbWFyZ2luLXRvcDogMTBweDtcbiAgICBmb250LWZhbWlseTogJ0ZyYW5rbGluIEdvdGhpYyBNZWRpdW0nLCAnQXJpYWwgTmFycm93JywgQXJpYWwsIHNhbnMtc2VyaWY7XG4gICAgZm9udC1zaXplOiAzMHB4O1xufVxuXG4ud2FsbC1uZXdwb3N0ZWRpdG9yXG57XG4gICAgd2lkdGg6IDgwJTtcbiAgICBtYXJnaW4tdG9wOiAxMDBweDtcbiAgICBtYXJnaW4tbGVmdDogYXV0bztcbiAgICBtYXJnaW4tcmlnaHQ6IGF1dG87XG59XG5cbi53YWxsLW5ld3Bvc3RlZGl0b3IgdGV4dGFyZWFcbntcbiAgICB3aWR0aDogODAlO1xuICAgIGhlaWdodDogNjBweDtcbiAgICBib3JkZXItcmFkaXVzOiA1cHg7XG4gICAgbWFyZ2luLXJpZ2h0OiA1cHg7XG4gICAgYm9yZGVyOiAxcHggc29saWQgI0QzRDNEMztcbiAgICBmb250LXNpemU6IDEycHg7XG59XG5cbi53YWxsLW5ld3Bvc3RlZGl0b3IgYnV0dG9uXG57XG4gICAgd2lkdGg6IDEwJTtcbiAgICBoZWlnaHQ6IDYwcHg7XG4gICAgYm9yZGVyOiBub25lO1xuICAgIGJvcmRlci1yYWRpdXM6IDEwcHg7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogIzM0OThkYjtcbiAgICBjb2xvcjogI2ZmZjtcbiAgICBmb250LWZhbWlseTogJ0JlbGxvdGEtQm9sZEl0YWxpYycsIHNhbnMtc2VyaWY7XG4gICAgdGV4dC1zaGFkb3c6ICM3M0I2RTIgMC41cHggMC41cHggMHB4O1xuICAgIGZvbnQtc2l6ZTogOTAlO1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBvdXRsaW5lOiAwO1xuICAgIG1hcmdpbjogMDtcbiAgICBib3gtc2hhZG93OiAwIDlweCAjOTk5O1xufVxuXG4ud2FsbC1uZXdwb3N0ZWRpdG9yIGJ1dHRvbjpob3Zlclxue1xuICAgIGJhY2tncm91bmQtY29sb3I6ICMzZThlNDFcbn1cblxuLndhbGwtbmV3cG9zdGVkaXRvciBidXR0b246YWN0aXZlXG57XG4gICAgYmFja2dyb3VuZC1jb2xvcjogIzNlOGU0MTtcbiAgICBib3gtc2hhZG93OiAwIDVweCAjNjY2O1xuICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlWSg0cHgpO1xufSJdfQ== */"
 
 /***/ }),
 
@@ -713,7 +871,6 @@ let WallComponent = class WallComponent {
         this.wallviewContainerRef = this.npHost.viewContainerRef;
         this.getWallPosts();
         this.scrSrv.scrollObs.subscribe(res => {
-            console.log(res.text);
             if (res.text === 'wall') {
                 console.log(res);
                 this.getWallPosts();
@@ -723,8 +880,7 @@ let WallComponent = class WallComponent {
     getWallPosts() {
         this.commService.getWallPosts().subscribe(res => {
             let limit = res.length;
-            wallPostsCounter += limit;
-            console.log(wallPostsCounter);
+            console.log(limit);
             for (let i = 0; i < limit; i++) {
                 var abc = JSON.parse(res[i]);
                 const componentRef = this.wallviewContainerRef.createComponent(this.wallcomponentFactory);
@@ -736,8 +892,25 @@ let WallComponent = class WallComponent {
                 componentRef.instance.imagePath = abc.imgPath;
                 componentRef.instance.timestamp = abc.posttime;
                 componentRef.instance.feedID = abc.id;
+                componentRef.instance.locklikedislikes = abc.locklikedislikes;
             }
         }, error => { console.log(error); this.wallnomoreposts = true; });
+    }
+    onAddNewWallPostClick() {
+        if (this.wallNewPostText.length > 0) {
+            this.commService.addWallPost(this.wallNewPostText).subscribe(res => {
+                console.log(res);
+                const componentRef = this.wallviewContainerRef.createComponent(this.wallcomponentFactory, 0);
+                componentRef.instance.fullName = localStorage.getItem('currentUserName');
+                componentRef.instance.text = this.wallNewPostText;
+                componentRef.instance.likes = 0;
+                componentRef.instance.dislikes = 0;
+                componentRef.instance.numComments = 0;
+                componentRef.instance.imagePath = localStorage.getItem('userImageID');
+                componentRef.instance.timestamp = new Date();
+                componentRef.instance.feedID = "";
+            });
+        }
     }
 };
 WallComponent.ctorParameters = () => [
@@ -907,8 +1080,8 @@ let CommunicationService = class CommunicationService {
         let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getwallposts/';
         return this.http.get(url);
     }
-    getPosts() {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getposts/';
+    getNewsFeed() {
+        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getnewsfeed/';
         return this.http.get(url);
     }
     getPostComments(postID) {
@@ -919,24 +1092,24 @@ let CommunicationService = class CommunicationService {
         let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getfriendslist/';
         return this.http.get(url);
     }
-    getChatHistory(userAID, userBID) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getchathistory/' + userAID + '/' + userBID + '/';
+    getChatHistory(userID) {
+        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getchathistory/' + userID + '/';
         return this.http.get(url);
     }
-    addComment(userID, postID, text) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'addcomment/' + userID + '/' + postID + '/' + text + '/';
+    addComment(postID, text) {
+        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'addcomment/' + postID + '/' + text + '/';
         return this.http.get(url);
     }
-    addLikes(userID, postID) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'addlikes/' + userID + '/' + postID + '/';
+    addLikes(postID) {
+        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'addlikes/' + postID + '/';
         return this.http.get(url);
     }
-    addDislikes(userID, postID) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'adddislikes/' + userID + '/' + postID + '/';
+    addDislikes(postID) {
+        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'adddislikes/' + postID + '/';
         return this.http.get(url);
     }
-    addWallPost(userID, text) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'addwallpost/' + userID + '/' + text + '/';
+    addWallPost(text) {
+        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'addwallpost/' + text + '/';
         return this.http.get(url);
     }
     sendCredential(email, password) {

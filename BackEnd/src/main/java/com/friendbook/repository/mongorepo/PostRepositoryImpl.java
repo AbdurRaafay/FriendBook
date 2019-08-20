@@ -26,34 +26,24 @@ public class PostRepositoryImpl implements PostRepository
     }
 
     @Override
-    public List<Post> findByOwnerID(String OwnerID, int pageNo, int pagesize)
+    public String insertPost(Post pst)
+    {
+        mongoTemplate.insert(pst);
+        return pst.getId();
+    }
+
+    @Override
+    public List<Post> findByOwnerID(String OwnerID)
     {
         //pageNo starts from zero
         List<Post> fpl;
         Query query = new Query();
         query.addCriteria(Criteria.where("authorID").is(OwnerID));
         query.with(new Sort(Sort.Direction.DESC,"posttime"));
-        query.limit(400);
+        query.limit(100);
         fpl = mongoTemplate.find(query, Post.class);
         if(fpl.isEmpty())
-            return fpl;
-        else
-        {
-            if(fpl.size() < pagesize)
-            {
-                return fpl;
-            }
-            else
-            {
-                int StartIndex = pageNo * pagesize;
-                int StopIndex = StartIndex + pagesize;
-                if(fpl.size() > StartIndex && fpl.size() > StopIndex)
-                    return fpl.subList(StartIndex, StopIndex);
-                else if(fpl.size() > StartIndex && fpl.size() < StopIndex)
-                    return fpl.subList(StartIndex, fpl.size());
-            }
-
-        }
+            return null;
         return fpl;
     }
 

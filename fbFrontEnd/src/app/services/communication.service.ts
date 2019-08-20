@@ -17,9 +17,9 @@ export class CommunicationService
     return this.http.get(url);  
   }
 
-  getPosts(): Observable<any> 
+  getNewsFeed(): Observable<any> 
   {
-    let url = AppConst.serverPath + 'getposts/';
+    let url = AppConst.serverPath + 'getnewsfeed/';
     return this.http.get(url);  
   }
 
@@ -35,33 +35,33 @@ export class CommunicationService
     return this.http.get(url);
   }
 
-  getChatHistory(userAID: string, userBID: string)
+  getChatHistory(userID: string)
   {
-    let url = AppConst.serverPath + 'getchathistory/' + userAID + '/' + userBID + '/';
+    let url = AppConst.serverPath + 'getchathistory/' + userID + '/';
     return this.http.get(url);
   }
 
-  addComment(userID: string, postID: string, text: string)
+  addComment(postID: string, text: string)
   {
-    let url = AppConst.serverPath + 'addcomment/' + userID + '/' + postID + '/' + text + '/';
+    let url = AppConst.serverPath + 'addcomment/' + postID + '/' + text + '/';
     return this.http.get(url);
   }
 
-  addLikes(userID: string, postID: string)
+  addLikes(postID: string)
   {
-    let url = AppConst.serverPath + 'addlikes/' + userID + '/' + postID + '/';
+    let url = AppConst.serverPath + 'addlikes/' + postID + '/';
     return this.http.get(url);
   }
 
-  addDislikes(userID: string, postID: string)
+  addDislikes(postID: string)
   {
-    let url = AppConst.serverPath + 'adddislikes/' + userID + '/' + postID + '/';
+    let url = AppConst.serverPath + 'adddislikes/' + postID + '/';
     return this.http.get(url);
   }
 
-  addWallPost(userID: string, text: string)
+  addWallPost(text: string)
   {
-    let url = AppConst.serverPath + 'addwallpost/' + userID + '/' + text + '/';
+    let url = AppConst.serverPath + 'addwallpost/' + text + '/';
     return this.http.get(url);
   }
 

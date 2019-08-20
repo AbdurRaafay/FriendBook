@@ -11,5 +11,6 @@ public interface PostRepository
     void updateLikes(String postID);
     void updateDisLikes(String postID);
     void updateNumComments(String postID);
-    List<Post> findByOwnerID(String OwnerID, int pageNo, int pagesize);
+    List<Post> findByOwnerID(String OwnerID);
+    String insertPost(Post pst);
 }

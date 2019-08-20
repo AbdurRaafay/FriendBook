@@ -119,8 +119,7 @@ public class dbSeeder implements CommandLineRunner
                 List<Post> fp = fprep.getPostsOfFriends(currentUser.getUserFriends());
                 if(!fp.isEmpty())
                 {
-                    usrfdrep.saveUserFeed(currentUser.getId(), fp);
-                    usrfdrep.setUserWallPostCounter(currentUser.getId(), 0);
+                    usrfdrep.saveUserData(currentUser.getId(), fp, "_NEWSFEEDCOUNTER", "_NEWSFEEDDATA");
                 }
             }
         }

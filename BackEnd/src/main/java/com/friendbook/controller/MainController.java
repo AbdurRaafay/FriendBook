@@ -40,6 +40,9 @@ public class MainController
     @Autowired
     private OnlineUsersRepository ousrrep;
 
+    @Autowired
+    private PostRepository pstrepo;
+
 //    @Autowired
 //    private ChatRepository chatrep;
 
@@ -49,44 +52,17 @@ public class MainController
     @GetMapping("/getwallposts")
     public ResponseEntity<?> getWallPosts(Principal principal)
     {
-        List<Map<String,Object>> wpreturn = new ArrayList<Map<String,Object>>();
-
-        User currentUser = usrrep.findByEmail(principal.getName());
-        System.out.println("getWallPosts Name  " + currentUser.getFirstName() + currentUser.getLastName());
-
-        List<Post> wp = fprep.findByOwnerID(currentUser.getId(), usrfdrep.getUserWallPostCounter(currentUser.getId()), 10);
-
-        if (wp != null && !wp.isEmpty())
-        {
-            for(int i = 0; i < wp.size(); i++)
-            {
-                Map<String, Object> map = new HashMap<>();
-                map.put("feedID", wp.get(i).getId());
-                map.put("fullName", usrrep.getFullNameByID(wp.get(i).getAuthorID()));
-                map.put("imagePath", usrrep.getImageByID(wp.get(i).getAuthorID()));
-                map.put("text", wp.get(i).getPosttext());
-                map.put("timestamp", wp.get(i).getPosttime());
-                map.put("likes", wp.get(i).getLikes());
-                map.put("dislikes", wp.get(i).getDislikes());
-                map.put("numComments", wp.get(i).getNumComments());
-                map.put("locklikesdislikes", false);
-                wpreturn.add(map);
-                map = null;
-            }
-
-            return new ResponseEntity<>(wpreturn, HttpStatus.OK);
-        }
+        List<String> fpreturn = usrfdrep.getUserWallPosts(getUserIDFromPricipal(principal));
+        if (fpreturn != null && !fpreturn.isEmpty())
+            return new ResponseEntity<>(fpreturn, HttpStatus.OK);
         else
             return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/getposts")
-    public ResponseEntity<?> getPosts(Principal principal)
+    @GetMapping("/getnewsfeed")
+    public ResponseEntity<?> getNewsFeed(Principal principal)
     {
-        User currentUser = usrrep.findByEmail(principal.getName());
-
-        List<String> fpreturn = usrfdrep.getUserFeed(currentUser.getId());
-
+        List<String> fpreturn = usrfdrep.getUserData(getUserIDFromPricipal(principal),"_NEWSFEEDCOUNTER", "_NEWSFEEDDATA");
         if (fpreturn != null && !fpreturn.isEmpty())
             return new ResponseEntity<>(fpreturn, HttpStatus.OK);
         else
@@ -154,26 +130,46 @@ public class MainController
 //            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
 //    }
 
-    @GetMapping("/addcomment/{UserID}/{PostID}/{Comment}/")
-    public void addComment(@PathVariable String UserID, @PathVariable String PostID, @PathVariable String Comment)
+    @GetMapping("/addwallpost/{WallText}/")
+    public ResponseEntity<?> addWallPost(Principal principal, @PathVariable String WallText)
+    {
+        System.out.println("AddWallPost " + WallText);
+        Date date = new Date();
+        Post pc = new Post(getUserIDFromPricipal(principal), date, WallText, 0, 0, 0);
+        String tmp = pstrepo.insertPost(pc);
+        System.out.println(tmp);
+        if(tmp != null)
+            return new ResponseEntity<>(tmp, HttpStatus.OK);
+        else
+            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/addcomment/{PostID}/{Comment}/")
+    public void addComment(Principal principal, @PathVariable String PostID, @PathVariable String Comment)
     {
         Date date = new Date();
-        Comment pc = new Comment(PostID, usrrep.getUserIDFromImageByID(UserID), date, Comment);
-        System.out.println("UserID " + UserID + "PostID " + PostID + "Comment " + Comment);
+        Comment pc = new Comment(PostID, getUserIDFromPricipal(principal), date, Comment);
+        System.out.println("PostID " + PostID + "Comment " + Comment);
         pcrep.insert(pc);
         fprep.updateNumComments(PostID);
     }
 
-    @GetMapping("/addlikes/{UserID}/{PostID}/")
-    public void addLikes(@PathVariable String UserID, @PathVariable String PostID)
+    @GetMapping("/addlikes/{PostID}/")
+    public void addLikes(@PathVariable String PostID)
     {
         fprep.updateLikes(PostID);
     }
 
-    @GetMapping("/adddislikes/{UserID}/{PostID}/")
-    public void addDisLikes(@PathVariable String UserID, @PathVariable String PostID)
+    @GetMapping("/adddislikes/{PostID}/")
+    public void addDisLikes(@PathVariable String PostID)
     {
         fprep.updateDisLikes(PostID);
+    }
+
+    private String getUserIDFromPricipal(Principal principal)
+    {
+        User currentUser = usrrep.findByEmail(principal.getName());
+        return currentUser.getId();
     }
 
 }

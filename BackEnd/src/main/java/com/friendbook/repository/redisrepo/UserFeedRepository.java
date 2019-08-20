@@ -7,9 +7,7 @@ import com.friendbook.model.Post;
 
 public interface UserFeedRepository
 {
-    public void saveUserFeed(String usrID, List<Post> usrfd);
-    public List<String> getUserFeed(String usrID);
-    public void createUserFeedCounter(String usrID, int count, int startIndex, int stopIndex);
-    void setUserWallPostCounter(String usrID, int pageNum);
-    int getUserWallPostCounter(String usrID);
+    public void saveUserData(String usrID, List<Post> usrfd, String typeOfCounter, String typeOfData);
+    public List<String> getUserData(String usrID, String typeOfCounter, String typeOfData);
+    public List<String> getUserWallPosts(String usrID);
 }

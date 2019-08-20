@@ -1,6 +1,7 @@
 package com.friendbook.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -35,10 +36,10 @@ public class Post
     private long numComments = 0;
 
     @Field
-    Set<String> userLikeIDs;
+    Set<String> userLikeIDs = new HashSet<String>();
 
     @Field
-    Set<String> userDislikeIDs;
+    Set<String> userDislikeIDs = new HashSet<String>();
 
     public String getId() {
         return id;
@@ -109,12 +110,18 @@ public class Post
 
     public boolean hasUserLikedPost(String usrID)
     {
-        return  this.userLikeIDs.contains(usrID);
+        if (this.userLikeIDs.isEmpty())
+            return false;
+        else
+            return this.userLikeIDs.contains(usrID);
     }
 
     public boolean hasUserDislikedPost(String usrID)
     {
-        return  this.userDislikeIDs.contains(usrID);
+        if (this.userDislikeIDs.isEmpty())
+            return false;
+        else
+            return this.userDislikeIDs.contains(usrID);
     }
 
     public Post(String authorID, Date posttime, String posttext, long likes, long dislikes, long numComments)

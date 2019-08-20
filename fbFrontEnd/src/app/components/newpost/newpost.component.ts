@@ -36,7 +36,7 @@ export class NewpostComponent
     {
       if (this.locklikedislikes == false)
       {
-        this.commService.addLikes(localStorage.getItem('userImageID'), this.feedID).subscribe(res => {
+        this.commService.addLikes(this.feedID).subscribe(res => {
           this.locklikedislikes = true;
           this.likes++;
         }, 
@@ -51,7 +51,7 @@ export class NewpostComponent
     {
       if (this.locklikedislikes == false)
       {
-        this.commService.addDislikes(localStorage.getItem('userImageID'), this.feedID).subscribe(res => {
+        this.commService.addDislikes(this.feedID).subscribe(res => {
           this.locklikedislikes = true;
           this.dislikes++;
         }, 
@@ -79,7 +79,7 @@ export class NewpostComponent
   {
     if(this.feedID.length > 5)
     {
-      this.commService.addComment(localStorage.getItem('userImageID'), this.feedID, commentbox).subscribe(res => 
+      this.commService.addComment(this.feedID, commentbox).subscribe(res => 
         {
           console.log(res);
           if (this.showComments == false)

@@ -12,12 +12,14 @@ var wallPostsCounter: number = 0;
   templateUrl: './wall.component.html',
   styleUrls: ['./wall.component.css']
 })
+
 export class WallComponent implements OnInit 
 {
   @ViewChild(NPostDirective, {static: true}) npHost: NPostDirective;
   wallnomoreposts: boolean = false;
   wallcomponentFactory: any;
   wallviewContainerRef:any;
+  wallNewPostText: string;
 
   constructor(private commService: CommunicationService, private componentFactoryResolver: ComponentFactoryResolver, private scrSrv: ScrollService) 
   { 
@@ -31,7 +33,6 @@ export class WallComponent implements OnInit
     this.getWallPosts();
     this.scrSrv.scrollObs.subscribe(res=>
       {
-        console.log(res.text);
         if(res.text === 'wall')
         {
           console.log(res);
@@ -45,8 +46,7 @@ export class WallComponent implements OnInit
     this.commService.getWallPosts().subscribe(res => 
       {
         let limit = res.length;
-        wallPostsCounter += limit;
-        console.log(wallPostsCounter);
+        console.log(limit);
         for(let i = 0; i < limit; i++)
         {
           var abc = JSON.parse(res[i]);
@@ -59,8 +59,29 @@ export class WallComponent implements OnInit
           (<NewpostComponent>componentRef.instance).imagePath = abc.imgPath;
           (<NewpostComponent>componentRef.instance).timestamp = abc.posttime as Date;
           (<NewpostComponent>componentRef.instance).feedID = abc.id;
+          (<NewpostComponent>componentRef.instance).locklikedislikes = abc.locklikedislikes;
         }
       }, 
       error => { console.log(error); this.wallnomoreposts = true });
+  }
+  
+  onAddNewWallPostClick()
+  {
+    if(this.wallNewPostText.length > 0)
+    {
+      this.commService.addWallPost(this.wallNewPostText).subscribe(res =>
+        {
+          console.log(res);
+          const componentRef = this.wallviewContainerRef.createComponent(this.wallcomponentFactory, 0);
+          (<NewpostComponent>componentRef.instance).fullName = localStorage.getItem('currentUserName');
+          (<NewpostComponent>componentRef.instance).text = this.wallNewPostText;
+          (<NewpostComponent>componentRef.instance).likes = 0;
+          (<NewpostComponent>componentRef.instance).dislikes = 0;
+          (<NewpostComponent>componentRef.instance).numComments = 0;
+          (<NewpostComponent>componentRef.instance).imagePath = localStorage.getItem('userImageID');
+          (<NewpostComponent>componentRef.instance).timestamp = new Date();
+          (<NewpostComponent>componentRef.instance).feedID = "";  
+        });  
+    }
   }  
 }

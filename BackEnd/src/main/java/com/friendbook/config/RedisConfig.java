@@ -23,6 +23,7 @@ public class RedisConfig
     {
         StringRedisTemplate template = new StringRedisTemplate();
         template.setConnectionFactory(redisConnectionFactory);
+        template.getConnectionFactory().getConnection().flushAll(); //Clear Redis cache
         return template;
     }
 }

@@ -44,11 +44,10 @@ export class NewsfeedComponent implements OnInit
 
   getFeedPosts() 
   {
-    this.commService.getPosts().subscribe(res => 
+    this.commService.getNewsFeed().subscribe(res => 
     {
       let limit = res.length;
-      homePostsCounter += limit;
-      console.log(homePostsCounter);
+      console.log(limit);
       for(let i = 0; i < limit; i++)
       {
         var abc = JSON.parse(res[i]);
