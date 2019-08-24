@@ -25,6 +25,7 @@ export class ChatcontainerComponent implements OnInit
 
   ngOnInit() 
   {
+    this.adapter.callHome = this.sendChat;
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.isLoggedIn$.subscribe(res => 
       {
@@ -45,6 +46,7 @@ export class ChatcontainerComponent implements OnInit
   
   public userChatOpened(event: any)
   {
+    console.log(event);
     if (chatInfoMap.has(event.id))
     {
        console.log("Key exists");
@@ -102,5 +104,14 @@ export class ChatcontainerComponent implements OnInit
     console.log("Message received");
     console.log(payload);
     this.adapter.insertMessage(payload.sender, payload.content);
+  }
+
+  sendChat(userTo: string, userFrom: string, message: string)
+  {
+    console.log("Inside callback " + message + " To:" + userTo + " From:" + userFrom);
+    var chatMessage = { sender: localStorage.getItem('userImageID'), recipient: userTo, content: message, messageType: 'CHAT' };
+    console.log(chatMessage);
+    var topic = `/app/chat`;    
+    stompClient.send(`${topic}`, {}, JSON.stringify(chatMessage));  
   }
 }

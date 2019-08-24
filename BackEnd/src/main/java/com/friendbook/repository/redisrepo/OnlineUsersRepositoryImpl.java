@@ -32,7 +32,10 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
         mapObject.put("isOnline", "yes");
         String tmp = RedisUtility.createStringFromObject(mapObject);
         if(tmp != null)
+        {
             strRedisTemplate.opsForHash().put(KEY, usr.getId() + "_ONLINE_STATUS", tmp);
+            System.out.println("Online " + usr.getEmail() + " " + usr.getId());
+        }
     }
 
     @Override

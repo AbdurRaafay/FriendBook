@@ -1,5 +1,5 @@
 <div class = "" *ngIf="isLoggedIn$ | async">
     <ng-chat class = "container-friends" [adapter]="adapter" [userId]="999" [historyEnabled]="true" [historyPageSize]="4" 
-        [hideFriendsList]="false" [audioEnabled]="false" [browserNotificationsEnabled]="false" (onUserChatOpened)="userChatOpened($event)" >
+        [hideFriendsList]="false" [audioEnabled]="false" [browserNotificationsEnabled]="false" (onParticipantClicked)="userChatOpened($event)" >
     </ng-chat>
 </div>

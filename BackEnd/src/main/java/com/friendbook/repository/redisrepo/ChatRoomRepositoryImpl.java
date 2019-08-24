@@ -5,7 +5,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ChatRepositoryImpl implements ChatRepository
+public class ChatRoomRepositoryImpl implements ChatRoomRepository
 {
     private static final String KEY = "CHAT_ROOMS";
 

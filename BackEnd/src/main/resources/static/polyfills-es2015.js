@@ -6121,6 +6121,7 @@ __webpack_require__.r(__webpack_exports__);
  *  (window as any).__Zone_enable_cross_context_check = true;
  *
  */
+window.global = window;
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */

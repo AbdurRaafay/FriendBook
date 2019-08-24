@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 import java.security.Principal;
 
-import com.friendbook.model.Chat;
 import com.friendbook.repository.mongorepo.ChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -114,21 +113,6 @@ public class MainController
         }
         else
             return new ResponseEntity<>(fpreturn, HttpStatus.NOT_FOUND);
-    }
-
-    @GetMapping("/getchathistory/{UserAID}/{UserBID}/")
-    public ResponseEntity<?> getChatHistory(@PathVariable String UserAID, @PathVariable String UserBID)
-    {
-        System.out.println(UserAID + " " + UserBID);
-
-        List<Chat> chats = chatrepo.findChats(usrrep.getUserIDFromImageByID(UserAID), usrrep.getUserIDFromImageByID(UserBID));
-
-        if (chats.size() > 0)
-        {
-            return new ResponseEntity<>(chats, HttpStatus.OK);
-        }
-        else
-            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/addwallpost/{WallText}/")

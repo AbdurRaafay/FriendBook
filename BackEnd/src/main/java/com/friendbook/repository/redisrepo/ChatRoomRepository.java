@@ -1,6 +1,6 @@
 package com.friendbook.repository.redisrepo;
 
-public interface ChatRepository
+public interface ChatRoomRepository
 {
     String createChatRoom(String usrAID, String usrBID);
 }

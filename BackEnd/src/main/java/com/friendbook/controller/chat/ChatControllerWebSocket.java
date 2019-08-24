@@ -38,7 +38,10 @@ public class ChatControllerWebSocket
     public void sendMessage(@Payload ChatMessage chatMessage)
     {
         System.out.println("@@@@@@@@@@@@@@@@@@ " + chatMessage.getContent() + " Receipient " + chatMessage.getRecipient() + " Sender " + chatMessage.getSender());
-        String name = ousrrep.isUserOnline(chatMessage.getRecipient());
+        System.out.println("Recepient " + usrrep.getUserIDFromImageByID(chatMessage.getRecipient()));
+        System.out.println("Sender " + usrrep.getUserIDFromImageByID(chatMessage.getSender()));
+
+        String name = ousrrep.isUserOnline(usrrep.getUserIDFromImageByID(chatMessage.getRecipient()));
         if (name != null)
         {
             System.out.println("################# Name " + name);

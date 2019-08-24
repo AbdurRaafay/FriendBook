@@ -41,7 +41,7 @@ module.exports = "<app-navbar></app-navbar>\n<app-chatcontainer></app-chatcontai
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class = \"\" *ngIf=\"isLoggedIn$ | async\">\n    <ng-chat class = \"container-friends\" [adapter]=\"adapter\" [userId]=\"999\" [historyEnabled]=\"true\" [historyPageSize]=\"4\" \n        [hideFriendsList]=\"false\" [audioEnabled]=\"false\" (onMessagesSeen)=\"messageSeen($event)\" (onUserChatOpened)=\"userChatOpened($event)\" >\n    </ng-chat>\n</div>"
+module.exports = "<div class = \"\" *ngIf=\"isLoggedIn$ | async\">\n    <ng-chat class = \"container-friends\" [adapter]=\"adapter\" [userId]=\"999\" [historyEnabled]=\"true\" [historyPageSize]=\"4\" \n        [hideFriendsList]=\"false\" [audioEnabled]=\"false\" [browserNotificationsEnabled]=\"false\" (onParticipantClicked)=\"userChatOpened($event)\" >\n    </ng-chat>\n</div>"
 
 /***/ }),
 
@@ -312,12 +312,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
 /* harmony import */ var src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/communication.service */ "./src/app/services/communication.service.ts");
 /* harmony import */ var _chatcontrol__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./chatcontrol */ "./src/app/components/chatcontainer/chatcontrol.ts");
+/* harmony import */ var _stomp_stompjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @stomp/stompjs */ "./node_modules/@stomp/stompjs/index.js");
+/* harmony import */ var _stomp_stompjs__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_stomp_stompjs__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var sockjs_client__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! sockjs-client */ "./node_modules/sockjs-client/lib/entry.js");
+/* harmony import */ var sockjs_client__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(sockjs_client__WEBPACK_IMPORTED_MODULE_6__);
+
+
 
 
 
 
 
 var stompClient = null;
+var chatInfoMap = new Map();
+class ChatInformation {
+}
+;
 let ChatcontainerComponent = class ChatcontainerComponent {
     constructor(authService, commService) {
         this.authService = authService;
@@ -325,6 +335,7 @@ let ChatcontainerComponent = class ChatcontainerComponent {
         this.adapter = new _chatcontrol__WEBPACK_IMPORTED_MODULE_4__["ChatControl"]();
     }
     ngOnInit() {
+        this.adapter.callHome = this.sendChat;
         this.isLoggedIn$ = this.authService.isLoggedIn;
         this.isLoggedIn$.subscribe(res => {
             if (res == true) {
@@ -336,6 +347,57 @@ let ChatcontainerComponent = class ChatcontainerComponent {
         this.commService.getFriendsList().subscribe(res => {
             this.adapter.setFriendsList(res);
         }, error => { console.log(error); });
+    }
+    userChatOpened(event) {
+        console.log(event);
+        if (chatInfoMap.has(event.id)) {
+            console.log("Key exists");
+            console.log(chatInfoMap.get(event.id));
+        }
+        else {
+            console.log("Create new chatroom");
+            this.createchatroom(event.id);
+            console.log(chatInfoMap.get(event.id));
+            this.connectToChat(event.id);
+        }
+        console.log(event.id + " " + localStorage.getItem('userImageID'));
+    }
+    createchatroom(chatroomID) {
+        let chatRmInf = new ChatInformation();
+        chatRmInf.chatRoomID = chatroomID;
+        chatRmInf.status = "unsubscribed";
+        chatInfoMap.set(chatroomID, chatRmInf);
+    }
+    connectToChat(chatRoomID) {
+        var that = this;
+        const socket = new sockjs_client__WEBPACK_IMPORTED_MODULE_6__('http://localhost:8080/chat');
+        stompClient = _stomp_stompjs__WEBPACK_IMPORTED_MODULE_5__["over"](socket);
+        var chatRoomInfo = chatInfoMap.get(chatRoomID);
+        stompClient.connect({}, function (frame) {
+            console.log("Connected :- " + frame);
+            if (chatRoomInfo.status === "unsubscribed") {
+                console.log("Subscribing to ");
+                stompClient.subscribe(`/user/queue/messages`, function (messageOutput) {
+                    that.onMessageReceived(JSON.parse(messageOutput.body));
+                });
+                chatRoomInfo.status = "subscribed";
+            }
+        }, this.onError);
+    }
+    onError(error) {
+        console.log("Error Websocket" + error);
+    }
+    onMessageReceived(payload) {
+        console.log("Message received");
+        console.log(payload);
+        this.adapter.insertMessage(payload.sender, payload.content);
+    }
+    sendChat(userTo, userFrom, message) {
+        console.log("Inside callback " + message + " To:" + userTo + " From:" + userFrom);
+        var chatMessage = { sender: localStorage.getItem('userImageID'), recipient: userTo, content: message, messageType: 'CHAT' };
+        console.log(chatMessage);
+        var topic = `/app/chat`;
+        stompClient.send(`${topic}`, {}, JSON.stringify(chatMessage));
     }
 };
 ChatcontainerComponent.ctorParameters = () => [
@@ -390,15 +452,12 @@ class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
             participantResponse.participant = user;
             participantResponse.metadata =
                 {
-                    totalUnreadMessages: Math.floor(Math.random() * 10)
+                    totalUnreadMessages: 0
                 };
             return participantResponse;
         }));
     }
     setFriendsList(frnds) {
-        var i;
-        var len = frnds.length;
-        console.log(frnds);
         this.mockedParticipants.length = 0;
         frnds.forEach(t => {
             var pRes = {

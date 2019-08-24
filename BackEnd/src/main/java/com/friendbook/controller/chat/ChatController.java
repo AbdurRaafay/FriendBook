@@ -1,9 +1,14 @@
 package com.friendbook.controller.chat;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
+import com.friendbook.model.Chat;
+import com.friendbook.repository.mongorepo.ChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.friendbook.model.User;
 import com.friendbook.repository.mongorepo.UserRepository;
-import com.friendbook.repository.redisrepo.ChatRepository;
+import com.friendbook.repository.redisrepo.ChatRoomRepository;
 
 @RestController
 public class ChatController
@@ -20,15 +25,23 @@ public class ChatController
     private UserRepository usrrep;
 
     @Autowired
-    private ChatRepository chtrep;
+    private ChatRoomRepository redischatrepo;
 
-    @GetMapping("/createChatRoomID/{chatroomID}")
-    public Map<String, String> createChatRoomID(@PathVariable String chatroomID)
+    @Autowired
+    private ChatRepository chatrepo;
+
+    @GetMapping("/getchathistory/{UserAID}/{UserBID}/")
+    public ResponseEntity<?> getChatHistory(@PathVariable String UserAID, @PathVariable String UserBID)
     {
-        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-        User currentUser = usrrep.findByEmail(name);
-        String roomID = chtrep.createChatRoom(currentUser.getImageFileID(),chatroomID);
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> " + name + " " + roomID + " " + chatroomID);
-        return Collections.singletonMap("chatroomID", roomID);
+        System.out.println(UserAID + " " + UserBID);
+
+        List<Chat> chats = chatrepo.findChats(usrrep.getUserIDFromImageByID(UserAID), usrrep.getUserIDFromImageByID(UserBID));
+
+        if (chats.size() > 0)
+        {
+            return new ResponseEntity<>(chats, HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
     }
 }
