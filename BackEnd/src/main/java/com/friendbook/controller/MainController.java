@@ -3,12 +3,13 @@ package com.friendbook.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.security.Principal;
 
+import com.friendbook.model.Chat;
+import com.friendbook.repository.mongorepo.ChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,8 +44,8 @@ public class MainController
     @Autowired
     private PostRepository pstrepo;
 
-//    @Autowired
-//    private ChatRepository chatrep;
+    @Autowired
+    private ChatRepository chatrepo;
 
     @Autowired
     private PostRepository fprep;
@@ -115,20 +116,20 @@ public class MainController
             return new ResponseEntity<>(fpreturn, HttpStatus.NOT_FOUND);
     }
 
-//    @GetMapping("/getchathistory/{UserAID}/{UserBID}/")
-//    public ResponseEntity<?> getChatHistory(@PathVariable String UserAID, @PathVariable String UserBID)
-//    {
-//        System.out.println(UserAID + " " + UserBID);
-//
-//        List<Chats> chats = chatrep.findChats(usrrep.getUserIDFromImageByID(UserAID), usrrep.getUserIDFromImageByID(UserBID));
-//
-//        if (chats.size() > 0)
-//        {
-//            return new ResponseEntity<>(chats, HttpStatus.OK);
-//        }
-//        else
-//            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
-//    }
+    @GetMapping("/getchathistory/{UserAID}/{UserBID}/")
+    public ResponseEntity<?> getChatHistory(@PathVariable String UserAID, @PathVariable String UserBID)
+    {
+        System.out.println(UserAID + " " + UserBID);
+
+        List<Chat> chats = chatrepo.findChats(usrrep.getUserIDFromImageByID(UserAID), usrrep.getUserIDFromImageByID(UserBID));
+
+        if (chats.size() > 0)
+        {
+            return new ResponseEntity<>(chats, HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
+    }
 
     @GetMapping("/addwallpost/{WallText}/")
     public ResponseEntity<?> addWallPost(Principal principal, @PathVariable String WallText)

@@ -48,7 +48,7 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
     }
 
     @Override
-    public boolean isUserOnline(String userID)
+    public String isUserOnline(String userID)
     {
         String tmp = (String) strRedisTemplate.opsForHash().get(KEY, userID + "_ONLINE_STATUS");
         if ( tmp != null )
@@ -59,21 +59,21 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
                 String status = (String) mapObject.get("isOnline");
                 if(status.equals("yes"))
                 {
-                    return true;
+                    return (String) mapObject.get("Name");
                 }
                 else if (status.equals("no"))
-                    return false;
+                    return null;
             }
             catch (Exception e)
             {
                 e.printStackTrace();
-                return false;
+                return null;
             }
         }
         else
         {
-            return false;
+            return null;
         }
-        return false;
+        return null;
     }
 }

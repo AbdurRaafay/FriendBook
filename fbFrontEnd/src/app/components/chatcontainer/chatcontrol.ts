@@ -29,7 +29,8 @@ export class ChatControl extends ChatAdapter
             participantResponse.metadata = 
             {
               totalUnreadMessages: 0
-            }      
+            }
+      
             return participantResponse;
         }));
     }
