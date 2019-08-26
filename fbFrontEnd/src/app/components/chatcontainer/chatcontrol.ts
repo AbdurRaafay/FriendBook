@@ -55,6 +55,10 @@ export class ChatControl extends ChatAdapter
 
     insertMessage(userID:string, message:string)
     {
+        let replyMessage = new Message();
+        replyMessage.fromId = userID;
+        let user = this.mockedParticipants.find(x => x.id == replyMessage.fromId);
+        this.onMessageReceived(user, replyMessage);
     }
 
     getMessageHistory(userId: any): Observable<Message[]>

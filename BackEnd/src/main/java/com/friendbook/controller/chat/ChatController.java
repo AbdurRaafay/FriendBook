@@ -9,12 +9,10 @@ import com.friendbook.repository.mongorepo.ChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.friendbook.model.User;
 import com.friendbook.repository.mongorepo.UserRepository;
 import com.friendbook.repository.redisrepo.ChatRoomRepository;
 

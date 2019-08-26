@@ -6,17 +6,17 @@ import java.util.Date;
 
 import com.friendbook.model.Chat;
 import com.friendbook.model.ChatMessage;
+import com.friendbook.model.Notification;
 import com.friendbook.repository.mongorepo.ChatRepository;
+import com.friendbook.repository.mongorepo.NotificationRepository;
 import com.friendbook.repository.mongorepo.UserRepository;
 import com.friendbook.repository.redisrepo.OnlineUsersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
-import org.springframework.messaging.Message;
 
 @Controller
 public class ChatControllerWebSocket
@@ -34,37 +34,36 @@ public class ChatControllerWebSocket
     @Autowired
     private UserRepository usrrep;
 
+    @Autowired
+    private NotificationRepository notrepo;
+
+
     @MessageMapping("/chat")
     public void sendMessage(@Payload ChatMessage chatMessage)
     {
-        System.out.println("@@@@@@@@@@@@@@@@@@ " + chatMessage.getContent() + " Receipient " + chatMessage.getRecipient() + " Sender " + chatMessage.getSender());
-        System.out.println("Recepient " + usrrep.getUserIDFromImageByID(chatMessage.getRecipient()));
-        System.out.println("Sender " + usrrep.getUserIDFromImageByID(chatMessage.getSender()));
-
         String name = ousrrep.isUserOnline(usrrep.getUserIDFromImageByID(chatMessage.getRecipient()));
         if (name != null)
         {
             System.out.println("################# Name " + name);
             messagingTemplate.convertAndSendToUser(name, "/queue/messages", chatMessage);
-            saveChat(chatMessage.getSender(), chatMessage.getRecipient(), chatMessage.getContent());
+            saveChat(chatMessage.getSender(), chatMessage.getRecipient(), chatMessage.getContent(), true);
         }
         else
         {
-            saveChat(chatMessage.getSender(), chatMessage.getRecipient(), chatMessage.getContent());
+            saveChat(chatMessage.getSender(), chatMessage.getRecipient(), chatMessage.getContent(), false);
         }
     }
 
-    @MessageMapping("/hello")
-    public void activeUsers(Message<Object> message)
-    {
-        Principal user = message.getHeaders().get(SimpMessageHeaderAccessor.USER_HEADER, Principal.class);
-        System.out.println("Websocket user " + user.getName());
-    }
-
-    private void saveChat(String from, String to, String text)
+    private void saveChat(String from, String to, String text, boolean seen)
     {
         Date date = new Date();
-        Chat chats = new Chat(usrrep.getUserIDFromImageByID(from), usrrep.getUserIDFromImageByID(to), date, text);
+        String toUsrID = usrrep.getUserIDFromImageByID(to);
+        Chat chats = new Chat(usrrep.getUserIDFromImageByID(from), toUsrID, date, text, seen);
         chtrep.insertChat(chats);
+        if(seen == false)
+        {
+            Notification ntf = new Notification(toUsrID, date, chats.getId(), Notification.NotificationType.LIKE);
+            notrepo.insertNotification(ntf);
+        }
     }
 }

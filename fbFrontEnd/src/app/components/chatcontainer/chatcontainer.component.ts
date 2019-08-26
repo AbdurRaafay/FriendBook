@@ -46,7 +46,7 @@ export class ChatcontainerComponent implements OnInit
   
   public userChatOpened(event: any)
   {
-    console.log(event);
+    // console.log(event);
     if (chatInfoMap.has(event.id))
     {
        console.log("Key exists");
@@ -59,7 +59,7 @@ export class ChatcontainerComponent implements OnInit
        console.log(chatInfoMap.get(event.id));
        this.connectToChat(event.id);
     }
-    console.log(event.id + " " + localStorage.getItem('userImageID'));
+    // console.log(event.id + " " + localStorage.getItem('userImageID'));
   }
   
   createchatroom(chatroomID: string)
@@ -108,9 +108,9 @@ export class ChatcontainerComponent implements OnInit
 
   sendChat(userTo: string, userFrom: string, message: string)
   {
-    console.log("Inside callback " + message + " To:" + userTo + " From:" + userFrom);
+    //console.log("Inside callback " + message + " To:" + userTo + " From:" + userFrom);
     var chatMessage = { sender: localStorage.getItem('userImageID'), recipient: userTo, content: message, messageType: 'CHAT' };
-    console.log(chatMessage);
+    //console.log(chatMessage);
     var topic = `/app/chat`;    
     stompClient.send(`${topic}`, {}, JSON.stringify(chatMessage));  
   }

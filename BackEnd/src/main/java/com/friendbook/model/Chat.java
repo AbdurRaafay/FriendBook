@@ -27,6 +27,9 @@ public class Chat
     @Field
     private String text;
 
+    @Field
+    private boolean isSeen;
+
     public String getId() {
         return id;
     }
@@ -63,19 +66,32 @@ public class Chat
         this.text = text;
     }
 
-    public Chat(String fromUserID, String toUserID, Date timeStamp, String text)
+    public boolean isSeen() {
+        return isSeen;
+    }
+
+    public void setSeen(boolean seen) {
+        isSeen = seen;
+    }
+
+    public Chat(String fromUserID, String toUserID, Date timeStamp, String text, boolean isSeen)
     {
-        super();
         this.fromUserID = fromUserID;
         this.toUserID = toUserID;
         this.timeStamp = timeStamp;
         this.text = text;
+        this.isSeen = isSeen;
     }
 
     @Override
-    public String toString()
-    {
-        return "Chat [fromUserID=" + fromUserID + ", toUserID=" + toUserID + ", timeStamp=" + timeStamp + ", text="
-                + text + "]";
+    public String toString() {
+        return "Chat{" +
+                "id='" + id + '\'' +
+                ", fromUserID='" + fromUserID + '\'' +
+                ", toUserID='" + toUserID + '\'' +
+                ", timeStamp=" + timeStamp +
+                ", text='" + text + '\'' +
+                ", isSeen=" + isSeen +
+                '}';
     }
 }

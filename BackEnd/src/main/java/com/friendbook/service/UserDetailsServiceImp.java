@@ -34,11 +34,6 @@ public class UserDetailsServiceImp implements UserDetailsService
         }
         else
         {
-//			System.out.println("===============================>>>>>>>>>>>>>>>>>>>>>>>>>> Found " + username);
-//			System.out.println("===============================>>>>>>>>>>>>>>>>>>>>>>>>>> Found " + user.getEmail());
-//			System.out.println("===============================>>>>>>>>>>>>>>>>>>>>>>>>>> Found " + user.getPassword());
-//			System.out.println("===============================>>>>>>>>>>>>>>>>>>>>>>>>>> Found " + sdf.format(user.getBirthDate().getTime()));
-
             builder = org.springframework.security.core.userdetails.User.withUsername(user.getEmail());
             builder.password(user.getPassword());
             builder.roles("USER");

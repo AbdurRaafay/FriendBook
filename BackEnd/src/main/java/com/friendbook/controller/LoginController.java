@@ -33,15 +33,7 @@ public class LoginController
     @GetMapping("/login")
     public ResponseEntity<?> token(HttpSession session, HttpServletRequest request)
     {
-//		System.out.println(request.getRemoteHost());
         List<Map<String,Object>> fpreturn = new ArrayList<Map<String,Object>>();
-
-//        String remoteHost = request.getRemoteHost();
-//        int portNumber = request.getRemotePort();
-
-//		System.out.println(remoteHost+":"+portNumber);
-//		System.out.println(request.getRemoteAddr());
-
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = usrrep.findByEmail(name);
         ousrrep.putUser(currentUser);

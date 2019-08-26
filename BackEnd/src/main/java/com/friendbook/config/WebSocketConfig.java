@@ -14,13 +14,13 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry)
     {
-        registry.addEndpoint("/chat").withSockJS();
+        registry.addEndpoint("/chat", "/notification").withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry)
     {
         registry.setApplicationDestinationPrefixes("/app");
-        registry.enableSimpleBroker("/queue", "/topic");
+        registry.enableSimpleBroker("/queue", "/notificationqeue");
     }
 }

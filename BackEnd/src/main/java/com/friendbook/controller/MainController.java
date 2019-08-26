@@ -8,7 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.security.Principal;
 
-import com.friendbook.repository.mongorepo.ChatRepository;
+import com.friendbook.model.Notification;
+import com.friendbook.repository.mongorepo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.friendbook.repository.redisrepo.OnlineUsersRepository;
 import com.friendbook.repository.redisrepo.UserFeedRepository;
-import com.friendbook.repository.mongorepo.CommentRepository;
-import com.friendbook.repository.mongorepo.PostRepository;
-import com.friendbook.repository.mongorepo.UserRepository;
 import com.friendbook.model.Comment;
 import com.friendbook.model.Post;
 import com.friendbook.model.User;
@@ -48,6 +46,9 @@ public class MainController
 
     @Autowired
     private PostRepository fprep;
+
+    @Autowired
+    private NotificationRepository notrepo;
 
     @GetMapping("/getwallposts")
     public ResponseEntity<?> getWallPosts(Principal principal)
@@ -120,11 +121,16 @@ public class MainController
     {
         System.out.println("AddWallPost " + WallText);
         Date date = new Date();
-        Post pc = new Post(getUserIDFromPricipal(principal), date, WallText, 0, 0, 0);
+        String usrID = getUserIDFromPricipal(principal);
+        Post pc = new Post(usrID, date, WallText, 0, 0, 0);
         String tmp = pstrepo.insertPost(pc);
         System.out.println(tmp);
         if(tmp != null)
+        {
+            Notification ntf = new Notification(usrID, date, tmp, Notification.NotificationType.NEWPOST);
+            notrepo.insertNotification(ntf);
             return new ResponseEntity<>(tmp, HttpStatus.OK);
+        }
         else
             return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
     }
@@ -133,22 +139,33 @@ public class MainController
     public void addComment(Principal principal, @PathVariable String PostID, @PathVariable String Comment)
     {
         Date date = new Date();
-        Comment pc = new Comment(PostID, getUserIDFromPricipal(principal), date, Comment);
+        String usrID = getUserIDFromPricipal(principal);
+        Comment pc = new Comment(PostID, usrID, date, Comment);
         System.out.println("PostID " + PostID + "Comment " + Comment);
         pcrep.insert(pc);
         fprep.updateNumComments(PostID);
+        Notification ntf = new Notification(usrID, date, PostID, Notification.NotificationType.COMMENT);
+        notrepo.insertNotification(ntf);
     }
 
     @GetMapping("/addlikes/{PostID}/")
-    public void addLikes(@PathVariable String PostID)
+    public void addLikes(Principal principal, @PathVariable String PostID)
     {
         fprep.updateLikes(PostID);
+        Date date = new Date();
+        String usrID = getUserIDFromPricipal(principal);
+        Notification ntf = new Notification(usrID, date, PostID, Notification.NotificationType.LIKE);
+        notrepo.insertNotification(ntf);
     }
 
     @GetMapping("/adddislikes/{PostID}/")
-    public void addDisLikes(@PathVariable String PostID)
+    public void addDisLikes(Principal principal, @PathVariable String PostID)
     {
         fprep.updateDisLikes(PostID);
+        Date date = new Date();
+        String usrID = getUserIDFromPricipal(principal);
+        Notification ntf = new Notification(usrID, date, PostID, Notification.NotificationType.DISLIKE);
+        notrepo.insertNotification(ntf);
     }
 
     private String getUserIDFromPricipal(Principal principal)
@@ -156,5 +173,4 @@ public class MainController
         User currentUser = usrrep.findByEmail(principal.getName());
         return currentUser.getId();
     }
-
 }
