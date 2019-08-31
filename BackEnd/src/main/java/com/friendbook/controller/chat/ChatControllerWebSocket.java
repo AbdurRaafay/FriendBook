@@ -21,7 +21,6 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ChatControllerWebSocket
 {
-
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
 
@@ -37,7 +36,6 @@ public class ChatControllerWebSocket
     @Autowired
     private NotificationRepository notrepo;
 
-
     @MessageMapping("/chat")
     public void sendMessage(@Payload ChatMessage chatMessage)
     {
@@ -45,24 +43,26 @@ public class ChatControllerWebSocket
         if (name != null)
         {
             System.out.println("################# Name " + name);
+            Date date = new Date();
+            chatMessage.setTimeStamp(date);
             messagingTemplate.convertAndSendToUser(name, "/queue/messages", chatMessage);
-            saveChat(chatMessage.getSender(), chatMessage.getRecipient(), chatMessage.getContent(), true);
+            saveChat(chatMessage, true);
         }
         else
         {
-            saveChat(chatMessage.getSender(), chatMessage.getRecipient(), chatMessage.getContent(), false);
+            saveChat(chatMessage, false);
         }
     }
 
-    private void saveChat(String from, String to, String text, boolean seen)
+    private void saveChat(ChatMessage chatMessage, boolean seen)
     {
-        Date date = new Date();
-        String toUsrID = usrrep.getUserIDFromImageByID(to);
-        Chat chats = new Chat(usrrep.getUserIDFromImageByID(from), toUsrID, date, text, seen);
+        Chat chats = new Chat(chatMessage.getSender(), chatMessage.getRecipient(), chatMessage.getTimeStamp(),
+                chatMessage.getContent(), seen);
         chtrep.insertChat(chats);
         if(seen == false)
         {
-            Notification ntf = new Notification(toUsrID, date, chats.getId(), Notification.NotificationType.LIKE);
+            Notification ntf = new Notification(chatMessage.getRecipient(), chatMessage.getTimeStamp(),
+                    chats.getId(), Notification.NotificationType.CHAT);
             notrepo.insertNotification(ntf);
         }
     }

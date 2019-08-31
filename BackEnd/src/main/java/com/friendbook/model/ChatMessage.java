@@ -1,5 +1,7 @@
 package com.friendbook.model;
 
+import java.util.Date;
+
 public class ChatMessage
 {
     public enum MessageType
@@ -11,16 +13,14 @@ public class ChatMessage
     private String content;
     private String sender;
     private String recipient;
+    private Date timeStamp;
 
     public String getRecipient()
     {
         return recipient;
     }
 
-    public void setRecipient(String recipient)
-    {
-        this.recipient = recipient;
-    }
+    public void setRecipient(String recipient) { this.recipient = recipient; }
 
     public MessageType getType()
     {
@@ -51,4 +51,8 @@ public class ChatMessage
     {
         this.sender = sender;
     }
+
+    public Date getTimeStamp() { return timeStamp; }
+
+    public void setTimeStamp(Date timeStamp) { this.timeStamp = timeStamp; }
 }

@@ -340,6 +340,7 @@ let ChatcontainerComponent = class ChatcontainerComponent {
         this.isLoggedIn$.subscribe(res => {
             if (res == true) {
                 this.getFriendsList();
+                this.connectToChat();
             }
         });
     }
@@ -348,54 +349,28 @@ let ChatcontainerComponent = class ChatcontainerComponent {
             this.adapter.setFriendsList(res);
         }, error => { console.log(error); });
     }
-    userChatOpened(event) {
-        console.log(event);
-        if (chatInfoMap.has(event.id)) {
-            console.log("Key exists");
-            console.log(chatInfoMap.get(event.id));
-        }
-        else {
-            console.log("Create new chatroom");
-            this.createchatroom(event.id);
-            console.log(chatInfoMap.get(event.id));
-            this.connectToChat(event.id);
-        }
-        console.log(event.id + " " + localStorage.getItem('userImageID'));
-    }
-    createchatroom(chatroomID) {
-        let chatRmInf = new ChatInformation();
-        chatRmInf.chatRoomID = chatroomID;
-        chatRmInf.status = "unsubscribed";
-        chatInfoMap.set(chatroomID, chatRmInf);
-    }
-    connectToChat(chatRoomID) {
+    connectToChat() {
         var that = this;
         const socket = new sockjs_client__WEBPACK_IMPORTED_MODULE_6__('http://localhost:8080/chat');
         stompClient = _stomp_stompjs__WEBPACK_IMPORTED_MODULE_5__["over"](socket);
-        var chatRoomInfo = chatInfoMap.get(chatRoomID);
         stompClient.connect({}, function (frame) {
             console.log("Connected :- " + frame);
-            if (chatRoomInfo.status === "unsubscribed") {
-                console.log("Subscribing to ");
-                stompClient.subscribe(`/user/queue/messages`, function (messageOutput) {
-                    that.onMessageReceived(JSON.parse(messageOutput.body));
-                });
-                chatRoomInfo.status = "subscribed";
-            }
+            stompClient.subscribe(`/user/queue/messages`, function (messageOutput) {
+                that.onMessageReceived(JSON.parse(messageOutput.body));
+            });
         }, this.onError);
     }
     onError(error) {
         console.log("Error Websocket" + error);
     }
     onMessageReceived(payload) {
-        console.log("Message received");
-        console.log(payload);
-        this.adapter.insertMessage(payload.sender, payload.content);
+        if (payload.hasOwnProperty('onlineStatusMessage'))
+            this.adapter.setOnlineStatus(payload);
+        else
+            this.adapter.insertMessage(payload);
     }
     sendChat(userTo, userFrom, message) {
-        console.log("Inside callback " + message + " To:" + userTo + " From:" + userFrom);
         var chatMessage = { sender: localStorage.getItem('userImageID'), recipient: userTo, content: message, messageType: 'CHAT' };
-        console.log(chatMessage);
         var topic = `/app/chat`;
         stompClient.send(`${topic}`, {}, JSON.stringify(chatMessage));
     }
@@ -460,18 +435,41 @@ class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
     setFriendsList(frnds) {
         this.mockedParticipants.length = 0;
         frnds.forEach(t => {
+            // console.log(t);
+            var onlineStatus = t.onlinestatus === 'offline' ? ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Offline : ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Online;
             var pRes = {
                 participantType: ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantType"].User,
                 id: t.imagePath,
                 displayName: t.fullName,
                 avatar: "/images/" + t.imagePath + ".jpg",
-                status: ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Online
+                status: onlineStatus
             };
             this.mockedParticipants.push(pRes);
         });
         this.listFriends().subscribe(res => { this.onFriendsListChanged(res); });
     }
-    insertMessage(userID, message) {
+    insertMessage(payload) {
+        let replyMessage = new ng_chat__WEBPACK_IMPORTED_MODULE_0__["Message"]();
+        replyMessage.message = payload.content;
+        replyMessage.fromId = payload.sender;
+        replyMessage.dateSent = payload.timeStamp;
+        let user = this.mockedParticipants.find(x => x.id == replyMessage.fromId);
+        this.onMessageReceived(user, replyMessage);
+    }
+    setOnlineStatus(payload) {
+        console.log(payload);
+        let user = this.mockedParticipants.find(x => x.id == payload.imagePath);
+        var onlineStatus = payload.onlineStatusMessage === 'online' ? ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Online : ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Offline;
+        var pRes = {
+            participantType: ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantType"].User,
+            id: user.id,
+            displayName: user.displayName,
+            avatar: "/images/" + user.id + ".jpg",
+            status: onlineStatus
+        };
+        var index = this.mockedParticipants.indexOf(user);
+        this.mockedParticipants[index] = pRes;
+        this.listFriends().subscribe(res => { this.onFriendsListChanged(res); });
     }
     getMessageHistory(userId) {
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["of"])(this.mockedHistory).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["delay"])(500));
@@ -587,6 +585,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var stompClientNotification = null;
 let NavbarComponent = class NavbarComponent {
     constructor(router, authService, commService) {
         this.router = router;
@@ -595,7 +594,11 @@ let NavbarComponent = class NavbarComponent {
     }
     ngOnInit() {
         this.isLoggedIn$ = this.authService.isLoggedIn;
-        console.log("NavBar" + this.isLoggedIn$);
+        this.isLoggedIn$.subscribe(res => {
+            if (res == true) {
+                // this.getFriendsList();
+            }
+        });
     }
     onNewsFeedClicked() {
         this.router.navigate(['/newsfeed']);

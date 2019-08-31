@@ -1,7 +1,6 @@
 import { ChatAdapter, User, Message , ChatParticipantStatus, ParticipantResponse, IChatParticipant, ChatParticipantType } from 'ng-chat';
 import { Observable, of } from 'rxjs';
 import { delay } from "rxjs/operators";
-import { Friends } from 'src/app/models/friends';
 
 export class ChatControl extends ChatAdapter
 {
@@ -40,25 +39,47 @@ export class ChatControl extends ChatAdapter
         this.mockedParticipants.length = 0;
         frnds.forEach(t => 
         {
+            // console.log(t);
+            var onlineStatus = t.onlinestatus === 'offline' ? ChatParticipantStatus.Offline : ChatParticipantStatus.Online;
             var pRes: IChatParticipant = 
             {
                 participantType: ChatParticipantType.User,
                 id: t.imagePath,
                 displayName: t.fullName,
                 avatar: "/images/" + t.imagePath + ".jpg",
-                status: ChatParticipantStatus.Online
+                status: onlineStatus
             };
             this.mockedParticipants.push(pRes);           
         });
         this.listFriends().subscribe(res=>{this.onFriendsListChanged(res)});
     }
 
-    insertMessage(userID:string, message:string)
+    insertMessage(payload: any)
     {
         let replyMessage = new Message();
-        replyMessage.fromId = userID;
+        replyMessage.message = payload.content;
+        replyMessage.fromId = payload.sender;
+        replyMessage.dateSent = payload.timeStamp;
         let user = this.mockedParticipants.find(x => x.id == replyMessage.fromId);
         this.onMessageReceived(user, replyMessage);
+    }
+
+    setOnlineStatus(payload: any)
+    {
+        console.log(payload);
+        let user = this.mockedParticipants.find(x => x.id == payload.imagePath);
+        var onlineStatus = payload.onlineStatusMessage === 'online' ? ChatParticipantStatus.Online : ChatParticipantStatus.Offline;
+        var pRes: IChatParticipant = 
+        {
+            participantType: ChatParticipantType.User,
+            id: user.id,
+            displayName: user.displayName,
+            avatar: "/images/" + user.id + ".jpg",
+            status: onlineStatus
+        };
+        var index = this.mockedParticipants.indexOf(user);
+        this.mockedParticipants[index] = pRes;
+        this.listFriends().subscribe(res=>{this.onFriendsListChanged(res)});
     }
 
     getMessageHistory(userId: any): Observable<Message[]>

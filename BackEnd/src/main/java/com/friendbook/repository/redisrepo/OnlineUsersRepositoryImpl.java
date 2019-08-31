@@ -4,10 +4,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
 import com.friendbook.model.User;
@@ -19,7 +22,10 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
     private static final String KEY = "USER_STATUS";
 
     @Autowired
-    public StringRedisTemplate strRedisTemplate;
+    private StringRedisTemplate strRedisTemplate;
+
+    @Autowired
+    private SimpMessageSendingOperations messagingTemplate;
 
     @Override
     public void putUser(User usr)
@@ -34,6 +40,8 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
         if(tmp != null)
         {
             strRedisTemplate.opsForHash().put(KEY, usr.getId() + "_ONLINE_STATUS", tmp);
+            if(usr.getFriendCount() > 0)
+                sendOnlineNotification(usr);
             System.out.println("Online " + usr.getEmail() + " " + usr.getId());
         }
     }
@@ -65,18 +73,37 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
                     return (String) mapObject.get("Name");
                 }
                 else if (status.equals("no"))
-                    return null;
+                    return "offline";
             }
             catch (Exception e)
             {
                 e.printStackTrace();
-                return null;
+                return "offline";
             }
         }
         else
         {
-            return null;
+            return "offline";
         }
-        return null;
+        return "offline";
+    }
+
+    @Async("asyncExecutor")
+    public void sendOnlineNotification(User usr)
+    {
+        Set<String> friends = usr.getUserFriends();
+        System.out.println("Sending Online Notification");
+        friends.forEach(f->
+        {
+            String name = isUserOnline(f);
+            if(!name.equals("offline"))
+            {
+                System.out.println("Online Notification to " + name);
+                Map<String, Object> map = new HashMap<>();
+                map.put("onlineStatusMessage", "online");
+                map.put("imagePath", usr.getImageFileID());
+                messagingTemplate.convertAndSendToUser(name, "/queue/messages", map);
+            }
+        });
     }
 }

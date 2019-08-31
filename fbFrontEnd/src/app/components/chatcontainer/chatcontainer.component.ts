@@ -32,6 +32,7 @@ export class ChatcontainerComponent implements OnInit
         if(res == true)
         {
           this.getFriendsList();
+          this.connectToChat();
         }
       });
   }
@@ -43,54 +44,22 @@ export class ChatcontainerComponent implements OnInit
     },
       error => { console.log(error); });      
   }
-  
-  public userChatOpened(event: any)
-  {
-    // console.log(event);
-    if (chatInfoMap.has(event.id))
-    {
-       console.log("Key exists");
-       console.log(chatInfoMap.get(event.id));
-    }
-    else
-    {
-       console.log("Create new chatroom");
-       this.createchatroom(event.id);
-       console.log(chatInfoMap.get(event.id));
-       this.connectToChat(event.id);
-    }
-    // console.log(event.id + " " + localStorage.getItem('userImageID'));
-  }
-  
-  createchatroom(chatroomID: string)
-  {
-    let chatRmInf = new ChatInformation();
-    chatRmInf.chatRoomID = chatroomID;    
-    chatRmInf.status = "unsubscribed";
-    chatInfoMap.set(chatroomID,chatRmInf);
-  }
 
-  connectToChat(chatRoomID: string)
+  connectToChat()
   {
     var that = this;
     const socket = new SockJS('http://localhost:8080/chat');
     stompClient = Stomp.over(socket);
-    var chatRoomInfo = chatInfoMap.get(chatRoomID) as ChatInformation;
     stompClient.connect({}, 
       function(frame)
       {
         console.log( "Connected :- " + frame );
-        if (chatRoomInfo.status === "unsubscribed")
+        stompClient.subscribe(`/user/queue/messages`, 
+        function(messageOutput)
         {
-          console.log("Subscribing to " );
-          stompClient.subscribe(`/user/queue/messages`, 
-          function(messageOutput)
-          {
-            that.onMessageReceived(JSON.parse(messageOutput.body));
-          });
-          chatRoomInfo.status = "subscribed";  
-        }
-      }, 
+          that.onMessageReceived(JSON.parse(messageOutput.body));
+        });
+    }, 
       this.onError);    
   }
 
@@ -101,16 +70,15 @@ export class ChatcontainerComponent implements OnInit
 
   onMessageReceived(payload)
   {
-    console.log("Message received");
-    console.log(payload);
-    this.adapter.insertMessage(payload.sender, payload.content);
+    if(payload.hasOwnProperty('onlineStatusMessage'))
+      this.adapter.setOnlineStatus(payload);
+    else
+      this.adapter.insertMessage(payload);
   }
 
   sendChat(userTo: string, userFrom: string, message: string)
   {
-    //console.log("Inside callback " + message + " To:" + userTo + " From:" + userFrom);
     var chatMessage = { sender: localStorage.getItem('userImageID'), recipient: userTo, content: message, messageType: 'CHAT' };
-    //console.log(chatMessage);
     var topic = `/app/chat`;    
     stompClient.send(`${topic}`, {}, JSON.stringify(chatMessage));  
   }

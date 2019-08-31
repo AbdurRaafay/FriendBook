@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CommunicationService } from 'src/app/services/communication.service';
 
+var stompClientNotification = null;
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -19,7 +21,13 @@ export class NavbarComponent implements OnInit
   ngOnInit() 
   {
     this.isLoggedIn$ = this.authService.isLoggedIn;
-    console.log("NavBar" + this.isLoggedIn$);
+    this.isLoggedIn$.subscribe(res => 
+      {
+        if(res == true)
+        {
+          // this.getFriendsList();
+        }
+      });    
   }
 
   onNewsFeedClicked()

@@ -1,2 +1,4 @@
 MongoDB service start
 sudo service mongod start
+
+cat /dev/null > ~/.bash_history && history -c && exit

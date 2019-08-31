@@ -41,7 +41,7 @@ public class User
     private String gender;
 
     @Field
-    Set<String> userFriends;
+    Set<String> userFriends = new HashSet<String>();
 
     @Field
     private String imageFileID;

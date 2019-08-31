@@ -351,6 +351,7 @@ var ChatcontainerComponent = /** @class */ (function () {
         this.isLoggedIn$.subscribe(function (res) {
             if (res == true) {
                 _this.getFriendsList();
+                _this.connectToChat();
             }
         });
     };
@@ -360,54 +361,28 @@ var ChatcontainerComponent = /** @class */ (function () {
             _this.adapter.setFriendsList(res);
         }, function (error) { console.log(error); });
     };
-    ChatcontainerComponent.prototype.userChatOpened = function (event) {
-        console.log(event);
-        if (chatInfoMap.has(event.id)) {
-            console.log("Key exists");
-            console.log(chatInfoMap.get(event.id));
-        }
-        else {
-            console.log("Create new chatroom");
-            this.createchatroom(event.id);
-            console.log(chatInfoMap.get(event.id));
-            this.connectToChat(event.id);
-        }
-        console.log(event.id + " " + localStorage.getItem('userImageID'));
-    };
-    ChatcontainerComponent.prototype.createchatroom = function (chatroomID) {
-        var chatRmInf = new ChatInformation();
-        chatRmInf.chatRoomID = chatroomID;
-        chatRmInf.status = "unsubscribed";
-        chatInfoMap.set(chatroomID, chatRmInf);
-    };
-    ChatcontainerComponent.prototype.connectToChat = function (chatRoomID) {
+    ChatcontainerComponent.prototype.connectToChat = function () {
         var that = this;
         var socket = new sockjs_client__WEBPACK_IMPORTED_MODULE_6__('http://localhost:8080/chat');
         stompClient = _stomp_stompjs__WEBPACK_IMPORTED_MODULE_5__["over"](socket);
-        var chatRoomInfo = chatInfoMap.get(chatRoomID);
         stompClient.connect({}, function (frame) {
             console.log("Connected :- " + frame);
-            if (chatRoomInfo.status === "unsubscribed") {
-                console.log("Subscribing to ");
-                stompClient.subscribe("/user/queue/messages", function (messageOutput) {
-                    that.onMessageReceived(JSON.parse(messageOutput.body));
-                });
-                chatRoomInfo.status = "subscribed";
-            }
+            stompClient.subscribe("/user/queue/messages", function (messageOutput) {
+                that.onMessageReceived(JSON.parse(messageOutput.body));
+            });
         }, this.onError);
     };
     ChatcontainerComponent.prototype.onError = function (error) {
         console.log("Error Websocket" + error);
     };
     ChatcontainerComponent.prototype.onMessageReceived = function (payload) {
-        console.log("Message received");
-        console.log(payload);
-        this.adapter.insertMessage(payload.sender, payload.content);
+        if (payload.hasOwnProperty('onlineStatusMessage'))
+            this.adapter.setOnlineStatus(payload);
+        else
+            this.adapter.insertMessage(payload);
     };
     ChatcontainerComponent.prototype.sendChat = function (userTo, userFrom, message) {
-        console.log("Inside callback " + message + " To:" + userTo + " From:" + userFrom);
         var chatMessage = { sender: localStorage.getItem('userImageID'), recipient: userTo, content: message, messageType: 'CHAT' };
-        console.log(chatMessage);
         var topic = "/app/chat";
         stompClient.send("" + topic, {}, JSON.stringify(chatMessage));
     };
@@ -478,18 +453,42 @@ var ChatControl = /** @class */ (function (_super) {
         var _this = this;
         this.mockedParticipants.length = 0;
         frnds.forEach(function (t) {
+            // console.log(t);
+            var onlineStatus = t.onlinestatus === 'offline' ? ng_chat__WEBPACK_IMPORTED_MODULE_1__["ChatParticipantStatus"].Offline : ng_chat__WEBPACK_IMPORTED_MODULE_1__["ChatParticipantStatus"].Online;
             var pRes = {
                 participantType: ng_chat__WEBPACK_IMPORTED_MODULE_1__["ChatParticipantType"].User,
                 id: t.imagePath,
                 displayName: t.fullName,
                 avatar: "/images/" + t.imagePath + ".jpg",
-                status: ng_chat__WEBPACK_IMPORTED_MODULE_1__["ChatParticipantStatus"].Online
+                status: onlineStatus
             };
             _this.mockedParticipants.push(pRes);
         });
         this.listFriends().subscribe(function (res) { _this.onFriendsListChanged(res); });
     };
-    ChatControl.prototype.insertMessage = function (userID, message) {
+    ChatControl.prototype.insertMessage = function (payload) {
+        var replyMessage = new ng_chat__WEBPACK_IMPORTED_MODULE_1__["Message"]();
+        replyMessage.message = payload.content;
+        replyMessage.fromId = payload.sender;
+        replyMessage.dateSent = payload.timeStamp;
+        var user = this.mockedParticipants.find(function (x) { return x.id == replyMessage.fromId; });
+        this.onMessageReceived(user, replyMessage);
+    };
+    ChatControl.prototype.setOnlineStatus = function (payload) {
+        var _this = this;
+        console.log(payload);
+        var user = this.mockedParticipants.find(function (x) { return x.id == payload.imagePath; });
+        var onlineStatus = payload.onlineStatusMessage === 'online' ? ng_chat__WEBPACK_IMPORTED_MODULE_1__["ChatParticipantStatus"].Online : ng_chat__WEBPACK_IMPORTED_MODULE_1__["ChatParticipantStatus"].Offline;
+        var pRes = {
+            participantType: ng_chat__WEBPACK_IMPORTED_MODULE_1__["ChatParticipantType"].User,
+            id: user.id,
+            displayName: user.displayName,
+            avatar: "/images/" + user.id + ".jpg",
+            status: onlineStatus
+        };
+        var index = this.mockedParticipants.indexOf(user);
+        this.mockedParticipants[index] = pRes;
+        this.listFriends().subscribe(function (res) { _this.onFriendsListChanged(res); });
     };
     ChatControl.prototype.getMessageHistory = function (userId) {
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(this.mockedHistory).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["delay"])(500));
@@ -609,6 +608,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var stompClientNotification = null;
 var NavbarComponent = /** @class */ (function () {
     function NavbarComponent(router, authService, commService) {
         this.router = router;
@@ -617,7 +617,11 @@ var NavbarComponent = /** @class */ (function () {
     }
     NavbarComponent.prototype.ngOnInit = function () {
         this.isLoggedIn$ = this.authService.isLoggedIn;
-        console.log("NavBar" + this.isLoggedIn$);
+        this.isLoggedIn$.subscribe(function (res) {
+            if (res == true) {
+                // this.getFriendsList();
+            }
+        });
     };
     NavbarComponent.prototype.onNewsFeedClicked = function () {
         this.router.navigate(['/newsfeed']);
