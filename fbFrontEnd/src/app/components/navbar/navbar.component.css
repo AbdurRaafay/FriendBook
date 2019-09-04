@@ -1,11 +1,9 @@
 .nav-bar-friendbook
 {
-    text-align: center;
     width: 100%;
     top: 0;
     position: fixed;
-    background-color: #f2f2f2;
-    z-index: 999;
+    background-color: #b6bedf;
 }
 
 .nav-item-title
@@ -18,31 +16,16 @@
     margin-left: 10px;
 }
 
-.nav-item-notification
-{
-    float: right;
-    margin-right: 10px;
-    margin-top: 2px;
-}
-
-.nav-item-newsfeed
-{
-    float: right;
-    margin-right: 10px;
-    margin-top: 2px;
-}
-
-.nav-item-wall
-{
-    float: right;
-    margin-right: 10px;
-    margin-top: 2px;
-}
-
-input[type=search]
+.nav-bar-search
 {
     float: left;
-    width: 40%;
-    height: 40px;
-    margin-top: 10px;
+    width: 80%;
+    height: 50px;
+    margin-right: 150px;
+}
+
+.nav-bar-notification, .nav-bar-newsfeed, .nav-bar-wall, .nav-bar-logout
+{
+    margin-right: 10px;
+    margin-left: 10px;
 }

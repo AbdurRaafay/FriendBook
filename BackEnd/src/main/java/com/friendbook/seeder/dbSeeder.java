@@ -19,6 +19,7 @@ import com.friendbook.model.Comment;
 import com.friendbook.model.Post;
 import com.friendbook.model.User;
 import com.friendbook.repository.mongorepo.PostRepository;
+import com.friendbook.service.NotificationService;
 import com.friendbook.utility.SecurityUtility;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,13 +73,17 @@ public class dbSeeder implements CommandLineRunner
     @Autowired
     private UserFeedRepository usrfdrep;
 
+    @Autowired
+    private NotificationService notSrv;
+
     @Override
     public void run(String...strings) throws Exception
     {
         this.mongoOps = new MongoTemplate(new MongoClient("localhost", 27017), "FriendBookDB");
 
-        //InitializeMongoDB();
+        InitializeMongoDB();
         InitializeRedisCache();
+        notSrv.processNotification();
         System.out.println("************************************************Done************************************************");
     }
 

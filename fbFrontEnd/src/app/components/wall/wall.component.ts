@@ -57,7 +57,7 @@ export class WallComponent implements OnInit
           (<NewpostComponent>componentRef.instance).dislikes = abc.dislikes;
           (<NewpostComponent>componentRef.instance).numComments = abc.numComments;
           (<NewpostComponent>componentRef.instance).imagePath = abc.imgPath;
-          (<NewpostComponent>componentRef.instance).timestamp = abc.posttime as Date;
+          (<NewpostComponent>componentRef.instance).timestamp = abc.posttime;
           (<NewpostComponent>componentRef.instance).feedID = abc.id;
           (<NewpostComponent>componentRef.instance).locklikedislikes = abc.locklikedislikes;
         }
@@ -79,7 +79,7 @@ export class WallComponent implements OnInit
           (<NewpostComponent>componentRef.instance).dislikes = 0;
           (<NewpostComponent>componentRef.instance).numComments = 0;
           (<NewpostComponent>componentRef.instance).imagePath = localStorage.getItem('userImageID');
-          (<NewpostComponent>componentRef.instance).timestamp = new Date();
+          (<NewpostComponent>componentRef.instance).timestamp = (new Date()).toDateString();
           (<NewpostComponent>componentRef.instance).feedID = "";  
         });  
     }

@@ -127,7 +127,7 @@ public class MainController
         System.out.println(tmp);
         if(tmp != null)
         {
-            Notification ntf = new Notification(usrID, date, tmp, Notification.NotificationType.NEWPOST);
+            Notification ntf = new Notification(usrID, date, tmp, Notification.NotificationType.NEWPOST, false);
             notrepo.insertNotification(ntf);
             return new ResponseEntity<>(tmp, HttpStatus.OK);
         }
@@ -144,7 +144,7 @@ public class MainController
         System.out.println("PostID " + PostID + "Comment " + Comment);
         pcrep.insert(pc);
         fprep.updateNumComments(PostID);
-        Notification ntf = new Notification(usrID, date, PostID, Notification.NotificationType.COMMENT);
+        Notification ntf = new Notification(usrID, date, PostID, Notification.NotificationType.COMMENT, false);
         notrepo.insertNotification(ntf);
     }
 
@@ -154,7 +154,7 @@ public class MainController
         fprep.updateLikes(PostID);
         Date date = new Date();
         String usrID = getUserIDFromPricipal(principal);
-        Notification ntf = new Notification(usrID, date, PostID, Notification.NotificationType.LIKE);
+        Notification ntf = new Notification(usrID, date, PostID, Notification.NotificationType.LIKE, false);
         notrepo.insertNotification(ntf);
     }
 
@@ -164,7 +164,7 @@ public class MainController
         fprep.updateDisLikes(PostID);
         Date date = new Date();
         String usrID = getUserIDFromPricipal(principal);
-        Notification ntf = new Notification(usrID, date, PostID, Notification.NotificationType.DISLIKE);
+        Notification ntf = new Notification(usrID, date, PostID, Notification.NotificationType.DISLIKE, false);
         notrepo.insertNotification(ntf);
     }
 

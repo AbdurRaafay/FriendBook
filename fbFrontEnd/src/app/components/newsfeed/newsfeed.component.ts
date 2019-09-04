@@ -58,7 +58,7 @@ export class NewsfeedComponent implements OnInit
         (<NewpostComponent>componentRef.instance).dislikes = abc.dislikes;
         (<NewpostComponent>componentRef.instance).numComments = abc.numComments;
         (<NewpostComponent>componentRef.instance).imagePath = abc.imgPath;
-        (<NewpostComponent>componentRef.instance).timestamp = abc.posttime as Date;
+        (<NewpostComponent>componentRef.instance).timestamp = abc.posttime;
         (<NewpostComponent>componentRef.instance).feedID = abc.id;
       }
     }, 

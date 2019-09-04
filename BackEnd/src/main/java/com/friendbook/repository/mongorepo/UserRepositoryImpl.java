@@ -7,6 +7,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Repository
 public class UserRepositoryImpl implements UserRepository
 {
@@ -33,12 +36,7 @@ public class UserRepositoryImpl implements UserRepository
     @Override
     public String getFullNameByID(String userID)
     {
-        User usr = null;
-
-        Query query = new Query();
-        query.addCriteria(Criteria.where("id").is(userID));
-        usr = mongoTemplate.findOne(query, User.class);
-
+        User usr = getUserFromUserID(userID);
         if (usr == null)
         {
             System.out.println("User is null for ID " + userID);
@@ -54,11 +52,7 @@ public class UserRepositoryImpl implements UserRepository
     @Override
     public String getImageByID(String userID)
     {
-        User usr;
-
-        Query query = new Query();
-        query.addCriteria(Criteria.where("id").is(userID));
-        usr = mongoTemplate.findOne(query, User.class);
+        User usr = getUserFromUserID(userID);
         if(usr != null)
         {
             String image = usr.getImageFileID();
@@ -84,5 +78,35 @@ public class UserRepositoryImpl implements UserRepository
         }
         else
             return null;
+    }
+
+    @Override
+    public Set<String> getFriendListFromUsrID(String userID)
+    {
+        Set<String> lstfrnds = new HashSet<String>();
+
+        User usr = getUserFromUserID(userID);
+
+        if (usr == null)
+        {
+            System.out.println("User is null for ID " + userID);
+        }
+        else
+        {
+            lstfrnds = usr.getUserFriends();
+        }
+
+        return lstfrnds;
+    }
+
+    private User getUserFromUserID(String usrID)
+    {
+        User usr = null;
+
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(usrID));
+        usr = mongoTemplate.findOne(query, User.class);
+
+        return usr;
     }
 }

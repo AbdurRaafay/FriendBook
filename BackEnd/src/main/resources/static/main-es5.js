@@ -41,7 +41,7 @@ module.exports = "<app-navbar></app-navbar>\n<app-chatcontainer></app-chatcontai
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class = \"\" *ngIf=\"isLoggedIn$ | async\">\n    <ng-chat class = \"container-friends\" [adapter]=\"adapter\" [userId]=\"999\" [historyEnabled]=\"true\" [historyPageSize]=\"4\" \n        [hideFriendsList]=\"false\" [audioEnabled]=\"false\" [browserNotificationsEnabled]=\"false\" (onParticipantClicked)=\"userChatOpened($event)\" >\n    </ng-chat>\n</div>"
+module.exports = "<div class = \"\" *ngIf=\"isLoggedIn$ | async\">\n    <ng-chat class = \"container-friends\" [adapter]=\"adapter\" [userId]=\"999\" [historyEnabled]=\"true\" [historyPageSize]=\"4\" \n        [hideFriendsList]=\"false\" [audioEnabled]=\"false\" [browserNotificationsEnabled]=\"false\">\n    </ng-chat>\n</div>"
 
 /***/ }),
 
@@ -63,7 +63,7 @@ module.exports = "<div class=\"login\">\n    <ul style=\"list-style-type:none\">
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"nav-bar-friendbook\" *ngIf=\"isLoggedIn$ | async\">\n    <div class=\"nav-item-title\">\n        FriendBook\n    </div>\n    <input type=\"search\" value=\"search\" id=\"navbar-search\">    \n    <div class=\"nav-item-notification\">\n        <i (click)=\"onNotificationClicked()\"><img src=\"/icons/speech-bubble.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n    <div class=\"nav-item-wall\">\n        <i (click)=\"onWallClicked()\"><img src=\"/icons/firewall.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n    <div class=\"nav-item-newsfeed\">\n        <i (click)=\"onNewsFeedClicked()\"><img src=\"/icons/home.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n </div>"
+module.exports = "<mat-toolbar class=\"nav-bar-friendbook\" *ngIf=\"isLoggedIn$ | async\">\n    <div class=\"nav-item-title\">\n        FriendBook\n    </div>\n    <div class=\"nav-bar-search\">\n        <input type=\"search\" value=\"search\">\n    </div>\n    <div class=\"nav-bar-notification\">\n        <i (click)=\"onNotificationClicked()\" [matMenuTriggerFor]=\"notificationMenu\">\n            <img src=\"/icons/notification.svg\" width=\"50\" height=\"50\">\n        </i>\n    </div>\n    <mat-menu #notificationMenu=\"matMenu\" yPosition=\"above\">\n        <button mat-menu-item>Settings</button>\n        <button mat-menu-item>Help</button>\n    </mat-menu>\n    <div class=\"nav-bar-newsfeed\">\n        <i (click)=\"onNewsFeedClicked()\"><img src=\"/icons/home.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n    <div class=\"nav-bar-wall\">\n        <i (click)=\"onWallClicked()\"><img src=\"/icons/firewall.svg\" width=\"50\" height=\"50\"></i>\n    </div>\n    <div class=\"nav-bar-logout\">\n        <i (click)=\"onLogoutClicked()\"><img src=\"/icons/logout.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n</mat-toolbar>"
 
 /***/ }),
 
@@ -200,7 +200,7 @@ var AppComponent = /** @class */ (function () {
         { type: src_app_services_scroll_service__WEBPACK_IMPORTED_MODULE_3__["ScrollService"] }
     ]; };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"])('window:scroll', ['$event'])
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["HostListener"])('window:scroll')
     ], AppComponent.prototype, "checkScroll", null);
     AppComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -231,17 +231,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var time_ago_pipe__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! time-ago-pipe */ "./node_modules/time-ago-pipe/esm5/time-ago-pipe.js");
-/* harmony import */ var ng_chat__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ng-chat */ "./node_modules/ng-chat/fesm5/ng-chat.js");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _components_newsfeed_newsfeed_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/newsfeed/newsfeed.component */ "./src/app/components/newsfeed/newsfeed.component.ts");
-/* harmony import */ var _components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/newpost/newpost.component */ "./src/app/components/newpost/newpost.component.ts");
-/* harmony import */ var _components_newpost_newpost_directive__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/newpost/newpost.directive */ "./src/app/components/newpost/newpost.directive.ts");
-/* harmony import */ var _components_login_login_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/login/login.component */ "./src/app/components/login/login.component.ts");
-/* harmony import */ var _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/wall/wall.component */ "./src/app/components/wall/wall.component.ts");
-/* harmony import */ var _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/navbar/navbar.component */ "./src/app/components/navbar/navbar.component.ts");
-/* harmony import */ var _components_chatcontainer_chatcontainer_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/chatcontainer/chatcontainer.component */ "./src/app/components/chatcontainer/chatcontainer.component.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_material_menu__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/material/menu */ "./node_modules/@angular/material/esm5/menu.es5.js");
+/* harmony import */ var time_ago_pipe__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! time-ago-pipe */ "./node_modules/time-ago-pipe/esm5/time-ago-pipe.js");
+/* harmony import */ var ng_chat__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ng-chat */ "./node_modules/ng-chat/fesm5/ng-chat.js");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _components_newsfeed_newsfeed_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/newsfeed/newsfeed.component */ "./src/app/components/newsfeed/newsfeed.component.ts");
+/* harmony import */ var _components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/newpost/newpost.component */ "./src/app/components/newpost/newpost.component.ts");
+/* harmony import */ var _components_newpost_newpost_directive__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/newpost/newpost.directive */ "./src/app/components/newpost/newpost.directive.ts");
+/* harmony import */ var _components_login_login_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/login/login.component */ "./src/app/components/login/login.component.ts");
+/* harmony import */ var _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/wall/wall.component */ "./src/app/components/wall/wall.component.ts");
+/* harmony import */ var _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/navbar/navbar.component */ "./src/app/components/navbar/navbar.component.ts");
+/* harmony import */ var _components_chatcontainer_chatcontainer_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/chatcontainer/chatcontainer.component */ "./src/app/components/chatcontainer/chatcontainer.component.ts");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+
+
+
 
 
 
@@ -264,26 +270,29 @@ var AppModule = /** @class */ (function () {
     AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"],
-                _components_newsfeed_newsfeed_component__WEBPACK_IMPORTED_MODULE_9__["NewsfeedComponent"],
-                _components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_10__["NewpostComponent"],
-                _components_newpost_newpost_directive__WEBPACK_IMPORTED_MODULE_11__["NPostDirective"],
-                _components_login_login_component__WEBPACK_IMPORTED_MODULE_12__["LoginComponent"],
-                _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_13__["WallComponent"],
-                _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_14__["NavbarComponent"],
-                time_ago_pipe__WEBPACK_IMPORTED_MODULE_5__["TimeAgoPipe"],
-                _components_chatcontainer_chatcontainer_component__WEBPACK_IMPORTED_MODULE_15__["ChatcontainerComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_10__["AppComponent"],
+                _components_newsfeed_newsfeed_component__WEBPACK_IMPORTED_MODULE_11__["NewsfeedComponent"],
+                _components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_12__["NewpostComponent"],
+                _components_newpost_newpost_directive__WEBPACK_IMPORTED_MODULE_13__["NPostDirective"],
+                _components_login_login_component__WEBPACK_IMPORTED_MODULE_14__["LoginComponent"],
+                _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_15__["WallComponent"],
+                _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_16__["NavbarComponent"],
+                time_ago_pipe__WEBPACK_IMPORTED_MODULE_7__["TimeAgoPipe"],
+                _components_chatcontainer_chatcontainer_component__WEBPACK_IMPORTED_MODULE_17__["ChatcontainerComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormsModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_7__["AppRoutingModule"],
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_9__["AppRoutingModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
-                ng_chat__WEBPACK_IMPORTED_MODULE_6__["NgChatModule"]
+                ng_chat__WEBPACK_IMPORTED_MODULE_8__["NgChatModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_18__["NoopAnimationsModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatToolbarModule"],
+                _angular_material_menu__WEBPACK_IMPORTED_MODULE_6__["MatMenuModule"]
             ],
             providers: [],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_8__["AppComponent"]],
-            entryComponents: [_components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_10__["NewpostComponent"]]
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_10__["AppComponent"]],
+            entryComponents: [_components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_12__["NewpostComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -584,7 +593,7 @@ var LoginComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".nav-bar-friendbook\n{\n    text-align: center;\n    width: 100%;\n    top: 0;\n    position: fixed;\n    background-color: #f2f2f2;\n    z-index: 999;\n}\n\n.nav-item-title\n{\n    float: left;    \n    font-style: italic;\n    font-size: 50px;\n    font-family: \"Times New Roman\", Times, serif;\n    margin-right: 50px;\n    margin-left: 10px;\n}\n\n.nav-item-notification\n{\n    float: right;\n    margin-right: 10px;\n    margin-top: 2px;\n}\n\n.nav-item-newsfeed\n{\n    float: right;\n    margin-right: 10px;\n    margin-top: 2px;\n}\n\n.nav-item-wall\n{\n    float: right;\n    margin-right: 10px;\n    margin-top: 2px;\n}\n\ninput[type=search]\n{\n    float: left;\n    width: 40%;\n    height: 40px;\n    margin-top: 10px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uYXZiYXIvbmF2YmFyLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0lBRUksa0JBQWtCO0lBQ2xCLFdBQVc7SUFDWCxNQUFNO0lBQ04sZUFBZTtJQUNmLHlCQUF5QjtJQUN6QixZQUFZO0FBQ2hCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLDRDQUE0QztJQUM1QyxrQkFBa0I7SUFDbEIsaUJBQWlCO0FBQ3JCOztBQUVBOztJQUVJLFlBQVk7SUFDWixrQkFBa0I7SUFDbEIsZUFBZTtBQUNuQjs7QUFFQTs7SUFFSSxZQUFZO0lBQ1osa0JBQWtCO0lBQ2xCLGVBQWU7QUFDbkI7O0FBRUE7O0lBRUksWUFBWTtJQUNaLGtCQUFrQjtJQUNsQixlQUFlO0FBQ25COztBQUVBOztJQUVJLFdBQVc7SUFDWCxVQUFVO0lBQ1YsWUFBWTtJQUNaLGdCQUFnQjtBQUNwQiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvbmF2YmFyL25hdmJhci5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLm5hdi1iYXItZnJpZW5kYm9va1xue1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICB3aWR0aDogMTAwJTtcbiAgICB0b3A6IDA7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIGJhY2tncm91bmQtY29sb3I6ICNmMmYyZjI7XG4gICAgei1pbmRleDogOTk5O1xufVxuXG4ubmF2LWl0ZW0tdGl0bGVcbntcbiAgICBmbG9hdDogbGVmdDsgICAgXG4gICAgZm9udC1zdHlsZTogaXRhbGljO1xuICAgIGZvbnQtc2l6ZTogNTBweDtcbiAgICBmb250LWZhbWlseTogXCJUaW1lcyBOZXcgUm9tYW5cIiwgVGltZXMsIHNlcmlmO1xuICAgIG1hcmdpbi1yaWdodDogNTBweDtcbiAgICBtYXJnaW4tbGVmdDogMTBweDtcbn1cblxuLm5hdi1pdGVtLW5vdGlmaWNhdGlvblxue1xuICAgIGZsb2F0OiByaWdodDtcbiAgICBtYXJnaW4tcmlnaHQ6IDEwcHg7XG4gICAgbWFyZ2luLXRvcDogMnB4O1xufVxuXG4ubmF2LWl0ZW0tbmV3c2ZlZWRcbntcbiAgICBmbG9hdDogcmlnaHQ7XG4gICAgbWFyZ2luLXJpZ2h0OiAxMHB4O1xuICAgIG1hcmdpbi10b3A6IDJweDtcbn1cblxuLm5hdi1pdGVtLXdhbGxcbntcbiAgICBmbG9hdDogcmlnaHQ7XG4gICAgbWFyZ2luLXJpZ2h0OiAxMHB4O1xuICAgIG1hcmdpbi10b3A6IDJweDtcbn1cblxuaW5wdXRbdHlwZT1zZWFyY2hdXG57XG4gICAgZmxvYXQ6IGxlZnQ7XG4gICAgd2lkdGg6IDQwJTtcbiAgICBoZWlnaHQ6IDQwcHg7XG4gICAgbWFyZ2luLXRvcDogMTBweDtcbn0iXX0= */"
+module.exports = ".nav-bar-friendbook\n{\n    width: 100%;\n    top: 0;\n    position: fixed;\n    background-color: #b6bedf;\n}\n\n.nav-item-title\n{\n    float: left;    \n    font-style: italic;\n    font-size: 50px;\n    font-family: \"Times New Roman\", Times, serif;\n    margin-right: 50px;\n    margin-left: 10px;\n}\n\n.nav-bar-search\n{\n    float: left;\n    width: 80%;\n    height: 50px;\n    margin-right: 150px;\n}\n\n.nav-bar-notification, .nav-bar-newsfeed, .nav-bar-wall, .nav-bar-logout\n{\n    margin-right: 10px;\n    margin-left: 10px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uYXZiYXIvbmF2YmFyLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0lBRUksV0FBVztJQUNYLE1BQU07SUFDTixlQUFlO0lBQ2YseUJBQXlCO0FBQzdCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLDRDQUE0QztJQUM1QyxrQkFBa0I7SUFDbEIsaUJBQWlCO0FBQ3JCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxVQUFVO0lBQ1YsWUFBWTtJQUNaLG1CQUFtQjtBQUN2Qjs7QUFFQTs7SUFFSSxrQkFBa0I7SUFDbEIsaUJBQWlCO0FBQ3JCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9uYXZiYXIvbmF2YmFyLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIubmF2LWJhci1mcmllbmRib29rXG57XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgdG9wOiAwO1xuICAgIHBvc2l0aW9uOiBmaXhlZDtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjYjZiZWRmO1xufVxuXG4ubmF2LWl0ZW0tdGl0bGVcbntcbiAgICBmbG9hdDogbGVmdDsgICAgXG4gICAgZm9udC1zdHlsZTogaXRhbGljO1xuICAgIGZvbnQtc2l6ZTogNTBweDtcbiAgICBmb250LWZhbWlseTogXCJUaW1lcyBOZXcgUm9tYW5cIiwgVGltZXMsIHNlcmlmO1xuICAgIG1hcmdpbi1yaWdodDogNTBweDtcbiAgICBtYXJnaW4tbGVmdDogMTBweDtcbn1cblxuLm5hdi1iYXItc2VhcmNoXG57XG4gICAgZmxvYXQ6IGxlZnQ7XG4gICAgd2lkdGg6IDgwJTtcbiAgICBoZWlnaHQ6IDUwcHg7XG4gICAgbWFyZ2luLXJpZ2h0OiAxNTBweDtcbn1cblxuLm5hdi1iYXItbm90aWZpY2F0aW9uLCAubmF2LWJhci1uZXdzZmVlZCwgLm5hdi1iYXItd2FsbCwgLm5hdi1iYXItbG9nb3V0XG57XG4gICAgbWFyZ2luLXJpZ2h0OiAxMHB4O1xuICAgIG1hcmdpbi1sZWZ0OiAxMHB4O1xufSJdfQ== */"
 
 /***/ }),
 
@@ -592,36 +601,69 @@ module.exports = ".nav-bar-friendbook\n{\n    text-align: center;\n    width: 10
 /*!*******************************************************!*\
   !*** ./src/app/components/navbar/navbar.component.ts ***!
   \*******************************************************/
-/*! exports provided: NavbarComponent */
+/*! exports provided: MenuItem, NavbarComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuItem", function() { return MenuItem; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavbarComponent", function() { return NavbarComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
 /* harmony import */ var src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/communication.service */ "./src/app/services/communication.service.ts");
+/* harmony import */ var _stomp_stompjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @stomp/stompjs */ "./node_modules/@stomp/stompjs/index.js");
+/* harmony import */ var _stomp_stompjs__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_stomp_stompjs__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var sockjs_client__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! sockjs-client */ "./node_modules/sockjs-client/lib/entry.js");
+/* harmony import */ var sockjs_client__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(sockjs_client__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+
+
+
 
 
 
 
 
 var stompClientNotification = null;
+var MenuItem = /** @class */ (function () {
+    function MenuItem() {
+    }
+    return MenuItem;
+}());
+
 var NavbarComponent = /** @class */ (function () {
     function NavbarComponent(router, authService, commService) {
         this.router = router;
         this.authService = authService;
         this.commService = commService;
+        this.mainMenuItems = [{ path: 'abc', title: 'xyz' }, { path: 'ding', title: 'dong' }];
     }
     NavbarComponent.prototype.ngOnInit = function () {
+        var _this = this;
         this.isLoggedIn$ = this.authService.isLoggedIn;
         this.isLoggedIn$.subscribe(function (res) {
             if (res == true) {
-                // this.getFriendsList();
+                _this.connectToNotification();
             }
         });
+    };
+    NavbarComponent.prototype.connectToNotification = function () {
+        var that = this;
+        var socket = new sockjs_client__WEBPACK_IMPORTED_MODULE_6__('http://localhost:8080/notification');
+        stompClientNotification = _stomp_stompjs__WEBPACK_IMPORTED_MODULE_5__["over"](socket);
+        stompClientNotification.connect({}, function (frame) {
+            console.log("Notification Connected :- " + frame);
+            stompClientNotification.subscribe("/user/notificationqeue/messages", function (messageOutput) {
+                that.onNotificationMessageReceived(JSON.parse(messageOutput.body));
+            });
+        }, this.onNotificationError);
+    };
+    NavbarComponent.prototype.onNotificationError = function (error) {
+        console.log("Error Notification Websocket" + error);
+    };
+    NavbarComponent.prototype.onNotificationMessageReceived = function (payload) {
     };
     NavbarComponent.prototype.onNewsFeedClicked = function () {
         this.router.navigate(['/newsfeed']);
@@ -630,8 +672,9 @@ var NavbarComponent = /** @class */ (function () {
         this.router.navigate(['/wall']);
     };
     NavbarComponent.prototype.onNotificationClicked = function () {
+        console.log(this.notificationMenu.menuOpen);
     };
-    NavbarComponent.prototype.onLogout = function () {
+    NavbarComponent.prototype.onLogoutClicked = function () {
         this.authService.logout();
     };
     NavbarComponent.ctorParameters = function () { return [
@@ -639,6 +682,9 @@ var NavbarComponent = /** @class */ (function () {
         { type: src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_3__["AuthenticationService"] },
         { type: src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_4__["CommunicationService"] }
     ]; };
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])(_angular_material__WEBPACK_IMPORTED_MODULE_7__["MatMenuTrigger"], { static: false })
+    ], NavbarComponent.prototype, "notificationMenu", void 0);
     NavbarComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-navbar',
@@ -1005,7 +1051,7 @@ var WallComponent = /** @class */ (function () {
                 componentRef.instance.dislikes = 0;
                 componentRef.instance.numComments = 0;
                 componentRef.instance.imagePath = localStorage.getItem('userImageID');
-                componentRef.instance.timestamp = new Date();
+                componentRef.instance.timestamp = (new Date()).toDateString();
                 componentRef.instance.feedID = "";
             });
         }

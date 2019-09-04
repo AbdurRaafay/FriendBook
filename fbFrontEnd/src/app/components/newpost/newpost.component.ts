@@ -14,7 +14,7 @@ export class NewpostComponent
   @Input() fullName: string;
   @Input() text: string;
   @Input() imagePath: string;
-  @Input() timestamp: Date;
+  @Input() timestamp: string;
   @Input() likes: number;
   @Input() dislikes: number;
   @Input() numComments: number;

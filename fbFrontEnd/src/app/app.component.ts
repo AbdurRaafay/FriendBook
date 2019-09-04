@@ -18,7 +18,7 @@ export class AppComponent
     this.renderer.setStyle(document.body, 'background-color', 'rgb(231, 235, 242)');
   }
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll')
   checkScroll() 
   {
     let a = document.documentElement.scrollTop;

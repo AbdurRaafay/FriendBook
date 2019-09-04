@@ -41,7 +41,7 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
         {
             strRedisTemplate.opsForHash().put(KEY, usr.getId() + "_ONLINE_STATUS", tmp);
             if(usr.getFriendCount() > 0)
-                sendOnlineNotification(usr);
+                sendOnlineStatusNotification(usr, "online");
             System.out.println("Online " + usr.getEmail() + " " + usr.getId());
         }
     }
@@ -89,18 +89,16 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
     }
 
     @Async("asyncExecutor")
-    public void sendOnlineNotification(User usr)
+    public void sendOnlineStatusNotification(User usr, String status)
     {
         Set<String> friends = usr.getUserFriends();
-        System.out.println("Sending Online Notification");
         friends.forEach(f->
         {
             String name = isUserOnline(f);
             if(!name.equals("offline"))
             {
-                System.out.println("Online Notification to " + name);
                 Map<String, Object> map = new HashMap<>();
-                map.put("onlineStatusMessage", "online");
+                map.put("onlineStatusMessage", status);
                 map.put("imagePath", usr.getImageFileID());
                 messagingTemplate.convertAndSendToUser(name, "/queue/messages", map);
             }
