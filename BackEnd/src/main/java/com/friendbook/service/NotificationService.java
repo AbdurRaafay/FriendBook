@@ -13,6 +13,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PreDestroy;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -70,6 +72,7 @@ public class NotificationService
     public void sendNotification()
     {
         Set<String> sentNotifications = new HashSet<>();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         while(!shutdown)
         {
             List<Map<String, String>> onlineUsrLst = ousrrep.getOnlineUsersList();
@@ -79,7 +82,19 @@ public class NotificationService
                 {
                     String status = oul.get("Info");
                     String[] info = status.split(",");
-                    if(!info[2].equals("Lock"))//Dont send notifications before websocket connection is established
+                    long diff = 0;
+                    try
+                    {
+                        Date d1 = format.parse(info[2] + " " + info[3]);
+                        Date d2 = new Date();
+                        diff = (d2.getTime() - d1.getTime())/1000;//Convert diff to seconds
+                        //System.out.println(diff);
+                    }
+                    catch (ParseException e)
+                    {
+                        System.out.println(e);
+                    }
+                    if(diff > 10)//Dont send notifications before websocket connection is established
                     {
                         List<NotifiedUser> nuLst = ntusrrepo.getNotifiedUser(info[0]);
                         if (nuLst != null && !nuLst.isEmpty())
@@ -109,10 +124,6 @@ public class NotificationService
         }
     }
 
-    public void getUserNotifications()
-    {
-
-    }
     @PreDestroy
     private void beandestroy()
     {

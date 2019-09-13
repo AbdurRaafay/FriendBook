@@ -83,8 +83,8 @@ public class dbSeeder implements CommandLineRunner
 
         //InitializeMongoDB();
         InitializeRedisCache();
-        //notSrv.processNotification();
-        //notSrv.sendNotification();
+        notSrv.processNotification();
+        notSrv.sendNotification();
         System.out.println("************************************************Done************************************************");
     }
 

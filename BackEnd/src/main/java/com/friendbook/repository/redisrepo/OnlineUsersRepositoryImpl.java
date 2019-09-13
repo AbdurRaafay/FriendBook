@@ -102,7 +102,7 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
             {
                 Map<String,String> hm = new HashMap<>();
                 hm.put("Info", key.substring(0,24) + "," + value.substring(83,value.length()-2) +
-                        "," + "Lock");
+                        "," + value.substring(30,40) + "," + value.substring(41,49));
                 frndLst.add(hm);
             }
         });
