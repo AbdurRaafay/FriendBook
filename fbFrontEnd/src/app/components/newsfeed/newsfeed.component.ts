@@ -33,10 +33,8 @@ export class NewsfeedComponent implements OnInit
     this.getFeedPosts();
     this.scrSrv.scrollObs.subscribe(res=>
       {
-        console.log(res.text);
         if(res.text === 'newsfeed')
         {
-          console.log(res);
           this.getFeedPosts();
         }
       });
@@ -59,7 +57,8 @@ export class NewsfeedComponent implements OnInit
         (<NewpostComponent>componentRef.instance).numComments = abc.numComments;
         (<NewpostComponent>componentRef.instance).imagePath = abc.imgPath;
         (<NewpostComponent>componentRef.instance).timestamp = abc.posttime;
-        (<NewpostComponent>componentRef.instance).feedID = abc.id;
+        (<NewpostComponent>componentRef.instance).feedID = abc.id;        
+        (<NewpostComponent>componentRef.instance).locklikedislikes = abc.locklikesdislikes === 'true' ? true : false;
       }
     }, 
     error => { console.log(error); this.nomoreposts = true });

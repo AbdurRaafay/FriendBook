@@ -9,5 +9,6 @@ public interface UserRepository
     String getFullNameByID(String userID);
     String getImageByID(String userID);
     String getUserIDFromImageByID(String imageID);
+    String getEmailFromID(String userID);
     Set<String> getFriendListFromUsrID(String userID);
 }

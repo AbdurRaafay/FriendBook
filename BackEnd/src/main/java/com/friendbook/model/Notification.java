@@ -32,7 +32,11 @@ public class Notification
     private NotificationType ntype;
 
     @Field
-    private boolean isprocessed = false;
+    private boolean isProcessed = false;
+
+    public String getId() {
+        return id;
+    }
 
     public String getAuthorID() {
         return authorID;
@@ -66,27 +70,30 @@ public class Notification
         this.entityID = entityID;
     }
 
-    public boolean isIsprocessed() {
-        return isprocessed;
+    public boolean isProcessed() {
+        return isProcessed;
     }
 
-    public void setIsprocessed(boolean isprocessed) {
-        this.isprocessed = isprocessed;
+    public void setProcessed(boolean processed) {
+        isProcessed = processed;
     }
 
-    public Notification(String authorID, Date posttime, String entityID, NotificationType ntype, boolean isprocessed)
-    {
+    public Notification(String authorID, Date nottime, String entityID, NotificationType ntype) {
         this.authorID = authorID;
-        this.nottime = posttime;
+        this.nottime = nottime;
         this.entityID = entityID;
         this.ntype = ntype;
-        this.isprocessed = isprocessed;
     }
 
     @Override
-    public String toString()
-    {
-        return "Notification{" + "id='" + id + '\'' + ", authorID='" + authorID + '\'' + ", posttime=" + nottime +
-                ", entityID='" + entityID + '\'' + ", ntype=" + ntype + ", isprocessed=" + isprocessed + '}';
+    public String toString() {
+        return "Notification{" +
+                "id='" + id + '\'' +
+                ", authorID='" + authorID + '\'' +
+                ", nottime=" + nottime +
+                ", entityID='" + entityID + '\'' +
+                ", ntype=" + ntype +
+                ", isProcessed=" + isProcessed +
+                '}';
     }
 }

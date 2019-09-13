@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -22,25 +23,35 @@ public class NotificationRepositoryImpl implements NotificationRepository
     }
 
     @Override
-    public void deleteProcessedNotification(Notification ntf)
-    {
-
-    }
-
-    @Override
     public void insertNotification(Notification ntf)
     {
         mongoTemplate.insert(ntf);
     }
 
     @Override
-    public List<Notification> getNotifications()
+    public void updateNotificationStatus(String ntfID, boolean status)
+    {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(ntfID));
+        mongoTemplate.updateFirst(query, new Update().set("isProcessed", status), Notification.class);
+    }
+
+    @Override
+    public List<Notification> getAllNotifications()
     {
         List<Notification> lstNtf;
         Query query = new Query();
-        query.addCriteria(Criteria.where("isprocessed").is(false));
-        query.with(new Sort(Sort.Direction.DESC,"nottime"));
+        query.addCriteria(Criteria.where("isProcessed").is(false));
+        query.with(new Sort(Sort.Direction.DESC, "nottime"));
         lstNtf = mongoTemplate.find(query, Notification.class);
         return lstNtf;
+    }
+
+    @Override
+    public Notification getNotification(String ntID)
+    {
+        Notification ntf;
+        ntf = mongoTemplate.findById(ntID, Notification.class);
+        return ntf;
     }
 }

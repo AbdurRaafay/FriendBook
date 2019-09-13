@@ -84,9 +84,7 @@ public class UserRepositoryImpl implements UserRepository
     public Set<String> getFriendListFromUsrID(String userID)
     {
         Set<String> lstfrnds = new HashSet<String>();
-
         User usr = getUserFromUserID(userID);
-
         if (usr == null)
         {
             System.out.println("User is null for ID " + userID);
@@ -95,8 +93,22 @@ public class UserRepositoryImpl implements UserRepository
         {
             lstfrnds = usr.getUserFriends();
         }
-
         return lstfrnds;
+    }
+
+    @Override
+    public String getEmailFromID(String userID)
+    {
+        User usr = getUserFromUserID(userID);
+        if (usr == null)
+        {
+            System.out.println("User is null for ID " + userID);
+            return null;
+        }
+        else
+        {
+            return usr.getEmail();
+        }
     }
 
     private User getUserFromUserID(String usrID)

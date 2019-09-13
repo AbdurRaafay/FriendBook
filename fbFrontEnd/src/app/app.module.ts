@@ -15,8 +15,9 @@ import { NPostDirective } from './components/newpost/newpost.directive';
 import { LoginComponent } from './components/login/login.component';
 import { WallComponent } from './components/wall/wall.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { ChatcontainerComponent } from './components/chatcontainer/chatcontainer.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SinglepostComponent } from './components/singlepost/singlepost.component';
+import { OtherwallComponent } from './components/otherwall/otherwall.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
     WallComponent,
     NavbarComponent,
     TimeAgoPipe,
-    ChatcontainerComponent
+    SinglepostComponent,
+    OtherwallComponent
   ],
   imports: [
     BrowserModule,

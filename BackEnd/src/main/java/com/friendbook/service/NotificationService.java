@@ -1,51 +1,122 @@
 package com.friendbook.service;
 
 import com.friendbook.model.Notification;
+import com.friendbook.model.NotifiedUser;
 import com.friendbook.repository.mongorepo.NotificationRepository;
+import com.friendbook.repository.mongorepo.NotifiedUserRepository;
 import com.friendbook.repository.mongorepo.UserRepository;
+import com.friendbook.repository.redisrepo.OnlineUsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Set;
+import javax.annotation.PreDestroy;
+import java.util.*;
 
 @Service
 public class NotificationService
 {
-
     @Autowired
     private NotificationRepository notrepo;
 
     @Autowired
+    private NotifiedUserRepository notusrrepo;
+
+    @Autowired
     private UserRepository usrrep;
 
-    @Async("asyncExecutor")
+    @Autowired
+    private NotifiedUserRepository ntusrrepo;
+
+    @Autowired
+    private OnlineUsersRepository ousrrep;
+
+    @Autowired
+    private SimpMessageSendingOperations messagingTemplate;
+
+    private boolean shutdown = false;
+
+    @Async
     public void processNotification()
     {
-        try
+        while(!shutdown)
         {
-            while(true)
+            List<Notification> notificationsList = notrepo.getAllNotifications();
+            if (notificationsList != null && !notificationsList.isEmpty())
             {
-                List<Notification> notificationsList = notrepo.getNotifications();
-                if (notificationsList != null && !notificationsList.isEmpty())
+                for(Notification nt : notificationsList)
                 {
-                    for(Notification nt : notificationsList)
+                    String usrID = nt.getAuthorID();
+                    Set<String> lstFriends = usrrep.getFriendListFromUsrID(usrID);
+                    if (lstFriends != null && !lstFriends.isEmpty())
                     {
-                        String usrID = nt.getAuthorID();
-                        Set<String> lstFriends = usrrep.getFriendListFromUsrID(usrID);
-                        if (lstFriends != null && !lstFriends.isEmpty())
+                        List<NotifiedUser> lstNu = new ArrayList<>();
+                        for(String frnd : lstFriends)
                         {
+                            NotifiedUser nu = new NotifiedUser(frnd, nt.getId(), false);
+                            lstNu.add(nu);
+                        }
+                        notusrrepo.insertNotifiedUser(lstNu);
+                    }
+                    notrepo.updateNotificationStatus(nt.getId(), true);
+                }
+            }
+        }
+    }
 
+    @Async
+    public void sendNotification()
+    {
+        Set<String> sentNotifications = new HashSet<>();
+        while(!shutdown)
+        {
+            List<Map<String, String>> onlineUsrLst = ousrrep.getOnlineUsersList();
+            if (onlineUsrLst != null && !onlineUsrLst.isEmpty())
+            {
+                for(Map<String, String> oul : onlineUsrLst)
+                {
+                    String status = oul.get("Info");
+                    String[] info = status.split(",");
+                    if(!info[2].equals("Lock"))//Dont send notifications before websocket connection is established
+                    {
+                        List<NotifiedUser> nuLst = ntusrrepo.getNotifiedUser(info[0]);
+                        if (nuLst != null && !nuLst.isEmpty())
+                        {
+                            for(NotifiedUser nu : nuLst)
+                            {
+                                if(!sentNotifications.contains(nu.getId()))
+                                {
+                                    Notification nt = notrepo.getNotification(nu.getNotificationID());
+                                    Map<String, Object> map = new HashMap<String, Object>();
+                                    map.put("usrID", usrrep.getImageByID(nt.getAuthorID()));
+                                    map.put("time", nt.getPosttime().toString());
+                                    map.put("type", nt.getNtype().toString());
+                                    map.put("entityID", nt.getEntityID());
+                                    System.out.println(map);
+                                    String usrEmail = usrrep.getEmailFromID(nu.getNotifiedUserID());
+                                    System.out.println(usrEmail);
+                                    messagingTemplate.convertAndSendToUser(usrEmail,
+                                            "/queue/messages", map);
+                                    sentNotifications.add(nu.getId());
+                                }
+                            }
                         }
                     }
                 }
-                Thread.sleep(1000);
             }
         }
-        catch (InterruptedException e)
-        {
-            return;
-        }
     }
+
+    public void getUserNotifications()
+    {
+
+    }
+    @PreDestroy
+    private void beandestroy()
+    {
+        shutdown = true;
+    }
+
 }

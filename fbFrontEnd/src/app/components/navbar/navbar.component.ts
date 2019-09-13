@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CommunicationService } from 'src/app/services/communication.service';
 import * as Stomp from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
-import { MatMenuTrigger } from '@angular/material';
+import { MatMenuTrigger, MatMenu } from '@angular/material';
+import { WebsocketmessagingService } from 'src/app/services/websocketmessaging.service';
 
 var stompClientNotification = null;
 
@@ -21,13 +22,20 @@ export class MenuItem
   styleUrls: ['./navbar.component.css']
 })
 
-export class NavbarComponent implements OnInit 
+export class NavbarComponent implements OnInit, OnDestroy 
 {
   isLoggedIn$: Observable<boolean>;
-  mainMenuItems: MenuItem[] = [{path:'abc',title:'xyz'},{path:'ding',title:'dong'}];
+
+  menuItems: Array<{text: string, postID: string}> = 
+  [
+//    {text: "Tabledriven.Item1", postID: "123" },
+//    {text: "Tabledriven.Item2", postID: "456"},
+  ];
+  
   @ViewChild(MatMenuTrigger, {static: false}) notificationMenu: MatMenuTrigger;
 
-  constructor(private router:Router, private authService: AuthenticationService, private commService: CommunicationService) { }
+  constructor(private router:Router, private authService: AuthenticationService, private commService: CommunicationService, 
+    private wscommService: WebsocketmessagingService) {}
 
   ngOnInit() 
   {
@@ -36,37 +44,24 @@ export class NavbarComponent implements OnInit
       {
         if(res == true)
         {
-          this.connectToNotification();
+          this.wscommService.notificationObs.subscribe(res=>
+          {
+                this.onNotificationMessageReceived(res);
+          });
+
         }
       });    
   }
 
-  connectToNotification()
+  ngOnDestroy()
   {
-    var that = this;
-    const socket = new SockJS('http://localhost:8080/notification');
-    stompClientNotification = Stomp.over(socket);
-    stompClientNotification.connect({}, 
-      function(frame)
-      {
-        console.log( "Notification Connected :- " + frame );
-        stompClientNotification.subscribe(`/user/notificationqeue/messages`, 
-        function(messageOutput)
-        {
-          that.onNotificationMessageReceived(JSON.parse(messageOutput.body));
-        });
-    }, 
-      this.onNotificationError);    
-  }
-
-  onNotificationError(error:any)
-  {
-    console.log("Error Notification Websocket" + error);
+    stompClientNotification.disconnect();  
   }
 
   onNotificationMessageReceived(payload)
   {
-
+    //this.menuItems.push();
+    console.log(payload);
   }
 
   onNewsFeedClicked()
@@ -87,5 +82,10 @@ export class NavbarComponent implements OnInit
   onLogoutClicked()
   {
     this.authService.logout();
+    this.router.navigate(['/index']);
   }
+
+  select(pText :string)
+  {
+  }  
 }

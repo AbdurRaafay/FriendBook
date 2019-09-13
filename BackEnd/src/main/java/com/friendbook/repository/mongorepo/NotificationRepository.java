@@ -7,6 +7,7 @@ import java.util.List;
 public interface NotificationRepository
 {
     void insertNotification(Notification ntf);
-    void deleteProcessedNotification(Notification ntf);
-    List<Notification> getNotifications();
+    void updateNotificationStatus(String ntfID, boolean status);
+    List<Notification> getAllNotifications();
+    Notification getNotification(String ntID);
 }

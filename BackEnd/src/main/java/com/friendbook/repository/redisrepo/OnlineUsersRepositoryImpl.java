@@ -2,9 +2,7 @@ package com.friendbook.repository.redisrepo;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,8 @@ import com.friendbook.utility.RedisUtility;
 public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
 {
     private static final String KEY = "USER_STATUS";
+
+    private static final String KEY_NOTIFICATION = "USER_NOTIFICATION";
 
     @Autowired
     private StringRedisTemplate strRedisTemplate;
@@ -43,6 +43,7 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
             if(usr.getFriendCount() > 0)
                 sendOnlineStatusNotification(usr, "online");
             System.out.println("Online " + usr.getEmail() + " " + usr.getId());
+            System.out.println(getOnlineUsersList());
         }
     }
 
@@ -88,8 +89,40 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
         return "offline";
     }
 
-    @Async("asyncExecutor")
-    public void sendOnlineStatusNotification(User usr, String status)
+    @Override
+    public List<Map<String, String>> getOnlineUsersList()
+    {
+        List<Map<String, String>> frndLst = new ArrayList<>();
+        Map<Object, Object> map = strRedisTemplate.opsForHash().entries("USER_STATUS");
+        map.forEach((k,v) ->
+        {
+            String key = (String)k;
+            String value = (String)v;
+            if(value.contains("yes"))
+            {
+                Map<String,String> hm = new HashMap<>();
+                hm.put("Info", key.substring(0,24) + "," + value.substring(83,value.length()-2) +
+                        "," + "Lock");
+                frndLst.add(hm);
+            }
+        });
+        return frndLst;
+    }
+
+    @Override
+    public void putNotificationUser(String notUsrID)
+    {
+        strRedisTemplate.opsForSet().add(KEY_NOTIFICATION, notUsrID);
+    }
+
+    @Override
+    public boolean isNotificationUser(String notUsrID)
+    {
+        return strRedisTemplate.opsForSet().isMember(KEY_NOTIFICATION, notUsrID);
+    }
+
+    @Async
+    void sendOnlineStatusNotification(User usr, String status)
     {
         Set<String> friends = usr.getUserFriends();
         friends.forEach(f->

@@ -59,7 +59,7 @@ export class WallComponent implements OnInit
           (<NewpostComponent>componentRef.instance).imagePath = abc.imgPath;
           (<NewpostComponent>componentRef.instance).timestamp = abc.posttime;
           (<NewpostComponent>componentRef.instance).feedID = abc.id;
-          (<NewpostComponent>componentRef.instance).locklikedislikes = abc.locklikedislikes;
+          (<NewpostComponent>componentRef.instance).locklikedislikes = abc.locklikesdislikes === 'true' ? true : false;
         }
       }, 
       error => { console.log(error); this.wallnomoreposts = true });
@@ -80,7 +80,8 @@ export class WallComponent implements OnInit
           (<NewpostComponent>componentRef.instance).numComments = 0;
           (<NewpostComponent>componentRef.instance).imagePath = localStorage.getItem('userImageID');
           (<NewpostComponent>componentRef.instance).timestamp = (new Date()).toDateString();
-          (<NewpostComponent>componentRef.instance).feedID = "";  
+          (<NewpostComponent>componentRef.instance).feedID = res['WallPostID']; 
+          (<NewpostComponent>componentRef.instance).locklikedislikes = false; 
         });  
     }
   }  

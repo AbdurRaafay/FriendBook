@@ -1,12 +1,14 @@
 import { ChatAdapter, User, Message , ChatParticipantStatus, ParticipantResponse, IChatParticipant, ChatParticipantType } from 'ng-chat';
 import { Observable, of } from 'rxjs';
 import { delay } from "rxjs/operators";
+import { CommunicationService } from 'src/app/services/communication.service';
+import { WebsocketmessagingService } from 'src/app/services/websocketmessaging.service';
 
 export class ChatControl extends ChatAdapter
 {
+    public commService: CommunicationService;
+    public wsService: WebsocketmessagingService;
     public mockedHistory: Array<Message> = [];
-
-    public callHome: any;
     public mockedParticipants: IChatParticipant[] = 
     [
         {
@@ -17,6 +19,18 @@ export class ChatControl extends ChatAdapter
             status: ChatParticipantStatus.Online
         },
     ];
+
+    registerCallBacks()
+    {
+        this.wsService.chatObs.subscribe(res=>
+            {
+                this.insertMessage(res);
+            });
+        this.wsService.onlineObs.subscribe(res=>
+            {
+                this.setOnlineStatus(res);
+            });
+    }
 
     listFriends(): Observable<ParticipantResponse[]> 
     {
@@ -34,24 +48,29 @@ export class ChatControl extends ChatAdapter
         }));
     }
 
-    public setFriendsList(frnds: any): void
+    setFriendsList(): void
     {
-        this.mockedParticipants.length = 0;
-        frnds.forEach(t => 
+        var friendsList: any;
+        this.commService.getFriendsList().subscribe(res => 
         {
-            // console.log(t);
-            var onlineStatus = t.onlinestatus === 'offline' ? ChatParticipantStatus.Offline : ChatParticipantStatus.Online;
-            var pRes: IChatParticipant = 
+            this.mockedParticipants.length = 0;
+            friendsList = res;
+            friendsList.forEach(t => 
             {
-                participantType: ChatParticipantType.User,
-                id: t.imagePath,
-                displayName: t.fullName,
-                avatar: "/images/" + t.imagePath + ".jpg",
-                status: onlineStatus
-            };
-            this.mockedParticipants.push(pRes);           
-        });
-        this.listFriends().subscribe(res=>{this.onFriendsListChanged(res)});
+                var onlineStatus = t.onlinestatus === 'offline' ? ChatParticipantStatus.Offline : ChatParticipantStatus.Online;
+                var pRes: IChatParticipant = 
+                {
+                    participantType: ChatParticipantType.User,
+                    id: t.imagePath,
+                    displayName: t.fullName,
+                    avatar: "/images/" + t.imagePath + ".jpg",
+                    status: onlineStatus
+                };
+                this.mockedParticipants.push(pRes);           
+            });
+            this.listFriends().subscribe(res=>{this.onFriendsListChanged(res)});
+        },
+        error => { console.log(error); });      
     }
 
     insertMessage(payload: any)
@@ -89,6 +108,6 @@ export class ChatControl extends ChatAdapter
     
     sendMessage(message: Message): void
     {
-        this.callHome(message.toId, message.fromId, message.message);
+        this.wsService.sendChatMessage(message.toId, message.fromId, message.message);
     }
 }

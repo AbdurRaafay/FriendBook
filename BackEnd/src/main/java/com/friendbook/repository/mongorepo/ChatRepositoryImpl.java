@@ -26,15 +26,11 @@ public class ChatRepositoryImpl implements ChatRepository
     {
         System.out.println("UserIDs " + fromUserID + " " + toUserID);
 
-        List<Chat> fpc = null;
-
         Query query = new Query();
 
-        Criteria criteriaA = new Criteria();
-        criteriaA = Criteria.where("fromUserID").is(fromUserID).and("toUserID").is(toUserID);
+        Criteria criteriaA = Criteria.where("fromUserID").is(fromUserID).and("toUserID").is(toUserID);
 
-        Criteria criteriaB = new Criteria();
-        criteriaB = Criteria.where("fromUserID").is(toUserID).and("toUserID").is(fromUserID);
+        Criteria criteriaB = Criteria.where("fromUserID").is(toUserID).and("toUserID").is(fromUserID);
 
         Criteria criteriaC = new Criteria();
         criteriaC.orOperator(criteriaA, criteriaB);
@@ -42,7 +38,7 @@ public class ChatRepositoryImpl implements ChatRepository
         query.addCriteria(criteriaC);
         query.with(new Sort(Sort.Direction.ASC, "timeStamp"));
 
-        fpc = mongoTemplate.find(query, Chat.class);
+        List<Chat> fpc = mongoTemplate.find(query, Chat.class);
 
         if(fpc != null && fpc.size() > 0)
         {

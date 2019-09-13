@@ -1,7 +1,12 @@
 import { Component, Renderer2, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 import { ScrollService } from 'src/app/services/scroll.service';
+import { ChatControl } from './components/chatcontainer/chatcontrol';
+import { AuthenticationService } from './services/authentication.service';
+import { CommunicationService } from 'src/app/services/communication.service';
+import { WebsocketmessagingService } from 'src/app/services/websocketmessaging.service';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +17,25 @@ import { ScrollService } from 'src/app/services/scroll.service';
 export class AppComponent
 {
   title = 'fbFrontEnd';
+  adapter: ChatControl = new ChatControl();
+  isLoggedIn$: Observable<boolean>;
 
-  constructor(private renderer: Renderer2, private router: Router, private scrSrv: ScrollService)
+  constructor(private renderer: Renderer2, private router: Router, private scrSrv: ScrollService, private authService: AuthenticationService,
+    private commService: CommunicationService, private wscommService: WebsocketmessagingService)
   {
     this.renderer.setStyle(document.body, 'background-color', 'rgb(231, 235, 242)');
+    this.isLoggedIn$ = this.authService.isLoggedIn;
+    this.isLoggedIn$.subscribe(res => 
+      {
+        if(res == true)
+        {
+          this.adapter.commService = this.commService;
+          this.adapter.wsService = this.wscommService;
+          this.adapter.setFriendsList();
+          this.adapter.registerCallBacks();
+          this.wscommService.connectToChat();
+        }
+      });
   }
 
   @HostListener('window:scroll')

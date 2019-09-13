@@ -18,6 +18,9 @@ public class NotifiedUser
     @Field
     private String notificationID;
 
+    @Field
+    private boolean isSeen = false;
+
     public String getNotifiedUserID() {
         return notifiedUserID;
     }
@@ -34,10 +37,22 @@ public class NotifiedUser
         this.notificationID = notificationID;
     }
 
-    public NotifiedUser(String notifiedUserID, String notificationID)
-    {
+    public boolean isSeen() {
+        return isSeen;
+    }
+
+    public void setSeen(boolean seen) {
+        isSeen = seen;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public NotifiedUser(String notifiedUserID, String notificationID, boolean isSeen) {
         this.notifiedUserID = notifiedUserID;
         this.notificationID = notificationID;
+        this.isSeen = isSeen;
     }
 
     @Override
@@ -46,6 +61,7 @@ public class NotifiedUser
                 "id='" + id + '\'' +
                 ", notifiedUserID='" + notifiedUserID + '\'' +
                 ", notificationID='" + notificationID + '\'' +
+                ", isSeen=" + isSeen +
                 '}';
     }
 }

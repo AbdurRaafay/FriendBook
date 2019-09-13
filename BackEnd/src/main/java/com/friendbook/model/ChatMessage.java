@@ -4,12 +4,6 @@ import java.util.Date;
 
 public class ChatMessage
 {
-    public enum MessageType
-    {
-        CHAT, JOIN, LEAVE
-    }
-
-    private MessageType messageType;
     private String content;
     private String sender;
     private String recipient;
@@ -21,16 +15,6 @@ public class ChatMessage
     }
 
     public void setRecipient(String recipient) { this.recipient = recipient; }
-
-    public MessageType getType()
-    {
-        return messageType;
-    }
-
-    public void setType(MessageType messageType)
-    {
-        this.messageType = messageType;
-    }
 
     public String getContent()
     {

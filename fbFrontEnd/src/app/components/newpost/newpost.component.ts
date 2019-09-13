@@ -27,76 +27,59 @@ export class NewpostComponent
 
   onAddLikes()
   {
-    /*
-      This test, this.feedID.length > 5, is done to ensure this component can be used unchanged inside both newsfeed and wall components. When created inside 
-      wall component, a NewpostComponent component will have an empty feedID field. feedID will only be given a valid value only after 
-      it is saved in the backend.
-    */
-    if(this.feedID.length > 5)
+    if (this.locklikedislikes === false)
     {
-      if (this.locklikedislikes == false)
-      {
-        this.commService.addLikes(this.feedID).subscribe(res => {
-          this.locklikedislikes = true;
-          this.likes++;
-        }, 
-        error => { console.log(error); });
-      }        
-    }
+      this.commService.addLikes(this.feedID).subscribe(res => {
+        this.locklikedislikes = true;
+        this.likes++;
+      }, 
+      error => { console.log(error); });
+    }        
   }
 
   onAddDislikes()
   {
-    if(this.feedID.length > 5)
+    if (this.locklikedislikes === false)
     {
-      if (this.locklikedislikes == false)
-      {
-        this.commService.addDislikes(this.feedID).subscribe(res => {
-          this.locklikedislikes = true;
-          this.dislikes++;
-        }, 
-        error => { console.log(error); });  
-      }
+      this.commService.addDislikes(this.feedID).subscribe(res => {
+        this.locklikedislikes = true;
+        this.dislikes++;
+      }, 
+      error => { console.log(error); });  
     }
   }
 
   onGetComments()
   {
-    if(this.feedID.length > 5)
+    if(this.showComments == false)
     {
-      if(this.showComments == false)
-      {
-        this.commService.getPostComments(this.feedID).subscribe(res => {
-          this.comments = res as Comment[];
-          this.showComments = true;
-        }, 
-        error => { console.log(error); });  
-      }  
-    }
+      this.commService.getPostComments(this.feedID).subscribe(res => {
+        this.comments = res as Comment[];
+        this.showComments = true;
+      }, 
+      error => { console.log(error); });  
+    }  
   }
 
   onEnterComment(commentbox: string)
   {
-    if(this.feedID.length > 5)
-    {
-      this.commService.addComment(this.feedID, commentbox).subscribe(res => 
+    this.commService.addComment(this.feedID, commentbox).subscribe(res => 
+      {
+        console.log(res);
+        if (this.showComments == false)
         {
-          console.log(res);
-          if (this.showComments == false)
-          {
-            this.onGetComments();
-          }
-          else
-          {
-            let cmt = new Comment;
-            cmt.fullName = localStorage.getItem('currentUserName');
-            cmt.text = commentbox;
-            cmt.timestamp = new Date();
-            cmt.imagePath = localStorage.getItem('userImageID');
-            this.comments.unshift(cmt);
-          }          
-        }, 
-        error => { console.log(error); });        
-    }
+          this.onGetComments();
+        }
+        else
+        {
+          let cmt = new Comment;
+          cmt.fullName = localStorage.getItem('currentUserName');
+          cmt.text = commentbox;
+          cmt.timestamp = new Date();
+          cmt.imagePath = localStorage.getItem('userImageID');
+          this.comments.unshift(cmt);
+        }          
+      }, 
+      error => { console.log(error); });        
   }    
 }

@@ -81,9 +81,10 @@ public class dbSeeder implements CommandLineRunner
     {
         this.mongoOps = new MongoTemplate(new MongoClient("localhost", 27017), "FriendBookDB");
 
-        InitializeMongoDB();
+        //InitializeMongoDB();
         InitializeRedisCache();
-        notSrv.processNotification();
+        //notSrv.processNotification();
+        //notSrv.sendNotification();
         System.out.println("************************************************Done************************************************");
     }
 

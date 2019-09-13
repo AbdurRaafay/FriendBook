@@ -2,18 +2,17 @@
     <div class="nav-item-title">
         FriendBook
     </div>
-    <div class="nav-bar-search">
-        <input type="search" value="search">
-    </div>
+    <input class="nav-bar-search" type="search" value="search">
     <div class="nav-bar-notification">
         <i (click)="onNotificationClicked()" [matMenuTriggerFor]="notificationMenu">
             <img src="/icons/notification.svg" width="50" height="50">
         </i>
     </div>
     <mat-menu #notificationMenu="matMenu" yPosition="above">
-        <button mat-menu-item>Settings</button>
-        <button mat-menu-item>Help</button>
-    </mat-menu>
+        <ng-container *ngFor="let item of menuItems">
+            <button *ngIf=!item.templateName mat-menu-item (click)="select(item.text)">{{ item.text }}</button>
+          </ng-container>
+      </mat-menu>
     <div class="nav-bar-newsfeed">
         <i (click)="onNewsFeedClicked()"><img src="/icons/home.svg" width="50" height="50"></i> 
     </div>
