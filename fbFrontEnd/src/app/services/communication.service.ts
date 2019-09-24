@@ -17,6 +17,12 @@ export class CommunicationService
     return this.http.get(url);  
   }
 
+  getSinglePost(postID: string): Observable<any> 
+  {
+    let url = AppConst.serverPath + 'getsinglepost/' + postID;
+    return this.http.get(url);  
+  }
+
   getNewsFeed(): Observable<any> 
   {
     let url = AppConst.serverPath + 'getnewsfeed/';

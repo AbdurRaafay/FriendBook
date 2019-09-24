@@ -2,15 +2,25 @@
     <div class="nav-item-title">
         FriendBook
     </div>
-    <input class="nav-bar-search" type="search" value="search">
+    <form class="nav-bar-search">
+        <mat-form-field class="search-full-width">
+          <input type="text" placeholder="Search" aria-label="Number" matInput [formControl]="searchFormControl" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of autoCompleteList" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+    </form>
+    <div class="nav-bar-bubble" *ngIf="enableNotification">{{noOfNotification}}</div>
     <div class="nav-bar-notification">
-        <i (click)="onNotificationClicked()" [matMenuTriggerFor]="notificationMenu">
-            <img src="/icons/notification.svg" width="50" height="50">
+        <i [matMenuTriggerFor]="notificationMenu">
+            <img src="/icons/notification.svg" width="50" height="50">            
         </i>
-    </div>
+    </div>    
     <mat-menu #notificationMenu="matMenu" yPosition="above">
         <ng-container *ngFor="let item of menuItems">
-            <button *ngIf=!item.templateName mat-menu-item (click)="select(item.text)">{{ item.text }}</button>
+            <button *ngIf=!item.templateName mat-menu-item (click)="select(item.postID)">{{ item.text }}</button>
           </ng-container>
       </mat-menu>
     <div class="nav-bar-newsfeed">

@@ -46,12 +46,11 @@ export class WebsocketmessagingService
 
   onMessageReceived(payload: any)
   {
-    console.log(payload);
     if(payload.hasOwnProperty('onlineStatusMessage'))
       this.onlineSubject.next(payload);
     else if(payload.hasOwnProperty('content'))
       this.chatSubject.next(payload);
-    else if(payload.hasOwnProperty('notificationMessage'))
+    else if(payload.hasOwnProperty('entityID'))
       this.notificationSubject.next(payload);  
   }
 
@@ -61,4 +60,12 @@ export class WebsocketmessagingService
     var topic = `/app/chat`;    
     stompClient.send(`${topic}`, {}, JSON.stringify(chatMessage)); 
   }
+
+  sendSearchMessage(searchText: string)
+  {
+    var chatMessage = { content: searchText };
+    var topic = `/app/search`;    
+    stompClient.send(`${topic}`, {}, JSON.stringify(chatMessage)); 
+  }
+
 }

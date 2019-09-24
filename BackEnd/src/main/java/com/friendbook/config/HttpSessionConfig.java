@@ -37,5 +37,6 @@ public class HttpSessionConfig
     public void Destroy()
     {
         this.lcf.getConnection().close();
+        this.lcf.destroy();
     }
 }

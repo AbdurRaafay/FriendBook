@@ -10,4 +10,5 @@ public interface NotificationRepository
     void updateNotificationStatus(String ntfID, boolean status);
     List<Notification> getAllNotifications();
     Notification getNotification(String ntID);
+    Notification getNotificationFromEntityID(String entityID);
 }

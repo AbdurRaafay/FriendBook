@@ -11,6 +11,4 @@ public interface OnlineUsersRepository
     String isUserOnline(String userID);
     void logoutUser(String userID);
     List<Map<String, String>> getOnlineUsersList();
-    void putNotificationUser(String notUsrID);
-    boolean isNotificationUser(String notUsrID);
 }

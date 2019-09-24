@@ -93,4 +93,10 @@ public class PostRepositoryImpl implements PostRepository
         query.addCriteria(Criteria.where("id").is(postID));
         mongoTemplate.updateFirst(query, new Update().inc("numComments", 1), Post.class);
     }
+
+    @Override
+    public Post getSinglePost(String postID)
+    {
+        return mongoTemplate.findById(postID, Post.class);
+    }
 }

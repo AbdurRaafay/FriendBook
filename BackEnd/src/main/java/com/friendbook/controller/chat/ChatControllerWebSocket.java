@@ -59,11 +59,5 @@ public class ChatControllerWebSocket
         Chat chats = new Chat(chatMessage.getSender(), chatMessage.getRecipient(), chatMessage.getTimeStamp(),
                 chatMessage.getContent(), seen);
         chtrep.insertChat(chats);
-        if(seen == false)
-        {
-            Notification ntf = new Notification(chatMessage.getRecipient(), chatMessage.getTimeStamp(),
-                    chats.getId(), Notification.NotificationType.CHAT);
-            notrepo.insertNotification(ntf);
-        }
     }
 }

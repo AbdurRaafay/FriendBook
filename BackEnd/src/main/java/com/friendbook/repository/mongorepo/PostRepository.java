@@ -12,5 +12,6 @@ public interface PostRepository
     void updateDisLikes(String postID);
     void updateNumComments(String postID);
     List<Post> findByOwnerID(String OwnerID);
+    Post getSinglePost(String postID);
     String insertPost(Post pst);
 }

@@ -57,6 +57,7 @@ export class ChatControl extends ChatAdapter
             friendsList = res;
             friendsList.forEach(t => 
             {
+                localStorage.setItem(t.imagePath, t.fullName);    
                 var onlineStatus = t.onlinestatus === 'offline' ? ChatParticipantStatus.Offline : ChatParticipantStatus.Online;
                 var pRes: IChatParticipant = 
                 {

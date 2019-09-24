@@ -27,6 +27,14 @@ public class NotifiedUserRepositoryImpl implements NotifiedUserRepository
     }
 
     @Override
+    public void modifyNotifiedUser(String nuID)
+    {
+        NotifiedUser nu = mongoTemplate.findById(nuID, NotifiedUser.class);
+        nu.setSeen(true);
+        mongoTemplate.save(nu);
+    }
+
+    @Override
     public List<NotifiedUser> getNotifiedUser(String userID)
     {
         List<NotifiedUser> lstNtf;

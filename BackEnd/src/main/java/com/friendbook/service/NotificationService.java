@@ -9,7 +9,6 @@ import com.friendbook.repository.redisrepo.OnlineUsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PreDestroy;
@@ -28,9 +27,6 @@ public class NotificationService
 
     @Autowired
     private UserRepository usrrep;
-
-    @Autowired
-    private NotifiedUserRepository ntusrrepo;
 
     @Autowired
     private OnlineUsersRepository ousrrep;
@@ -88,15 +84,14 @@ public class NotificationService
                         Date d1 = format.parse(info[2] + " " + info[3]);
                         Date d2 = new Date();
                         diff = (d2.getTime() - d1.getTime())/1000;//Convert diff to seconds
-                        //System.out.println(diff);
                     }
                     catch (ParseException e)
                     {
                         System.out.println(e);
                     }
-                    if(diff > 10)//Dont send notifications before websocket connection is established
+                    if(diff > 5)//Dont send notifications before websocket connection is established otherwise messages are lost
                     {
-                        List<NotifiedUser> nuLst = ntusrrepo.getNotifiedUser(info[0]);
+                        List<NotifiedUser> nuLst = notusrrepo.getNotifiedUser(info[0]);
                         if (nuLst != null && !nuLst.isEmpty())
                         {
                             for(NotifiedUser nu : nuLst)

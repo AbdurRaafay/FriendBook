@@ -2,3 +2,18 @@ MongoDB service start
 sudo service mongod start
 
 cat /dev/null > ~/.bash_history && history -c && exit
+redis-server --loadmodule ./redisearch.so&
+
+https://medium.com/@uditgogoi1/search-bar-with-autocomplete-using-angular-5-and-angular-material-c5a77a429da7
+https://stackblitz.com/edit/angular-material-google-search?file=app%2Fapp.component.ts
+https://www.positronx.io/angular-8-autocomplete-tutorial-with-angular-material/
+https://coderprog.com/mastering-spring-effective-enterprise-applications/
+
+
+https://github.com/uditgogoi/search-bar-demo/blob/master/src/app/data.service.ts
+https://oss.redislabs.com/redisearch/java_client.html
+https://github.com/RediSearch/lettusearch
+https://github.com/xdrop/fuzzywuzzy
+https://redislabs.com/blog/adding-search-engine-redis-adventures-module-land/
+https://www.slideshare.net/RedisLabs/redisconf17-searching-billions-of-documents-with-redis
+

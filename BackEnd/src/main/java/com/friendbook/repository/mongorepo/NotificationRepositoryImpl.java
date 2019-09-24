@@ -54,4 +54,14 @@ public class NotificationRepositoryImpl implements NotificationRepository
         ntf = mongoTemplate.findById(ntID, Notification.class);
         return ntf;
     }
+
+    @Override
+    public Notification getNotificationFromEntityID(String entityID)
+    {
+        Notification Ntf;
+        Query query = new Query();
+        query.addCriteria(Criteria.where("entityID").is(entityID));
+        Ntf = mongoTemplate.findOne(query, Notification.class);
+        return Ntf;
+    }
 }

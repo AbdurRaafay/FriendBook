@@ -19,7 +19,7 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
 {
     private static final String KEY = "USER_STATUS";
 
-    private static final String KEY_NOTIFICATION = "USER_NOTIFICATION";
+    private static final String KEY_NAMES = "USER_NAMES";
 
     @Autowired
     private StringRedisTemplate strRedisTemplate;
@@ -107,18 +107,6 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
             }
         });
         return frndLst;
-    }
-
-    @Override
-    public void putNotificationUser(String notUsrID)
-    {
-        strRedisTemplate.opsForSet().add(KEY_NOTIFICATION, notUsrID);
-    }
-
-    @Override
-    public boolean isNotificationUser(String notUsrID)
-    {
-        return strRedisTemplate.opsForSet().isMember(KEY_NOTIFICATION, notUsrID);
     }
 
     @Async

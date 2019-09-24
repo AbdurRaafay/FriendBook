@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule, MatAutocompleteModule, MatFormFieldModule } from '@angular/material';
 import { MatToolbarModule } from '@angular/material';
 import { MatMenuModule } from '@angular/material/menu';
 import { TimeAgoPipe } from 'time-ago-pipe';
@@ -35,6 +36,10 @@ import { OtherwallComponent } from './components/otherwall/otherwall.component';
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
+    MatInputModule, 
+    MatAutocompleteModule, 
+    MatFormFieldModule,
     AppRoutingModule,
     HttpClientModule,
     NgChatModule,

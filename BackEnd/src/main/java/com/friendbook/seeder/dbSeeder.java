@@ -36,6 +36,7 @@ import org.springframework.core.io.ClassPathResource;
 import com.fasterxml.uuid.Generators;
 import com.friendbook.repository.mongorepo.UserRepository;
 import com.friendbook.repository.redisrepo.UserFeedRepository;
+import com.friendbook.utility.RedisSearchUtility;
 
 @Component
 public class dbSeeder implements CommandLineRunner
@@ -83,9 +84,17 @@ public class dbSeeder implements CommandLineRunner
 
         //InitializeMongoDB();
         InitializeRedisCache();
+        InitializeRedisSearch();
         notSrv.processNotification();
         notSrv.sendNotification();
+        RedisSearchUtility.initializeSearch();
+        RedisSearchUtility.setupIndex(users);
         System.out.println("************************************************Done************************************************");
+    }
+
+    private void InitializeRedisSearch()
+    {
+
     }
 
     public dbSeeder()

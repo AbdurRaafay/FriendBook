@@ -50,12 +50,42 @@ public class MainController
     @Autowired
     private NotificationRepository notrepo;
 
+    @Autowired
+    private NotifiedUserRepository notusrrepo;
+
     @GetMapping("/getwallposts")
     public ResponseEntity<?> getWallPosts(Principal principal)
     {
         List<String> fpreturn = usrfdrep.getUserWallPosts(getUserIDFromPricipal(principal));
         if (fpreturn != null && !fpreturn.isEmpty())
             return new ResponseEntity<>(fpreturn, HttpStatus.OK);
+        else
+            return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/getsinglepost/{PostID}")
+    public ResponseEntity<?> getSinglePost(Principal principal, @PathVariable String PostID)
+    {
+        Post pret = pstrepo.getSinglePost(PostID);
+        if (pret != null)
+        {
+            String usrID = getUserIDFromPricipal(principal);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("fullName", usrrep.getFullNameByID(pret.getAuthorID()));
+            map.put("text", pret.getPosttext());
+            map.put("likes", pret.getLikes());
+            map.put("dislikes", pret.getDislikes());
+            map.put("numComments", pret.getNumComments());
+            map.put("imagePath", usrrep.getImageByID(pret.getAuthorID()));
+            map.put("timestamp", pret.getPosttime());
+            map.put("feedID", pret.getId());
+            if(pret.hasUserLikedPost(usrID) || pret.hasUserDislikedPost(usrID))
+                map.put("locklikesdislikes", "true");
+            else
+                map.put("locklikesdislikes", "false");
+            Notification nt = notrepo.getNotificationFromEntityID(PostID);
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        }
         else
             return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
     }
@@ -75,7 +105,6 @@ public class MainController
     {
         List<Map<String,Object>> fpreturn = new ArrayList<Map<String,Object>>();
         List<Comment> fc = pcrep.findByParentPostID(PostID);
-        System.out.println("==============================>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Inside getcomments " + fc.size());
         if (fc != null && !fc.isEmpty())
         {
             for(int i = 0; i < fc.size(); i++)

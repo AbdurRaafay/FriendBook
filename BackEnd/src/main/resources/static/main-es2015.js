@@ -52,7 +52,7 @@ module.exports = "<div class=\"login\">\n    <ul style=\"list-style-type:none\">
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar class=\"nav-bar-friendbook\" *ngIf=\"isLoggedIn$ | async\">\n    <div class=\"nav-item-title\">\n        FriendBook\n    </div>\n    <input class=\"nav-bar-search\" type=\"search\" value=\"search\">\n    <div class=\"nav-bar-notification\">\n        <i (click)=\"onNotificationClicked()\" [matMenuTriggerFor]=\"notificationMenu\">\n            <img src=\"/icons/notification.svg\" width=\"50\" height=\"50\">\n        </i>\n    </div>\n    <mat-menu #notificationMenu=\"matMenu\" yPosition=\"above\">\n        <ng-container *ngFor=\"let item of menuItems\">\n            <button *ngIf=!item.templateName mat-menu-item (click)=\"select(item.text)\">{{ item.text }}</button>\n          </ng-container>\n      </mat-menu>\n    <div class=\"nav-bar-newsfeed\">\n        <i (click)=\"onNewsFeedClicked()\"><img src=\"/icons/home.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n    <div class=\"nav-bar-wall\">\n        <i (click)=\"onWallClicked()\"><img src=\"/icons/firewall.svg\" width=\"50\" height=\"50\"></i>\n    </div>\n    <div class=\"nav-bar-logout\">\n        <i (click)=\"onLogoutClicked()\"><img src=\"/icons/logout.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n</mat-toolbar>"
+module.exports = "<mat-toolbar class=\"nav-bar-friendbook\" *ngIf=\"isLoggedIn$ | async\">\n    <div class=\"nav-item-title\">\n        FriendBook\n    </div>\n    <form class=\"nav-bar-search\">\n        <mat-form-field class=\"search-full-width\">\n          <input type=\"text\" placeholder=\"Search\" aria-label=\"Number\" matInput [formControl]=\"searchFormControl\" [matAutocomplete]=\"auto\">\n          <mat-autocomplete #auto=\"matAutocomplete\">\n            <mat-option *ngFor=\"let option of autoCompleteList\" [value]=\"option\">\n              {{option}}\n            </mat-option>\n          </mat-autocomplete>\n        </mat-form-field>\n    </form>\n    <div class=\"nav-bar-bubble\" *ngIf=\"enableNotification\">{{noOfNotification}}</div>\n    <div class=\"nav-bar-notification\">\n        <i [matMenuTriggerFor]=\"notificationMenu\">\n            <img src=\"/icons/notification.svg\" width=\"50\" height=\"50\">            \n        </i>\n    </div>    \n    <mat-menu #notificationMenu=\"matMenu\" yPosition=\"above\">\n        <ng-container *ngFor=\"let item of menuItems\">\n            <button *ngIf=!item.templateName mat-menu-item (click)=\"select(item.postID)\">{{ item.text }}</button>\n          </ng-container>\n      </mat-menu>\n    <div class=\"nav-bar-newsfeed\">\n        <i (click)=\"onNewsFeedClicked()\"><img src=\"/icons/home.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n    <div class=\"nav-bar-wall\">\n        <i (click)=\"onWallClicked()\"><img src=\"/icons/firewall.svg\" width=\"50\" height=\"50\"></i>\n    </div>\n    <div class=\"nav-bar-logout\">\n        <i (click)=\"onLogoutClicked()\"><img src=\"/icons/logout.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n</mat-toolbar>"
 
 /***/ }),
 
@@ -96,7 +96,7 @@ module.exports = "<p>otherwall works!</p>\n"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>singlepost works!</p>\n"
+module.exports = "<div class = \"container-singlepost\">\n    <ng-template np-host></ng-template>\n</div>"
 
 /***/ }),
 
@@ -128,6 +128,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/wall/wall.component */ "./src/app/components/wall/wall.component.ts");
 /* harmony import */ var _components_login_login_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/login/login.component */ "./src/app/components/login/login.component.ts");
 /* harmony import */ var _route_reuse__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./route-reuse */ "./src/app/route-reuse.ts");
+/* harmony import */ var _components_singlepost_singlepost_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/singlepost/singlepost.component */ "./src/app/components/singlepost/singlepost.component.ts");
+
 
 
 
@@ -138,7 +140,8 @@ __webpack_require__.r(__webpack_exports__);
 const routes = [
     { path: 'newsfeed', component: _components_newsfeed_newsfeed_component__WEBPACK_IMPORTED_MODULE_3__["NewsfeedComponent"] },
     { path: 'wall', component: _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_4__["WallComponent"] },
-    { path: 'index', component: _components_login_login_component__WEBPACK_IMPORTED_MODULE_5__["LoginComponent"] }
+    { path: 'index', component: _components_login_login_component__WEBPACK_IMPORTED_MODULE_5__["LoginComponent"] },
+    { path: 'singlepost/:postID', component: _components_singlepost_singlepost_component__WEBPACK_IMPORTED_MODULE_7__["SinglepostComponent"] }
 ];
 let AppRoutingModule = class AppRoutingModule {
 };
@@ -298,6 +301,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 let AppModule = class AppModule {
 };
 AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -317,6 +321,10 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormsModule"],
+            _angular_forms__WEBPACK_IMPORTED_MODULE_4__["ReactiveFormsModule"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatInputModule"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatAutocompleteModule"],
+            _angular_material__WEBPACK_IMPORTED_MODULE_5__["MatFormFieldModule"],
             _app_routing_module__WEBPACK_IMPORTED_MODULE_9__["AppRoutingModule"],
             _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
             ng_chat__WEBPACK_IMPORTED_MODULE_8__["NgChatModule"],
@@ -389,6 +397,7 @@ class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
             this.mockedParticipants.length = 0;
             friendsList = res;
             friendsList.forEach(t => {
+                localStorage.setItem(t.imagePath, t.fullName);
                 var onlineStatus = t.onlinestatus === 'offline' ? ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Offline : ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Online;
                 var pRes = {
                     participantType: ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantType"].User,
@@ -515,7 +524,7 @@ LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".nav-bar-friendbook\n{\n    width: 100%;\n    top: 0;\n    position: fixed;\n    background-color: #b6bedf;\n}\n\n.nav-item-title\n{\n    float: left;    \n    font-style: italic;\n    font-size: 50px;\n    font-family: \"Times New Roman\", Times, serif;\n    margin-right: 50px;\n    margin-left: 10px;\n}\n\n.nav-bar-search\n{\n    float: left;\n    width: 80%;\n    height: 50px;\n    margin-right: 150px;\n}\n\n.nav-bar-notification, .nav-bar-newsfeed, .nav-bar-wall, .nav-bar-logout\n{\n    margin-right: 10px;\n    margin-left: 10px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uYXZiYXIvbmF2YmFyLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0lBRUksV0FBVztJQUNYLE1BQU07SUFDTixlQUFlO0lBQ2YseUJBQXlCO0FBQzdCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLDRDQUE0QztJQUM1QyxrQkFBa0I7SUFDbEIsaUJBQWlCO0FBQ3JCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxVQUFVO0lBQ1YsWUFBWTtJQUNaLG1CQUFtQjtBQUN2Qjs7QUFFQTs7SUFFSSxrQkFBa0I7SUFDbEIsaUJBQWlCO0FBQ3JCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9uYXZiYXIvbmF2YmFyLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIubmF2LWJhci1mcmllbmRib29rXG57XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgdG9wOiAwO1xuICAgIHBvc2l0aW9uOiBmaXhlZDtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjYjZiZWRmO1xufVxuXG4ubmF2LWl0ZW0tdGl0bGVcbntcbiAgICBmbG9hdDogbGVmdDsgICAgXG4gICAgZm9udC1zdHlsZTogaXRhbGljO1xuICAgIGZvbnQtc2l6ZTogNTBweDtcbiAgICBmb250LWZhbWlseTogXCJUaW1lcyBOZXcgUm9tYW5cIiwgVGltZXMsIHNlcmlmO1xuICAgIG1hcmdpbi1yaWdodDogNTBweDtcbiAgICBtYXJnaW4tbGVmdDogMTBweDtcbn1cblxuLm5hdi1iYXItc2VhcmNoXG57XG4gICAgZmxvYXQ6IGxlZnQ7XG4gICAgd2lkdGg6IDgwJTtcbiAgICBoZWlnaHQ6IDUwcHg7XG4gICAgbWFyZ2luLXJpZ2h0OiAxNTBweDtcbn1cblxuLm5hdi1iYXItbm90aWZpY2F0aW9uLCAubmF2LWJhci1uZXdzZmVlZCwgLm5hdi1iYXItd2FsbCwgLm5hdi1iYXItbG9nb3V0XG57XG4gICAgbWFyZ2luLXJpZ2h0OiAxMHB4O1xuICAgIG1hcmdpbi1sZWZ0OiAxMHB4O1xufSJdfQ== */"
+module.exports = ".nav-bar-friendbook\n{\n    width: 100%;\n    top: 0;\n    position: fixed;\n    background-color: #b6bedf;\n}\n\n.nav-item-title\n{\n    float: left;    \n    font-style: italic;\n    font-size: 50px;\n    font-family: \"Times New Roman\", Times, serif;\n    margin-right: 50px;\n    margin-left: 10px;\n}\n\n.nav-bar-search\n{\n    float: left;\n    width: 80%;\n    height: 50px;\n    margin-right: 150px;\n}\n\n.nav-bar-notification, .nav-bar-newsfeed, .nav-bar-wall, .nav-bar-logout\n{\n    margin-right: 10px;\n    margin-left: 10px;\n}\n\n.nav-bar-bubble\n{\n    position: relative;\n    top: -10px;\n    right: -70px;\n    padding: 5px 10px;\n    border-radius: 50%;\n    background-color: red;\n    color: white;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uYXZiYXIvbmF2YmFyLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0lBRUksV0FBVztJQUNYLE1BQU07SUFDTixlQUFlO0lBQ2YseUJBQXlCO0FBQzdCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLDRDQUE0QztJQUM1QyxrQkFBa0I7SUFDbEIsaUJBQWlCO0FBQ3JCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxVQUFVO0lBQ1YsWUFBWTtJQUNaLG1CQUFtQjtBQUN2Qjs7QUFFQTs7SUFFSSxrQkFBa0I7SUFDbEIsaUJBQWlCO0FBQ3JCOztBQUVBOztJQUVJLGtCQUFrQjtJQUNsQixVQUFVO0lBQ1YsWUFBWTtJQUNaLGlCQUFpQjtJQUNqQixrQkFBa0I7SUFDbEIscUJBQXFCO0lBQ3JCLFlBQVk7QUFDaEIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL25hdmJhci9uYXZiYXIuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5uYXYtYmFyLWZyaWVuZGJvb2tcbntcbiAgICB3aWR0aDogMTAwJTtcbiAgICB0b3A6IDA7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIGJhY2tncm91bmQtY29sb3I6ICNiNmJlZGY7XG59XG5cbi5uYXYtaXRlbS10aXRsZVxue1xuICAgIGZsb2F0OiBsZWZ0OyAgICBcbiAgICBmb250LXN0eWxlOiBpdGFsaWM7XG4gICAgZm9udC1zaXplOiA1MHB4O1xuICAgIGZvbnQtZmFtaWx5OiBcIlRpbWVzIE5ldyBSb21hblwiLCBUaW1lcywgc2VyaWY7XG4gICAgbWFyZ2luLXJpZ2h0OiA1MHB4O1xuICAgIG1hcmdpbi1sZWZ0OiAxMHB4O1xufVxuXG4ubmF2LWJhci1zZWFyY2hcbntcbiAgICBmbG9hdDogbGVmdDtcbiAgICB3aWR0aDogODAlO1xuICAgIGhlaWdodDogNTBweDtcbiAgICBtYXJnaW4tcmlnaHQ6IDE1MHB4O1xufVxuXG4ubmF2LWJhci1ub3RpZmljYXRpb24sIC5uYXYtYmFyLW5ld3NmZWVkLCAubmF2LWJhci13YWxsLCAubmF2LWJhci1sb2dvdXRcbntcbiAgICBtYXJnaW4tcmlnaHQ6IDEwcHg7XG4gICAgbWFyZ2luLWxlZnQ6IDEwcHg7XG59XG5cbi5uYXYtYmFyLWJ1YmJsZVxue1xuICAgIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgICB0b3A6IC0xMHB4O1xuICAgIHJpZ2h0OiAtNzBweDtcbiAgICBwYWRkaW5nOiA1cHggMTBweDtcbiAgICBib3JkZXItcmFkaXVzOiA1MCU7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmVkO1xuICAgIGNvbG9yOiB3aGl0ZTtcbn0iXX0= */"
 
 /***/ }),
 
@@ -537,6 +546,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/communication.service */ "./src/app/services/communication.service.ts");
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm2015/material.js");
 /* harmony import */ var src_app_services_websocketmessaging_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/websocketmessaging.service */ "./src/app/services/websocketmessaging.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+
 
 
 
@@ -553,15 +564,19 @@ let NavbarComponent = class NavbarComponent {
         this.authService = authService;
         this.commService = commService;
         this.wscommService = wscommService;
-        this.menuItems = [
-        //    {text: "Tabledriven.Item1", postID: "123" },
-        //    {text: "Tabledriven.Item2", postID: "456"},
-        ];
+        this.enableNotification = false;
+        this.noOfNotification = 0;
+        this.alreadyClicked = [];
+        this.searchFormControl = new _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormControl"]();
+        this.menuItems = [];
     }
     ngOnInit() {
         this.isLoggedIn$ = this.authService.isLoggedIn;
         this.isLoggedIn$.subscribe(res => {
             if (res == true) {
+                this.wscommService.notificationObs.subscribe(res => {
+                    this.onNotificationMessageReceived(res);
+                });
             }
         });
     }
@@ -569,8 +584,19 @@ let NavbarComponent = class NavbarComponent {
         stompClientNotification.disconnect();
     }
     onNotificationMessageReceived(payload) {
-        //this.menuItems.push();
-        console.log(payload);
+        var menuItemText = localStorage.getItem(payload.usrID);
+        if (payload.type === 'NEWPOST')
+            menuItemText += " has made a post";
+        else if (payload.type === 'LIKE')
+            menuItemText += " has liked a post";
+        else if (payload.type === 'DISLIKE')
+            menuItemText += " has disliked a post";
+        else if (payload.type === 'COMMENT')
+            menuItemText += " has commented on a post";
+        var abc = { text: menuItemText, postID: payload.entityID };
+        this.menuItems.push(abc);
+        this.enableNotification = true;
+        this.noOfNotification++;
     }
     onNewsFeedClicked() {
         this.router.navigate(['/newsfeed']);
@@ -578,14 +604,19 @@ let NavbarComponent = class NavbarComponent {
     onWallClicked() {
         this.router.navigate(['/wall']);
     }
-    onNotificationClicked() {
-        console.log(this.notificationMenu.menuOpen);
-    }
     onLogoutClicked() {
         this.authService.logout();
         this.router.navigate(['/index']);
     }
     select(pText) {
+        if (typeof this.alreadyClicked.find(x => x === pText) === 'undefined') {
+            this.alreadyClicked.push(pText);
+            if (this.noOfNotification > 0)
+                this.noOfNotification--;
+            if (this.noOfNotification === 0)
+                this.enableNotification = false;
+        }
+        this.router.navigate(['/singlepost', pText]);
     }
 };
 NavbarComponent.ctorParameters = () => [
@@ -901,7 +932,7 @@ OtherwallComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvc2luZ2xlcG9zdC9zaW5nbGVwb3N0LmNvbXBvbmVudC5jc3MifQ== */"
+module.exports = ".container-singlepost\n{\n    margin-top: 50px;\n    margin-left: auto;\n    margin-right: auto;\n    width: 50%;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9zaW5nbGVwb3N0L3NpbmdsZXBvc3QuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7SUFFSSxnQkFBZ0I7SUFDaEIsaUJBQWlCO0lBQ2pCLGtCQUFrQjtJQUNsQixVQUFVO0FBQ2QiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL3NpbmdsZXBvc3Qvc2luZ2xlcG9zdC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmNvbnRhaW5lci1zaW5nbGVwb3N0XG57XG4gICAgbWFyZ2luLXRvcDogNTBweDtcbiAgICBtYXJnaW4tbGVmdDogYXV0bztcbiAgICBtYXJnaW4tcmlnaHQ6IGF1dG87XG4gICAgd2lkdGg6IDUwJTtcbn0iXX0= */"
 
 /***/ }),
 
@@ -917,13 +948,47 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SinglepostComponent", function() { return SinglepostComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+/* harmony import */ var _newpost_newpost_directive__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../newpost/newpost.directive */ "./src/app/components/newpost/newpost.directive.ts");
+/* harmony import */ var src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/communication.service */ "./src/app/services/communication.service.ts");
+/* harmony import */ var _newpost_newpost_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../newpost/newpost.component */ "./src/app/components/newpost/newpost.component.ts");
+
+
+
+
 
 
 let SinglepostComponent = class SinglepostComponent {
-    constructor() { }
+    constructor(componentFactoryResolver, commService, route) {
+        this.componentFactoryResolver = componentFactoryResolver;
+        this.commService = commService;
+        this.route = route;
+        this.singlePostcomponentFactory = this.componentFactoryResolver.resolveComponentFactory(_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_5__["NewpostComponent"]);
+    }
     ngOnInit() {
+        this.singlePostviewContainerRef = this.npHost.viewContainerRef;
+        this.commService.getSinglePost(this.route.snapshot.paramMap.get('postID')).subscribe(res => {
+            const componentRef = this.singlePostviewContainerRef.createComponent(this.singlePostcomponentFactory);
+            componentRef.instance.fullName = res['fullName'];
+            componentRef.instance.text = res['text'];
+            componentRef.instance.likes = res['likes'];
+            componentRef.instance.dislikes = res['dislikes'];
+            componentRef.instance.numComments = res['numComments'];
+            componentRef.instance.imagePath = res['imagePath'];
+            componentRef.instance.timestamp = res['timestamp'];
+            componentRef.instance.feedID = res['feedID'];
+            componentRef.instance.locklikedislikes = res['locklikesdislikes'] === 'true' ? true : false;
+        }, error => { console.log(error); });
     }
 };
+SinglepostComponent.ctorParameters = () => [
+    { type: _angular_core__WEBPACK_IMPORTED_MODULE_1__["ComponentFactoryResolver"] },
+    { type: src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_4__["CommunicationService"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"] }
+];
+tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])(_newpost_newpost_directive__WEBPACK_IMPORTED_MODULE_3__["NPostDirective"], { static: true })
+], SinglepostComponent.prototype, "npHost", void 0);
 SinglepostComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-singlepost',
@@ -1193,6 +1258,10 @@ let CommunicationService = class CommunicationService {
         let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getwallposts/';
         return this.http.get(url);
     }
+    getSinglePost(postID) {
+        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getsinglepost/' + postID;
+        return this.http.get(url);
+    }
     getNewsFeed() {
         let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getnewsfeed/';
         return this.http.get(url);
@@ -1334,17 +1403,21 @@ let WebsocketmessagingService = class WebsocketmessagingService {
         console.log("Error Websocket" + error);
     }
     onMessageReceived(payload) {
-        console.log(payload);
         if (payload.hasOwnProperty('onlineStatusMessage'))
             this.onlineSubject.next(payload);
         else if (payload.hasOwnProperty('content'))
             this.chatSubject.next(payload);
-        else if (payload.hasOwnProperty('notificationMessage'))
+        else if (payload.hasOwnProperty('entityID'))
             this.notificationSubject.next(payload);
     }
     sendChatMessage(toId, fromId, message) {
         var chatMessage = { chatMessage: 'CHAT', sender: localStorage.getItem('userImageID'), recipient: toId, content: message };
         var topic = `/app/chat`;
+        stompClient.send(`${topic}`, {}, JSON.stringify(chatMessage));
+    }
+    sendSearchMessage(searchText) {
+        var chatMessage = { content: searchText };
+        var topic = `/app/search`;
         stompClient.send(`${topic}`, {}, JSON.stringify(chatMessage));
     }
 };

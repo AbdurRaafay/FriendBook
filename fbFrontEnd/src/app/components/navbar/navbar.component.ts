@@ -3,10 +3,9 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CommunicationService } from 'src/app/services/communication.service';
-import * as Stomp from '@stomp/stompjs';
-import * as SockJS from 'sockjs-client';
-import { MatMenuTrigger, MatMenu } from '@angular/material';
+import { MatMenuTrigger } from '@angular/material';
 import { WebsocketmessagingService } from 'src/app/services/websocketmessaging.service';
+import { FormControl } from '@angular/forms';
 
 var stompClientNotification = null;
 
@@ -25,12 +24,11 @@ export class MenuItem
 export class NavbarComponent implements OnInit, OnDestroy 
 {
   isLoggedIn$: Observable<boolean>;
-
-  menuItems: Array<{text: string, postID: string}> = 
-  [
-//    {text: "Tabledriven.Item1", postID: "123" },
-//    {text: "Tabledriven.Item2", postID: "456"},
-  ];
+  enableNotification: boolean = false;
+  noOfNotification: number = 0;
+  alreadyClicked: Array<string> = [];
+  searchFormControl = new FormControl();
+  menuItems: Array<{text: string, postID: string}> = [];
   
   @ViewChild(MatMenuTrigger, {static: false}) notificationMenu: MatMenuTrigger;
 
@@ -60,8 +58,21 @@ export class NavbarComponent implements OnInit, OnDestroy
 
   onNotificationMessageReceived(payload)
   {
-    //this.menuItems.push();
-    console.log(payload);
+    var menuItemText = localStorage.getItem(payload.usrID);
+    
+    if(payload.type === 'NEWPOST')
+      menuItemText += " has made a post";
+    else if(payload.type === 'LIKE')
+      menuItemText += " has liked a post";
+    else if(payload.type === 'DISLIKE')
+      menuItemText += " has disliked a post";
+    else if(payload.type === 'COMMENT')
+      menuItemText += " has commented on a post";
+    
+    var abc = {text: menuItemText, postID: payload.entityID};
+    this.menuItems.push(abc);
+    this.enableNotification = true;
+    this.noOfNotification++;
   }
 
   onNewsFeedClicked()
@@ -74,11 +85,6 @@ export class NavbarComponent implements OnInit, OnDestroy
     this.router.navigate(['/wall']);
   }
 
-  onNotificationClicked()
-  {
-    console.log(this.notificationMenu.menuOpen);  
-  }
-  
   onLogoutClicked()
   {
     this.authService.logout();
@@ -87,5 +93,14 @@ export class NavbarComponent implements OnInit, OnDestroy
 
   select(pText :string)
   {
+    if (typeof this.alreadyClicked.find(x => x === pText) === 'undefined')
+    {
+      this.alreadyClicked.push(pText);
+      if(this.noOfNotification > 0)
+        this.noOfNotification--;   
+      if(this.noOfNotification === 0)
+        this.enableNotification = false;
+    }      
+    this.router.navigate(['/singlepost', pText]);
   }  
 }
