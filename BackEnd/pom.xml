@@ -64,9 +64,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.redislabs</groupId>
-            <artifactId>lettusearch</artifactId>
-            <version>1.5.3</version>
+            <groupId>me.xdrop</groupId>
+            <artifactId>fuzzywuzzy</artifactId>
+            <version>1.2.0</version>
         </dependency>
 
         <dependency>

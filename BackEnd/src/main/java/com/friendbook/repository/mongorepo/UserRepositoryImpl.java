@@ -50,7 +50,7 @@ public class UserRepositoryImpl implements UserRepository
     }
 
     @Override
-    public String getImageByID(String userID)
+    public String getImageByID(String userID) //Get imageID from UserID
     {
         User usr = getUserFromUserID(userID);
         if(usr != null)
@@ -109,6 +109,14 @@ public class UserRepositoryImpl implements UserRepository
         {
             return usr.getEmail();
         }
+    }
+
+    @Override
+    public boolean isFriend(String email, String imageID)
+    {
+        User usrA = findByEmail(email);
+        User usrB = getUserFromUserID(getUserIDFromImageByID(imageID));
+        return usrB.isFriend(usrA.getId());
     }
 
     private User getUserFromUserID(String usrID)

@@ -19,13 +19,34 @@
 .nav-bar-search
 {
     float: left;
-    width: 80%;
+    width: 400px;
     height: 50px;
-    margin-right: 150px;
+    margin-right: 100px;
+}
+
+.search-result-item
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+    line-height: 45px;
+    height: 45px;
+    padding: 0 16px;
+    text-align: left;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.search-text-input
+{
+    width: 400px;
+    height: 50px;
 }
 
 .nav-bar-notification, .nav-bar-newsfeed, .nav-bar-wall, .nav-bar-logout
 {
+    float: left;
     margin-right: 10px;
     margin-left: 10px;
 }

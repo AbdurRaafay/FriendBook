@@ -15,8 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.session.web.http.HeaderHttpSessionStrategy;
 import org.springframework.session.web.http.HttpSessionStrategy;
 
-import com.friendbook.service.UserDetailsServiceImp;
 import com.friendbook.utility.SecurityUtility;
+import com.friendbook.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -59,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public UserDetailsService userDetailsService()
     {
-        return new UserDetailsServiceImp();
+        return new UserDetailsServiceImpl();
     }
 
     @Override

@@ -52,7 +52,7 @@ module.exports = "<div class=\"login\">\n    <ul style=\"list-style-type:none\">
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar class=\"nav-bar-friendbook\" *ngIf=\"isLoggedIn$ | async\">\n    <div class=\"nav-item-title\">\n        FriendBook\n    </div>\n    <form class=\"nav-bar-search\">\n        <mat-form-field class=\"search-full-width\">\n          <input type=\"text\" placeholder=\"Search\" aria-label=\"Number\" matInput [formControl]=\"searchFormControl\" [matAutocomplete]=\"auto\">\n          <mat-autocomplete #auto=\"matAutocomplete\">\n            <mat-option *ngFor=\"let option of autoCompleteList\" [value]=\"option\">\n              {{option}}\n            </mat-option>\n          </mat-autocomplete>\n        </mat-form-field>\n    </form>\n    <div class=\"nav-bar-bubble\" *ngIf=\"enableNotification\">{{noOfNotification}}</div>\n    <div class=\"nav-bar-notification\">\n        <i [matMenuTriggerFor]=\"notificationMenu\">\n            <img src=\"/icons/notification.svg\" width=\"50\" height=\"50\">            \n        </i>\n    </div>    \n    <mat-menu #notificationMenu=\"matMenu\" yPosition=\"above\">\n        <ng-container *ngFor=\"let item of menuItems\">\n            <button *ngIf=!item.templateName mat-menu-item (click)=\"select(item.postID)\">{{ item.text }}</button>\n          </ng-container>\n      </mat-menu>\n    <div class=\"nav-bar-newsfeed\">\n        <i (click)=\"onNewsFeedClicked()\"><img src=\"/icons/home.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n    <div class=\"nav-bar-wall\">\n        <i (click)=\"onWallClicked()\"><img src=\"/icons/firewall.svg\" width=\"50\" height=\"50\"></i>\n    </div>\n    <div class=\"nav-bar-logout\">\n        <i (click)=\"onLogoutClicked()\"><img src=\"/icons/logout.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n</mat-toolbar>"
+module.exports = "<mat-toolbar class=\"nav-bar-friendbook\" *ngIf=\"isLoggedIn$ | async\">\n    <div class=\"nav-item-title\">\n        FriendBook\n    </div>\n    <form class=\"nav-bar-search\">\n        <mat-form-field class=\"search-text-input\">\n          <input matInput placeholder=\"Search\" aria-label=\"Number\" [formControl]=\"searchFormControl\" [matAutocomplete]=\"auto\">\n          <mat-autocomplete class=\"search-autocomplete\" #auto=\"matAutocomplete\">\n            <mat-option (onSelectionChange)=\"onSearchItemSelected($event, option)\" *ngFor=\"let option of autoCompleteList\" [value]=\"option.name\">\n                <div class = \"search-result-item\">\n                    <img class = \"search-user-pic\" src=\"/images/{{option.imageID}}.jpg\" width=\"30\" height=\"30\"> &nbsp; &nbsp;\n                    <span class = \"search-user-name\">{{option.name}}</span>\n                </div>\n            </mat-option>\n          </mat-autocomplete>\n        </mat-form-field>\n    </form>\n    <div position=\"fixed\">\n        <div class=\"nav-bar-bubble\" *ngIf=\"enableNotification\" [matMenuTriggerFor]=\"notificationMenu\">{{noOfNotification}}</div>\n        <div class=\"nav-bar-notification\">\n            <i>\n                <img src=\"/icons/notification.svg\" width=\"50\" height=\"50\">            \n            </i>\n        </div>\n        <span>\n            <mat-menu #notificationMenu=\"matMenu\" yPosition=\"above\">\n                <ng-container *ngFor=\"let item of menuItems\">\n                    <button *ngIf=!item.templateName mat-menu-item (click)=\"select(item.postID)\">{{ item.text }}</button>\n                </ng-container>            \n            </mat-menu>            \n        </span>\n        <div class=\"nav-bar-newsfeed\">\n            <i (click)=\"onNewsFeedClicked()\"><img src=\"/icons/home.svg\" width=\"50\" height=\"50\"></i> \n        </div>\n        <div class=\"nav-bar-wall\">\n            <i (click)=\"onWallClicked()\"><img src=\"/icons/firewall.svg\" width=\"50\" height=\"50\"></i>\n        </div>\n        <div class=\"nav-bar-logout\">\n            <i (click)=\"onLogoutClicked()\"><img src=\"/icons/logout.svg\" width=\"50\" height=\"50\"></i> \n        </div>        \n    </div>\n</mat-toolbar>"
 
 /***/ }),
 
@@ -74,7 +74,7 @@ module.exports = "<br/>\n<div class=\"panel\"> \n  <div class = \"post-heading\"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class = \"container-newsfeed\" >\n    <div class = \"container-posts\">\n        <div class = \"container-newposts\">\n            <ng-template np-host></ng-template>\n        </div>        \n        <div class = \"container-nomoreposts\" *ngIf=\"nomoreposts\">There are no more posts to show right now</div>        \n    </div>    \n</div>"
+module.exports = "<div class=\"container-newsfeed-main\">\n    <div class=\"container-newsfeed-profile\">\n        <div class = \"user-pic\"> <img src='/images/{{profileImageID}}.jpg' width=\"150\" height=\"150\"> </div>\n        <div class = \"post-user-name\">{{currentUserName}}</div>\n    </div>\n    <div class=\"container-newsfeed\">\n        <div class=\"container-posts\">\n            <div class=\"container-newposts\">\n                <ng-template np-host></ng-template>\n            </div>        \n            <div class=\"container-nomoreposts\" *ngIf=\"nomoreposts\">There are no more posts to show right now</div>        \n        </div>    \n    </div>\n</div>"
 
 /***/ }),
 
@@ -85,7 +85,7 @@ module.exports = "<div class = \"container-newsfeed\" >\n    <div class = \"cont
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>otherwall works!</p>\n"
+module.exports = ""
 
 /***/ }),
 
@@ -543,7 +543,7 @@ var LoginComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".nav-bar-friendbook\n{\n    width: 100%;\n    top: 0;\n    position: fixed;\n    background-color: #b6bedf;\n}\n\n.nav-item-title\n{\n    float: left;    \n    font-style: italic;\n    font-size: 50px;\n    font-family: \"Times New Roman\", Times, serif;\n    margin-right: 50px;\n    margin-left: 10px;\n}\n\n.nav-bar-search\n{\n    float: left;\n    width: 80%;\n    height: 50px;\n    margin-right: 150px;\n}\n\n.nav-bar-notification, .nav-bar-newsfeed, .nav-bar-wall, .nav-bar-logout\n{\n    margin-right: 10px;\n    margin-left: 10px;\n}\n\n.nav-bar-bubble\n{\n    position: relative;\n    top: -10px;\n    right: -70px;\n    padding: 5px 10px;\n    border-radius: 50%;\n    background-color: red;\n    color: white;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uYXZiYXIvbmF2YmFyLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0lBRUksV0FBVztJQUNYLE1BQU07SUFDTixlQUFlO0lBQ2YseUJBQXlCO0FBQzdCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLDRDQUE0QztJQUM1QyxrQkFBa0I7SUFDbEIsaUJBQWlCO0FBQ3JCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxVQUFVO0lBQ1YsWUFBWTtJQUNaLG1CQUFtQjtBQUN2Qjs7QUFFQTs7SUFFSSxrQkFBa0I7SUFDbEIsaUJBQWlCO0FBQ3JCOztBQUVBOztJQUVJLGtCQUFrQjtJQUNsQixVQUFVO0lBQ1YsWUFBWTtJQUNaLGlCQUFpQjtJQUNqQixrQkFBa0I7SUFDbEIscUJBQXFCO0lBQ3JCLFlBQVk7QUFDaEIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL25hdmJhci9uYXZiYXIuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5uYXYtYmFyLWZyaWVuZGJvb2tcbntcbiAgICB3aWR0aDogMTAwJTtcbiAgICB0b3A6IDA7XG4gICAgcG9zaXRpb246IGZpeGVkO1xuICAgIGJhY2tncm91bmQtY29sb3I6ICNiNmJlZGY7XG59XG5cbi5uYXYtaXRlbS10aXRsZVxue1xuICAgIGZsb2F0OiBsZWZ0OyAgICBcbiAgICBmb250LXN0eWxlOiBpdGFsaWM7XG4gICAgZm9udC1zaXplOiA1MHB4O1xuICAgIGZvbnQtZmFtaWx5OiBcIlRpbWVzIE5ldyBSb21hblwiLCBUaW1lcywgc2VyaWY7XG4gICAgbWFyZ2luLXJpZ2h0OiA1MHB4O1xuICAgIG1hcmdpbi1sZWZ0OiAxMHB4O1xufVxuXG4ubmF2LWJhci1zZWFyY2hcbntcbiAgICBmbG9hdDogbGVmdDtcbiAgICB3aWR0aDogODAlO1xuICAgIGhlaWdodDogNTBweDtcbiAgICBtYXJnaW4tcmlnaHQ6IDE1MHB4O1xufVxuXG4ubmF2LWJhci1ub3RpZmljYXRpb24sIC5uYXYtYmFyLW5ld3NmZWVkLCAubmF2LWJhci13YWxsLCAubmF2LWJhci1sb2dvdXRcbntcbiAgICBtYXJnaW4tcmlnaHQ6IDEwcHg7XG4gICAgbWFyZ2luLWxlZnQ6IDEwcHg7XG59XG5cbi5uYXYtYmFyLWJ1YmJsZVxue1xuICAgIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgICB0b3A6IC0xMHB4O1xuICAgIHJpZ2h0OiAtNzBweDtcbiAgICBwYWRkaW5nOiA1cHggMTBweDtcbiAgICBib3JkZXItcmFkaXVzOiA1MCU7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmVkO1xuICAgIGNvbG9yOiB3aGl0ZTtcbn0iXX0= */"
+module.exports = ".nav-bar-friendbook\n{\n    width: 100%;\n    top: 0;\n    position: fixed;\n    background-color: #b6bedf;\n}\n\n.nav-item-title\n{\n    float: left;    \n    font-style: italic;\n    font-size: 50px;\n    font-family: \"Times New Roman\", Times, serif;\n    margin-right: 50px;\n    margin-left: 10px;\n}\n\n.nav-bar-search\n{\n    float: left;\n    width: 400px;\n    height: 50px;\n    margin-right: 100px;\n}\n\n.search-result-item\n{\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n            flex-direction: row;\n    -webkit-box-align: center;\n            align-items: center;\n    white-space: nowrap;\n    line-height: 45px;\n    height: 45px;\n    padding: 0 16px;\n    text-align: left;\n    max-width: 100%;\n    box-sizing: border-box;\n}\n\n.search-text-input\n{\n    width: 400px;\n    height: 50px;\n}\n\n.nav-bar-notification, .nav-bar-newsfeed, .nav-bar-wall, .nav-bar-logout\n{\n    float: left;\n    margin-right: 10px;\n    margin-left: 10px;\n}\n\n.nav-bar-bubble\n{\n    position: relative;\n    top: -10px;\n    right: -70px;\n    padding: 5px 10px;\n    border-radius: 50%;\n    background-color: red;\n    color: white;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uYXZiYXIvbmF2YmFyLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0lBRUksV0FBVztJQUNYLE1BQU07SUFDTixlQUFlO0lBQ2YseUJBQXlCO0FBQzdCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLDRDQUE0QztJQUM1QyxrQkFBa0I7SUFDbEIsaUJBQWlCO0FBQ3JCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxZQUFZO0lBQ1osWUFBWTtJQUNaLG1CQUFtQjtBQUN2Qjs7QUFFQTs7SUFFSSxvQkFBYTtJQUFiLGFBQWE7SUFDYiw4QkFBbUI7SUFBbkIsNkJBQW1CO1lBQW5CLG1CQUFtQjtJQUNuQix5QkFBbUI7WUFBbkIsbUJBQW1CO0lBQ25CLG1CQUFtQjtJQUNuQixpQkFBaUI7SUFDakIsWUFBWTtJQUNaLGVBQWU7SUFDZixnQkFBZ0I7SUFDaEIsZUFBZTtJQUNmLHNCQUFzQjtBQUMxQjs7QUFFQTs7SUFFSSxZQUFZO0lBQ1osWUFBWTtBQUNoQjs7QUFFQTs7SUFFSSxXQUFXO0lBQ1gsa0JBQWtCO0lBQ2xCLGlCQUFpQjtBQUNyQjs7QUFFQTs7SUFFSSxrQkFBa0I7SUFDbEIsVUFBVTtJQUNWLFlBQVk7SUFDWixpQkFBaUI7SUFDakIsa0JBQWtCO0lBQ2xCLHFCQUFxQjtJQUNyQixZQUFZO0FBQ2hCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9uYXZiYXIvbmF2YmFyLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIubmF2LWJhci1mcmllbmRib29rXG57XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgdG9wOiAwO1xuICAgIHBvc2l0aW9uOiBmaXhlZDtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjYjZiZWRmO1xufVxuXG4ubmF2LWl0ZW0tdGl0bGVcbntcbiAgICBmbG9hdDogbGVmdDsgICAgXG4gICAgZm9udC1zdHlsZTogaXRhbGljO1xuICAgIGZvbnQtc2l6ZTogNTBweDtcbiAgICBmb250LWZhbWlseTogXCJUaW1lcyBOZXcgUm9tYW5cIiwgVGltZXMsIHNlcmlmO1xuICAgIG1hcmdpbi1yaWdodDogNTBweDtcbiAgICBtYXJnaW4tbGVmdDogMTBweDtcbn1cblxuLm5hdi1iYXItc2VhcmNoXG57XG4gICAgZmxvYXQ6IGxlZnQ7XG4gICAgd2lkdGg6IDQwMHB4O1xuICAgIGhlaWdodDogNTBweDtcbiAgICBtYXJnaW4tcmlnaHQ6IDEwMHB4O1xufVxuXG4uc2VhcmNoLXJlc3VsdC1pdGVtXG57XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgd2hpdGUtc3BhY2U6IG5vd3JhcDtcbiAgICBsaW5lLWhlaWdodDogNDVweDtcbiAgICBoZWlnaHQ6IDQ1cHg7XG4gICAgcGFkZGluZzogMCAxNnB4O1xuICAgIHRleHQtYWxpZ246IGxlZnQ7XG4gICAgbWF4LXdpZHRoOiAxMDAlO1xuICAgIGJveC1zaXppbmc6IGJvcmRlci1ib3g7XG59XG5cbi5zZWFyY2gtdGV4dC1pbnB1dFxue1xuICAgIHdpZHRoOiA0MDBweDtcbiAgICBoZWlnaHQ6IDUwcHg7XG59XG5cbi5uYXYtYmFyLW5vdGlmaWNhdGlvbiwgLm5hdi1iYXItbmV3c2ZlZWQsIC5uYXYtYmFyLXdhbGwsIC5uYXYtYmFyLWxvZ291dFxue1xuICAgIGZsb2F0OiBsZWZ0O1xuICAgIG1hcmdpbi1yaWdodDogMTBweDtcbiAgICBtYXJnaW4tbGVmdDogMTBweDtcbn1cblxuLm5hdi1iYXItYnViYmxlXG57XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgIHRvcDogLTEwcHg7XG4gICAgcmlnaHQ6IC03MHB4O1xuICAgIHBhZGRpbmc6IDVweCAxMHB4O1xuICAgIGJvcmRlci1yYWRpdXM6IDUwJTtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZWQ7XG4gICAgY29sb3I6IHdoaXRlO1xufSJdfQ== */"
 
 /***/ }),
 
@@ -551,12 +551,11 @@ module.exports = ".nav-bar-friendbook\n{\n    width: 100%;\n    top: 0;\n    pos
 /*!*******************************************************!*\
   !*** ./src/app/components/navbar/navbar.component.ts ***!
   \*******************************************************/
-/*! exports provided: MenuItem, NavbarComponent */
+/*! exports provided: NavbarComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuItem", function() { return MenuItem; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavbarComponent", function() { return NavbarComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
@@ -566,6 +565,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
 /* harmony import */ var src_app_services_websocketmessaging_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/websocketmessaging.service */ "./src/app/services/websocketmessaging.service.ts");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 
 
 
@@ -574,12 +574,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var stompClientNotification = null;
-var MenuItem = /** @class */ (function () {
-    function MenuItem() {
-    }
-    return MenuItem;
-}());
 
 var NavbarComponent = /** @class */ (function () {
     function NavbarComponent(router, authService, commService, wscommService) {
@@ -588,9 +582,11 @@ var NavbarComponent = /** @class */ (function () {
         this.commService = commService;
         this.wscommService = wscommService;
         this.enableNotification = false;
+        this.isSearchLoading = false;
         this.noOfNotification = 0;
         this.alreadyClicked = [];
         this.searchFormControl = new _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormControl"]();
+        this.autoCompleteList = [];
         this.menuItems = [];
     }
     NavbarComponent.prototype.ngOnInit = function () {
@@ -598,14 +594,12 @@ var NavbarComponent = /** @class */ (function () {
         this.isLoggedIn$ = this.authService.isLoggedIn;
         this.isLoggedIn$.subscribe(function (res) {
             if (res == true) {
-                _this.wscommService.notificationObs.subscribe(function (res) {
-                    _this.onNotificationMessageReceived(res);
-                });
+                _this.wscommService.notificationObs.subscribe(function (notres) { _this.onNotificationMessageReceived(notres); });
             }
         });
-    };
-    NavbarComponent.prototype.ngOnDestroy = function () {
-        stompClientNotification.disconnect();
+        this.wscommService.searchObs.subscribe(function (seres) { _this.onSearchMessageReceived(seres); });
+        //Introduce delay so that not too many calls to the backend are generated
+        this.searchFormControl.valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_8__["debounceTime"])(500), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_8__["distinctUntilChanged"])()).subscribe(function (val) { _this.onSearchChange(val); });
     };
     NavbarComponent.prototype.onNotificationMessageReceived = function (payload) {
         var menuItemText = localStorage.getItem(payload.usrID);
@@ -621,6 +615,18 @@ var NavbarComponent = /** @class */ (function () {
         this.menuItems.push(abc);
         this.enableNotification = true;
         this.noOfNotification++;
+    };
+    NavbarComponent.prototype.onSearchMessageReceived = function (payload) {
+        var _this = this;
+        var searchList;
+        searchList = payload;
+        this.autoCompleteList.length = 0;
+        searchList.forEach(function (t) { var abc = { name: t.userName, imageID: t.imageID }; _this.autoCompleteList.push(abc); });
+    };
+    NavbarComponent.prototype.onNotificationClicked = function () {
+        if (this.enableNotification) {
+            this.notificationMenu.openMenu();
+        }
     };
     NavbarComponent.prototype.onNewsFeedClicked = function () {
         this.router.navigate(['/newsfeed']);
@@ -641,6 +647,12 @@ var NavbarComponent = /** @class */ (function () {
                 this.enableNotification = false;
         }
         this.router.navigate(['/singlepost', pText]);
+    };
+    NavbarComponent.prototype.onSearchChange = function (searchValue) {
+        this.wscommService.sendSearchMessage(searchValue);
+    };
+    NavbarComponent.prototype.onSearchItemSelected = function (event, srcItm) {
+        console.log(srcItm);
     };
     NavbarComponent.ctorParameters = function () { return [
         { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"] },
@@ -828,7 +840,7 @@ var NPostDirective = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".container-newsfeed\n{\n    margin-top: 50px;\n    margin-left: auto;\n    margin-right: auto;\n    width: 50%;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uZXdzZmVlZC9uZXdzZmVlZC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOztJQUVJLGdCQUFnQjtJQUNoQixpQkFBaUI7SUFDakIsa0JBQWtCO0lBQ2xCLFVBQVU7QUFDZCIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvbmV3c2ZlZWQvbmV3c2ZlZWQuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jb250YWluZXItbmV3c2ZlZWRcbntcbiAgICBtYXJnaW4tdG9wOiA1MHB4O1xuICAgIG1hcmdpbi1sZWZ0OiBhdXRvO1xuICAgIG1hcmdpbi1yaWdodDogYXV0bztcbiAgICB3aWR0aDogNTAlO1xufSJdfQ== */"
+module.exports = ".container-newsfeed-main\n{\n    margin-top: 50px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: start;\n            justify-content: flex-start;\n}\n\n.container-newsfeed-profile\n{\n    margin-top: 50px;\n    margin-right: 10px;\n}\n\n.container-newsfeed\n{\n    margin-left: auto;\n    margin-right: auto;\n    width: 50%;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uZXdzZmVlZC9uZXdzZmVlZC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOztJQUVJLGdCQUFnQjtJQUNoQixvQkFBYTtJQUFiLGFBQWE7SUFDYix1QkFBMkI7WUFBM0IsMkJBQTJCO0FBQy9COztBQUVBOztJQUVJLGdCQUFnQjtJQUNoQixrQkFBa0I7QUFDdEI7O0FBRUE7O0lBRUksaUJBQWlCO0lBQ2pCLGtCQUFrQjtJQUNsQixVQUFVO0FBQ2QiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL25ld3NmZWVkL25ld3NmZWVkLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGFpbmVyLW5ld3NmZWVkLW1haW5cbntcbiAgICBtYXJnaW4tdG9wOiA1MHB4O1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAganVzdGlmeS1jb250ZW50OiBmbGV4LXN0YXJ0O1xufVxuXG4uY29udGFpbmVyLW5ld3NmZWVkLXByb2ZpbGVcbntcbiAgICBtYXJnaW4tdG9wOiA1MHB4O1xuICAgIG1hcmdpbi1yaWdodDogMTBweDtcbn1cblxuLmNvbnRhaW5lci1uZXdzZmVlZFxue1xuICAgIG1hcmdpbi1sZWZ0OiBhdXRvO1xuICAgIG1hcmdpbi1yaWdodDogYXV0bztcbiAgICB3aWR0aDogNTAlO1xufSJdfQ== */"
 
 /***/ }),
 
@@ -861,8 +873,10 @@ var NewsfeedComponent = /** @class */ (function () {
         this.componentFactoryResolver = componentFactoryResolver;
         this.scrSrv = scrSrv;
         this.currentUserName = localStorage.getItem('currentUserName');
+        this.profileImageID = localStorage.getItem('userImageID');
         this.nomoreposts = false;
         this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(src_app_components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_3__["NewpostComponent"]);
+        console.log(this.currentUserName + " " + this.profileImageID);
     }
     NewsfeedComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -1446,6 +1460,8 @@ var WebsocketmessagingService = /** @class */ (function () {
         this.onlineObs = this.onlineSubject.asObservable();
         this.notificationSubject = new rxjs__WEBPACK_IMPORTED_MODULE_4__["Subject"]();
         this.notificationObs = this.notificationSubject.asObservable();
+        this.searchSubject = new rxjs__WEBPACK_IMPORTED_MODULE_4__["Subject"]();
+        this.searchObs = this.searchSubject.asObservable();
     }
     WebsocketmessagingService.prototype.connectToChat = function () {
         var that = this;
@@ -1468,6 +1484,10 @@ var WebsocketmessagingService = /** @class */ (function () {
             this.chatSubject.next(payload);
         else if (payload.hasOwnProperty('entityID'))
             this.notificationSubject.next(payload);
+        else if (Array.isArray(payload)) //Search messages are returned as Array
+         {
+            this.searchSubject.next(payload);
+        }
     };
     WebsocketmessagingService.prototype.sendChatMessage = function (toId, fromId, message) {
         var chatMessage = { chatMessage: 'CHAT', sender: localStorage.getItem('userImageID'), recipient: toId, content: message };

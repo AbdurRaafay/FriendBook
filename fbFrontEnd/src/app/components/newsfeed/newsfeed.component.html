@@ -1,8 +1,14 @@
-<div class = "container-newsfeed" >
-    <div class = "container-posts">
-        <div class = "container-newposts">
-            <ng-template np-host></ng-template>
-        </div>        
-        <div class = "container-nomoreposts" *ngIf="nomoreposts">There are no more posts to show right now</div>        
-    </div>    
+<div class="container-newsfeed-main">
+    <div class="container-newsfeed-profile">
+        <div class = "user-pic"> <img src='/images/{{profileImageID}}.jpg' width="150" height="150"> </div>
+        <div class = "post-user-name">{{currentUserName}}</div>
+    </div>
+    <div class="container-newsfeed">
+        <div class="container-posts">
+            <div class="container-newposts">
+                <ng-template np-host></ng-template>
+            </div>        
+            <div class="container-nomoreposts" *ngIf="nomoreposts">There are no more posts to show right now</div>        
+        </div>    
+    </div>
 </div>

@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.security.Principal;
 
-import com.friendbook.model.Notification;
+import com.friendbook.model.*;
 import com.friendbook.repository.mongorepo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.friendbook.repository.redisrepo.OnlineUsersRepository;
 import com.friendbook.repository.redisrepo.UserFeedRepository;
-import com.friendbook.model.Comment;
-import com.friendbook.model.Post;
-import com.friendbook.model.User;
 
 @RestController
 public class MainController
@@ -51,7 +48,7 @@ public class MainController
     private NotificationRepository notrepo;
 
     @Autowired
-    private NotifiedUserRepository notusrrepo;
+    private FriendRequestRepository frndrepo;
 
     @GetMapping("/getwallposts")
     public ResponseEntity<?> getWallPosts(Principal principal)
@@ -197,6 +194,26 @@ public class MainController
         String usrID = getUserIDFromPricipal(principal);
         Notification ntf = new Notification(usrID, date, PostID, Notification.NotificationType.DISLIKE);
         notrepo.insertNotification(ntf);
+    }
+
+    @GetMapping("/sendfriendRequest/{userImageID}/")
+    public ResponseEntity<?> sendfriendRequest(Principal principal, @PathVariable String userImageID)
+    {
+        Map<String, Object> map = new HashMap<>();
+        String toUserID = usrrep.getUserIDFromImageByID(userImageID);
+        String fromUserID = getUserIDFromPricipal(principal);
+        if(frndrepo.isFriendRequestPending(fromUserID, toUserID))
+        {
+            map.put("status", "pending");
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        }
+        else
+        {
+            FriendRequest fr = new FriendRequest(toUserID, fromUserID, FriendRequest.FriendRequestStatus.PENDING);
+            frndrepo.insertFriendRequest(fr);
+            map.put("status", "sent");
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        }
     }
 
     private String getUserIDFromPricipal(Principal principal)

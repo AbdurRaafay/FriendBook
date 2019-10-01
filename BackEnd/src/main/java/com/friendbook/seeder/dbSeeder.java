@@ -20,6 +20,7 @@ import com.friendbook.model.Post;
 import com.friendbook.model.User;
 import com.friendbook.repository.mongorepo.PostRepository;
 import com.friendbook.service.NotificationService;
+import com.friendbook.utility.NamesSearchUtility;
 import com.friendbook.utility.SecurityUtility;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,12 @@ import org.springframework.core.io.ClassPathResource;
 import com.fasterxml.uuid.Generators;
 import com.friendbook.repository.mongorepo.UserRepository;
 import com.friendbook.repository.redisrepo.UserFeedRepository;
-import com.friendbook.utility.RedisSearchUtility;
 
 @Component
 public class dbSeeder implements CommandLineRunner
 {
     private String[] filetext = null;
+    private boolean initMongoDB = false;
 
     private int MaxUsers = 20;
     private int NoOfFriends = 5;
@@ -82,19 +83,19 @@ public class dbSeeder implements CommandLineRunner
     {
         this.mongoOps = new MongoTemplate(new MongoClient("localhost", 27017), "FriendBookDB");
 
-        //InitializeMongoDB();
+        if(initMongoDB)
+            InitializeMongoDB();
         InitializeRedisCache();
-        InitializeRedisSearch();
         notSrv.processNotification();
         notSrv.sendNotification();
-        RedisSearchUtility.initializeSearch();
-        RedisSearchUtility.setupIndex(users);
+        InitializeSearch();
         System.out.println("************************************************Done************************************************");
     }
 
-    private void InitializeRedisSearch()
+    private void InitializeSearch()
     {
-
+        users = mongoOps.findAll(User.class);
+        NamesSearchUtility.setupUserNames(users);
     }
 
     public dbSeeder()

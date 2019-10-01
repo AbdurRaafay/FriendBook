@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.User.UserBuilder;
 import com.friendbook.repository.mongorepo.UserRepository;
 
 @Service
-public class UserDetailsServiceImp implements UserDetailsService
+public class UserDetailsServiceImpl implements UserDetailsService
 {
 
     @Autowired

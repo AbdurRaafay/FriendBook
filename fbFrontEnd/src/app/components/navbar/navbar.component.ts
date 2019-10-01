@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -6,14 +6,14 @@ import { CommunicationService } from 'src/app/services/communication.service';
 import { MatMenuTrigger } from '@angular/material';
 import { WebsocketmessagingService } from 'src/app/services/websocketmessaging.service';
 import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
-var stompClientNotification = null;
-
-export class MenuItem 
+interface SearchItem 
 {
-  path: string;
-  title: string;
+  name: string;
+  imageID: string;
 }
+
 
 @Component({
   selector: 'app-navbar',
@@ -21,17 +21,19 @@ export class MenuItem
   styleUrls: ['./navbar.component.css']
 })
 
-export class NavbarComponent implements OnInit, OnDestroy 
+export class NavbarComponent implements OnInit
 {
   isLoggedIn$: Observable<boolean>;
   enableNotification: boolean = false;
+  isSearchLoading: boolean = false;
   noOfNotification: number = 0;
   alreadyClicked: Array<string> = [];
   searchFormControl = new FormControl();
+  autoCompleteList: SearchItem[] = [];
   menuItems: Array<{text: string, postID: string}> = [];
   
   @ViewChild(MatMenuTrigger, {static: false}) notificationMenu: MatMenuTrigger;
-
+  
   constructor(private router:Router, private authService: AuthenticationService, private commService: CommunicationService, 
     private wscommService: WebsocketmessagingService) {}
 
@@ -42,18 +44,14 @@ export class NavbarComponent implements OnInit, OnDestroy
       {
         if(res == true)
         {
-          this.wscommService.notificationObs.subscribe(res=>
-          {
-                this.onNotificationMessageReceived(res);
-          });
-
+          this.wscommService.notificationObs.subscribe(notres=>
+          { this.onNotificationMessageReceived(notres); });           
         }
-      });    
-  }
+      });
+    this.wscommService.searchObs.subscribe(seres=>{ this.onSearchMessageReceived(seres); });
 
-  ngOnDestroy()
-  {
-    stompClientNotification.disconnect();  
+    //Introduce delay so that not too many calls to the backend are generated
+    this.searchFormControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged()).subscribe(val=>{this.onSearchChange(val);});
   }
 
   onNotificationMessageReceived(payload)
@@ -73,6 +71,22 @@ export class NavbarComponent implements OnInit, OnDestroy
     this.menuItems.push(abc);
     this.enableNotification = true;
     this.noOfNotification++;
+  }
+
+  onSearchMessageReceived(payload)
+  {
+    var searchList: any;
+    searchList = payload;
+    this.autoCompleteList.length = 0;
+    searchList.forEach(t => { var abc = {name: t.userName, imageID: t.imageID}; this.autoCompleteList.push(abc);}); 
+  }
+
+  onNotificationClicked()
+  {
+    if(this.enableNotification)
+    {
+      this.notificationMenu.openMenu();
+    }
   }
 
   onNewsFeedClicked()
@@ -102,5 +116,15 @@ export class NavbarComponent implements OnInit, OnDestroy
         this.enableNotification = false;
     }      
     this.router.navigate(['/singlepost', pText]);
-  }  
+  }
+  
+  onSearchChange(searchValue: string)
+  {
+    this.wscommService.sendSearchMessage(searchValue);
+  }
+  
+  onSearchItemSelected(event: any, srcItm: SearchItem)
+  {
+    console.log(srcItm);
+  }
 }

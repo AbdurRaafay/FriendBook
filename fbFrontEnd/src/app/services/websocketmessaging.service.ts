@@ -21,6 +21,9 @@ export class WebsocketmessagingService
   private notificationSubject = new Subject<any>();
   notificationObs = this.notificationSubject.asObservable(); 
 
+  private searchSubject = new Subject<any>();
+  searchObs = this.searchSubject.asObservable(); 
+
   connectToChat()
   {
     var that = this;
@@ -52,6 +55,10 @@ export class WebsocketmessagingService
       this.chatSubject.next(payload);
     else if(payload.hasOwnProperty('entityID'))
       this.notificationSubject.next(payload);  
+    else if(Array.isArray(payload))//Search messages are returned as Array
+    {
+      this.searchSubject.next(payload);  
+    }
   }
 
   sendChatMessage(toId: string, fromId: string, message: string)

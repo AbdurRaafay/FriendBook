@@ -17,6 +17,7 @@ export class NewsfeedComponent implements OnInit
 {
   @ViewChild(NPostDirective, {static: true}) npHost: NPostDirective;
   currentUserName: string = localStorage.getItem('currentUserName');
+  profileImageID: string = localStorage.getItem('userImageID');
   nomoreposts: boolean = false;
   componentFactory: any;
   viewContainerRef:any;
@@ -24,6 +25,7 @@ export class NewsfeedComponent implements OnInit
   constructor(private commService: CommunicationService, private componentFactoryResolver: ComponentFactoryResolver, private scrSrv: ScrollService) 
   { 
     this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(NewpostComponent);
+    console.log(this.currentUserName + " " + this.profileImageID);
   }
 
   ngOnInit() 
