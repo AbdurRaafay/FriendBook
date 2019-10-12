@@ -17,6 +17,7 @@ export class NewsfeedComponent implements OnInit
 {
   @ViewChild(NPostDirective, {static: true}) npHost: NPostDirective;
   currentUserName: string = localStorage.getItem('currentUserName');
+  userNameArray: string[];
   profileImageID: string = localStorage.getItem('userImageID');
   nomoreposts: boolean = false;
   componentFactory: any;
@@ -26,6 +27,7 @@ export class NewsfeedComponent implements OnInit
   { 
     this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(NewpostComponent);
     console.log(this.currentUserName + " " + this.profileImageID);
+    this.userNameArray = this.currentUserName.split(" ");
   }
 
   ngOnInit() 
@@ -47,7 +49,6 @@ export class NewsfeedComponent implements OnInit
     this.commService.getNewsFeed().subscribe(res => 
     {
       let limit = res.length;
-      console.log(limit);
       for(let i = 0; i < limit; i++)
       {
         var abc = JSON.parse(res[i]);

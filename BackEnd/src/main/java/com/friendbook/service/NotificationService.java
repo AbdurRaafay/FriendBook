@@ -1,7 +1,9 @@
 package com.friendbook.service;
 
+import com.friendbook.model.FriendRequest;
 import com.friendbook.model.Notification;
 import com.friendbook.model.NotifiedUser;
+import com.friendbook.repository.mongorepo.FriendRequestRepository;
 import com.friendbook.repository.mongorepo.NotificationRepository;
 import com.friendbook.repository.mongorepo.NotifiedUserRepository;
 import com.friendbook.repository.mongorepo.UserRepository;
@@ -34,6 +36,8 @@ public class NotificationService
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
 
+    @Autowired
+    private FriendRequestRepository frndrepo;
     private boolean shutdown = false;
 
     @Async
@@ -107,10 +111,24 @@ public class NotificationService
                                     System.out.println(map);
                                     String usrEmail = usrrep.getEmailFromID(nu.getNotifiedUserID());
                                     System.out.println(usrEmail);
-                                    messagingTemplate.convertAndSendToUser(usrEmail,
-                                            "/queue/messages", map);
+                                    messagingTemplate.convertAndSendToUser(usrEmail,"/queue/messages", map);
                                     sentNotifications.add(nu.getId());
                                 }
+                            }
+                        }
+                        List<FriendRequest> frp = frndrepo.getAllFriendRequestPending(info[0]);//Send friend requests
+                        if (frp != null && !frp.isEmpty())
+                        {
+                            for(FriendRequest fr : frp)
+                            {
+                                Map<String, Object> map = new HashMap<String, Object>();
+                                map.put("usrtoImageID", usrrep.getImageByID(fr.getToUserID()));
+                                map.put("entityID", usrrep.getImageByID(fr.getFromUserID()));
+                                map.put("usrfromFullName", usrrep.getFullNameByID(fr.getFromUserID()));
+                                map.put("type", "FRIEND_REQUEST");
+                                String usrEmail = usrrep.getEmailFromID(fr.getToUserID());
+                                System.out.println(usrEmail);
+                                messagingTemplate.convertAndSendToUser(usrEmail, "/queue/messages", map);
                             }
                         }
                     }
@@ -124,5 +142,4 @@ public class NotificationService
     {
         shutdown = true;
     }
-
 }

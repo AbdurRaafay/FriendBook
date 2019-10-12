@@ -33,14 +33,14 @@ public class PostRepositoryImpl implements PostRepository
     }
 
     @Override
-    public List<Post> findByOwnerID(String OwnerID)
+    public List<Post> findByOwnerID(String OwnerID, int pageSize)
     {
         //pageNo starts from zero
         List<Post> fpl;
         Query query = new Query();
         query.addCriteria(Criteria.where("authorID").is(OwnerID));
         query.with(new Sort(Sort.Direction.DESC,"posttime"));
-        query.limit(100);
+        query.limit(pageSize);
         fpl = mongoTemplate.find(query, Post.class);
         if(fpl.isEmpty())
             return null;

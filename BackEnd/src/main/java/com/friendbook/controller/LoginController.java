@@ -57,6 +57,7 @@ public class LoginController
         User currentUser = usrrep.findByEmail(principal.getName());
         ousrrep.logoutUser(currentUser.getImageFileID());
         SecurityContextHolder.clearContext();
+        System.out.println(principal.getName() + " logged out");
         return new ResponseEntity<String>("Logout Successfully!", HttpStatus.OK);
     }
 }

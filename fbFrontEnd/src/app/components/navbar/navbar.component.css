@@ -19,9 +19,9 @@
 .nav-bar-search
 {
     float: left;
-    width: 400px;
+    width: 3vw;
     height: 50px;
-    margin-right: 100px;
+    margin-right: 30vw;
 }
 
 .search-result-item
@@ -40,7 +40,7 @@
 
 .search-text-input
 {
-    width: 400px;
+    width: 30vw;
     height: 50px;
 }
 
@@ -53,6 +53,7 @@
 
 .nav-bar-bubble
 {
+    visibility: hidden;
     position: relative;
     top: -10px;
     right: -70px;

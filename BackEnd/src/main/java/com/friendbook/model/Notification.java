@@ -12,7 +12,7 @@ public class Notification
 {
     public enum NotificationType
     {
-        COMMENT, LIKE, DISLIKE, NEWPOST, CHAT, FRIENDREQUEST
+        COMMENT, LIKE, DISLIKE, NEWPOST, CHAT
     }
 
     @Id

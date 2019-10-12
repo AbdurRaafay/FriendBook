@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { CommunicationService } from './communication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ export class AuthenticationService
 {
   private loggedIn = new BehaviorSubject<boolean>(false);
 
-  constructor() { }
+  constructor(private commService: CommunicationService) { }
 
   get isLoggedIn()
   {
@@ -23,5 +24,6 @@ export class AuthenticationService
   logout() 
   {
     this.loggedIn.next(false);
+    this.commService.logout();
   }  
 }

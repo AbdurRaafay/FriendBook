@@ -112,7 +112,7 @@ public class UserRepositoryImpl implements UserRepository
     }
 
     @Override
-    public boolean isFriend(String email, String imageID)
+    public boolean isFriend(String email, String imageID)//Is imageID friend of email
     {
         User usrA = findByEmail(email);
         User usrB = getUserFromUserID(getUserIDFromImageByID(imageID));

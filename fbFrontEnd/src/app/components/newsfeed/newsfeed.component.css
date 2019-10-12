@@ -15,12 +15,13 @@
 {
     font-style: bold;
     font-size: 50px;
-    font-family: "Times New Roman", Times, serif;    
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-left: 0;
 }
 
 .container-newsfeed
 {
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 10px;
+    margin-right: 0px;
     width: 50%;
 }

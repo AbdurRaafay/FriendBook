@@ -17,7 +17,6 @@ public class HttpSessionConfig
     @Bean
     public LettuceConnectionFactory connectionFactory()
     {
-        System.out.println("connectionFactory called");
         this.lcf = new LettuceConnectionFactory();
         return this.lcf;
     }
@@ -26,7 +25,6 @@ public class HttpSessionConfig
     @ConditionalOnMissingBean(StringRedisTemplate.class)
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory)
     {
-        System.out.println("String template called");
         StringRedisTemplate template = new StringRedisTemplate();
         template.setConnectionFactory(redisConnectionFactory);
         template.getConnectionFactory().getConnection().flushAll(); //Clear Redis cache

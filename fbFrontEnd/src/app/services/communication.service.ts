@@ -11,6 +11,13 @@ export class CommunicationService
 {
   constructor(private http:HttpClient) { }
 
+  getFriendsWallPosts(friendImageID: string): Observable<any>
+  {
+    let url = AppConst.serverPath + 'getfriendswall/' + friendImageID;
+    console.log(url);
+    return this.http.get(url);  
+  }
+
   getWallPosts(): Observable<any> 
   {
     let url = AppConst.serverPath + 'getwallposts/';
@@ -73,7 +80,7 @@ export class CommunicationService
 
   sendCredential(email: string, password: string)
   {
-  	let url = AppConst.serverPath+'/login';
+  	let url = AppConst.serverPath + '/login';
   	let encodedCredentials = btoa(email+":"+password);
 		let basicHeader = "Basic "+encodedCredentials;
   	let headers = new HttpHeaders({
@@ -81,5 +88,17 @@ export class CommunicationService
   		'Authorization' : basicHeader
   	});
   	return this.http.get(url, {headers});
+  }
+
+  checkFriendRequestStatus(usrImageID: string)
+  {
+  	let url = AppConst.serverPath + 'login/' + usrImageID;
+
+  }
+
+  logout()
+  {
+    let url = AppConst.serverPath + 'logout/';
+    return this.http.get(url);    
   }
 }

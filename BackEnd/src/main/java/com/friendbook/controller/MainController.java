@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.friendbook.repository.redisrepo.OnlineUsersRepository;
@@ -196,8 +197,8 @@ public class MainController
         notrepo.insertNotification(ntf);
     }
 
-    @GetMapping("/sendfriendRequest/{userImageID}/")
-    public ResponseEntity<?> sendfriendRequest(Principal principal, @PathVariable String userImageID)
+    @GetMapping("/checkFriendRequestStatus/{userImageID}/")
+    public ResponseEntity<?> checkFriendRequestStatus(Principal principal, @PathVariable String userImageID)
     {
         Map<String, Object> map = new HashMap<>();
         String toUserID = usrrep.getUserIDFromImageByID(userImageID);
@@ -209,9 +210,52 @@ public class MainController
         }
         else
         {
-            FriendRequest fr = new FriendRequest(toUserID, fromUserID, FriendRequest.FriendRequestStatus.PENDING);
-            frndrepo.insertFriendRequest(fr);
-            map.put("status", "sent");
+            map.put("status", "not_pending");
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/sendfriendRequest/{userImageID}/")
+    public ResponseEntity<?> sendfriendRequest(Principal principal, @PathVariable String userImageID)
+    {
+        Map<String, Object> map = new HashMap<>();
+        String toUserID = usrrep.getUserIDFromImageByID(userImageID);
+        String fromUserID = getUserIDFromPricipal(principal);
+        FriendRequest fr = new FriendRequest(toUserID, fromUserID, FriendRequest.FriendRequestStatus.PENDING);
+        frndrepo.insertFriendRequest(fr);
+        map.put("status", "sent");
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @GetMapping("/getfriendswall/{id}")
+    ResponseEntity<?> getfriendswall(Principal principal, @PathVariable String id)
+    {
+
+        Map<String, Object> map = new HashMap<>();
+        System.out.println("Get Friends Wall  " + id);
+
+        if(usrrep.isFriend(principal.getName(), id))
+        {
+            List<Post> pstLst = fprep.findByOwnerID(usrrep.getUserIDFromImageByID(id),20);
+            if(pstLst != null && pstLst.size() > 0)
+            {
+                List<Map<String,Object>> fpreturn = new ArrayList<Map<String,Object>>();
+                for(Post ps : pstLst)
+                {
+
+                }
+                System.out.println("Get Friends Wall Success " + id);
+                return new ResponseEntity<>(pstLst, HttpStatus.OK);
+           }
+           else
+           {
+               map.put("status", "NO_POSTS");
+               return new ResponseEntity<>(map, HttpStatus.OK);
+           }
+        }
+        else
+        {
+            map.put("status", "NOT_FRIEND");
             return new ResponseEntity<>(map, HttpStatus.OK);
         }
     }

@@ -135,7 +135,7 @@ public class UserFeedRepositoryImpl implements UserFeedRepository
         String tmp = (String) strRedisTemplate.opsForHash().get(KEY, usrID + "_WALLCOUNTER");
         if(tmp == null)
         {
-            List<Post> fp = fprep.findByOwnerID(usrID);
+            List<Post> fp = fprep.findByOwnerID(usrID, 100);
             if(fp != null)
             {
                 System.out.println("From database size fp " + fp.size());

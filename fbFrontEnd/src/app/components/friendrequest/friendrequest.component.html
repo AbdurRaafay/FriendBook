@@ -1,0 +1,8 @@
+<div class = "friend-request">
+    <div class = "user-pic"> <img src='/images/{{profileImageID}}.jpg' width="250" height="250"> </div>
+
+    <h1 class = "friend-request-status" *ngIf="!sendfriendrequest">Friend request pending</h1>
+
+    <button class = "send-freind-request-button" *ngIf="sendfriendrequest" (click)="onSendFriendRequestClick()">Send Friend Request</button>
+
+</div>

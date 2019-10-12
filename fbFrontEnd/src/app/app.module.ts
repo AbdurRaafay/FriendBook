@@ -2,9 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule, MatAutocompleteModule, MatFormFieldModule } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatInputModule, MatAutocompleteModule, MatFormFieldModule, MatMenuModule } from '@angular/material';
 import { MatToolbarModule } from '@angular/material';
-import { MatMenuModule } from '@angular/material/menu';
+import { MatListModule } from '@angular/material/list'; 
+import { MatSidenavModule } from '@angular/material/sidenav'; 
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { NgChatModule } from 'ng-chat';
 
@@ -18,7 +20,8 @@ import { WallComponent } from './components/wall/wall.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SinglepostComponent } from './components/singlepost/singlepost.component';
-import { OtherwallComponent } from './components/otherwall/otherwall.component';
+import { FriendswallComponent } from './components/friendswall/friendswall.component';
+import { FriendrequestComponent } from './components/friendrequest/friendrequest.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import { OtherwallComponent } from './components/otherwall/otherwall.component';
     NavbarComponent,
     TimeAgoPipe,
     SinglepostComponent,
-    OtherwallComponent
+    FriendrequestComponent,
+    FriendswallComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,10 @@ import { OtherwallComponent } from './components/otherwall/otherwall.component';
     NgChatModule,
     NoopAnimationsModule,
     MatToolbarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatListModule,
+    MatSidenavModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -24,7 +24,18 @@ public class FriendRequest
     @Field
     private FriendRequestStatus frStatus;
 
-    public FriendRequestStatus getFrStatus() {
+    public String getToUserID()
+    {
+        return toUserID;
+    }
+
+    public String getFromUserID()
+    {
+        return fromUserID;
+    }
+
+    public FriendRequestStatus getFrStatus()
+    {
         return frStatus;
     }
 

@@ -56,21 +56,31 @@ export class NavbarComponent implements OnInit
 
   onNotificationMessageReceived(payload)
   {
-    var menuItemText = localStorage.getItem(payload.usrID);
-    
-    if(payload.type === 'NEWPOST')
-      menuItemText += " has made a post";
-    else if(payload.type === 'LIKE')
-      menuItemText += " has liked a post";
-    else if(payload.type === 'DISLIKE')
-      menuItemText += " has disliked a post";
-    else if(payload.type === 'COMMENT')
+    if(payload.type === 'FRIEND_REQUEST')
+    {
+      let menuItemText = payload.usrfromFullName;
+      menuItemText += " has sent a friend request";
+      let abc = {text: menuItemText, postID: payload.entityID};
+      this.menuItems.push(abc);
+      this.enableNotification = true;
+      this.noOfNotification++;  
+    }
+    else
+    {
+      let menuItemText = localStorage.getItem(payload.usrID);
+      if(payload.type === 'NEWPOST')
+        menuItemText += " has made a post";
+      else if(payload.type === 'LIKE')
+        menuItemText += " has liked a post";
+      else if(payload.type === 'DISLIKE')
+        menuItemText += " has disliked a post";
+      else if(payload.type === 'COMMENT')
       menuItemText += " has commented on a post";
-    
-    var abc = {text: menuItemText, postID: payload.entityID};
-    this.menuItems.push(abc);
-    this.enableNotification = true;
-    this.noOfNotification++;
+      let abc = {text: menuItemText, postID: payload.entityID};
+      this.menuItems.push(abc);
+      this.enableNotification = true;
+      this.noOfNotification++;  
+    }
   }
 
   onSearchMessageReceived(payload)
@@ -125,6 +135,16 @@ export class NavbarComponent implements OnInit
   
   onSearchItemSelected(event: any, srcItm: SearchItem)
   {
-    console.log(srcItm);
+    if (typeof localStorage.getItem(srcItm.imageID) === 'string')//Friend selected
+    {
+      if(localStorage.getItem(srcItm.imageID) !== localStorage.getItem('userImageID'))//Dont load our own wall from here 
+      {
+        this.router.navigate(['/friendswall', srcItm.imageID]);
+      }
+    }
+    else if (typeof localStorage.getItem(srcItm.imageID) === 'undefined')//New person selected
+    {
+
+    }
   }
 }
