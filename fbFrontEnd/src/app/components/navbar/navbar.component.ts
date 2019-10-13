@@ -142,9 +142,9 @@ export class NavbarComponent implements OnInit
         this.router.navigate(['/friendswall', srcItm.imageID]);
       }
     }
-    else if (typeof localStorage.getItem(srcItm.imageID) === 'undefined')//New person selected
+    else if (localStorage.getItem(srcItm.imageID) === null)//New person selected
     {
-
+      this.router.navigate(['/friendrequest', srcItm.imageID, srcItm.name]);
     }
   }
 }

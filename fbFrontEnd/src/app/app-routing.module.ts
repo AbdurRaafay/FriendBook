@@ -14,7 +14,7 @@ const routes: Routes =
   { path: 'wall', component: WallComponent },
   { path: 'index', component: LoginComponent },
   { path: 'singlepost/:postID', component: SinglepostComponent },
-  { path: 'friendrequest', component: FriendrequestComponent },
+  { path: 'friendrequest/:friendImageID/:userFullName', component: FriendrequestComponent },
   { path: 'friendswall/:friendImageID', component: FriendswallComponent }
 ];
 

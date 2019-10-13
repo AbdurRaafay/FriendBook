@@ -1,10 +1,12 @@
 package com.friendbook.repository.mongorepo;
 
+import com.friendbook.model.Post;
 import com.friendbook.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashSet;
@@ -117,6 +119,19 @@ public class UserRepositoryImpl implements UserRepository
         User usrA = findByEmail(email);
         User usrB = getUserFromUserID(getUserIDFromImageByID(imageID));
         return usrB.isFriend(usrA.getId());
+    }
+
+    @Override
+    public void addFriend(String userIDA, String userIDB)
+    {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("id").is(userIDA));
+        //Add userIDB as friend of userIDA
+        mongoTemplate.updateFirst(query, new Update().addToSet("userFriends", userIDB), User.class);
+
+        query.addCriteria(Criteria.where("id").is(userIDB));
+        //Add userIDA as friend of userIDB
+        mongoTemplate.updateFirst(query, new Update().addToSet("userFriends", userIDA), User.class);
     }
 
     private User getUserFromUserID(String usrID)

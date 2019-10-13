@@ -14,8 +14,8 @@ export class ChatControl extends ChatAdapter
         {
             participantType: ChatParticipantType.User,
             id: 1,
-            displayName: "Arya Stark",
-            avatar: "https://66.media.tumblr.com/avatar_9dd9bb497b75_128.pnj",
+            displayName: "",
+            avatar: "",
             status: ChatParticipantStatus.Online
         },
     ];
@@ -51,9 +51,9 @@ export class ChatControl extends ChatAdapter
     setFriendsList(): void
     {
         var friendsList: any;
+        this.mockedParticipants.length = 0;
         this.commService.getFriendsList().subscribe(res => 
         {
-            this.mockedParticipants.length = 0;
             friendsList = res;
             friendsList.forEach(t => 
             {

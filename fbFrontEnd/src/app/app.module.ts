@@ -22,6 +22,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { SinglepostComponent } from './components/singlepost/singlepost.component';
 import { FriendswallComponent } from './components/friendswall/friendswall.component';
 import { FriendrequestComponent } from './components/friendrequest/friendrequest.component';
+import { FriendrequestmanageComponent } from './components/friendrequestmanage/friendrequestmanage.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { FriendrequestComponent } from './components/friendrequest/friendrequest
     TimeAgoPipe,
     SinglepostComponent,
     FriendrequestComponent,
-    FriendswallComponent
+    FriendswallComponent,
+    FriendrequestmanageComponent
   ],
   imports: [
     BrowserModule,

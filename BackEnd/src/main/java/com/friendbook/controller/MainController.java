@@ -13,10 +13,7 @@ import com.friendbook.repository.mongorepo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.friendbook.repository.redisrepo.OnlineUsersRepository;
 import com.friendbook.repository.redisrepo.UserFeedRepository;
@@ -197,8 +194,8 @@ public class MainController
         notrepo.insertNotification(ntf);
     }
 
-    @GetMapping("/checkFriendRequestStatus/{userImageID}/")
-    public ResponseEntity<?> checkFriendRequestStatus(Principal principal, @PathVariable String userImageID)
+    @GetMapping("/checkfriendrequeststatus")
+    public ResponseEntity<?> checkFriendRequestStatus(Principal principal, @RequestParam String userImageID)
     {
         Map<String, Object> map = new HashMap<>();
         String toUserID = usrrep.getUserIDFromImageByID(userImageID);
@@ -215,8 +212,8 @@ public class MainController
         }
     }
 
-    @GetMapping("/sendfriendRequest/{userImageID}/")
-    public ResponseEntity<?> sendfriendRequest(Principal principal, @PathVariable String userImageID)
+    @GetMapping("/sendfriendrequest")
+    public ResponseEntity<?> sendfriendRequest(Principal principal, @RequestParam String userImageID)
     {
         Map<String, Object> map = new HashMap<>();
         String toUserID = usrrep.getUserIDFromImageByID(userImageID);
@@ -224,6 +221,22 @@ public class MainController
         FriendRequest fr = new FriendRequest(toUserID, fromUserID, FriendRequest.FriendRequestStatus.PENDING);
         frndrepo.insertFriendRequest(fr);
         map.put("status", "sent");
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+
+    @GetMapping("/managefriendrequest")
+    public ResponseEntity<?> managefriendRequest(Principal principal, @RequestParam String userImageID, @RequestParam String frndrqststs)
+    {
+        Map<String, Object> map = new HashMap<>();
+        if (frndrqststs.equals("yes"))
+        {
+            usrrep.addFriend(getUserIDFromPricipal(principal), usrrep.getUserIDFromImageByID(userImageID));
+            map.put("status", "added");
+        }
+        else
+        {
+            map.put("status", "rejected");
+        }
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 

@@ -36,6 +36,7 @@ public class NotificationRepositoryImpl implements NotificationRepository
         mongoTemplate.updateFirst(query, new Update().set("isProcessed", status), Notification.class);
     }
 
+    //Get notifications which have not been processed
     @Override
     public List<Notification> getAllNotifications()
     {

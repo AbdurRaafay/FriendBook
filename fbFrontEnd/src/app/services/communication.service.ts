@@ -90,10 +90,18 @@ export class CommunicationService
   	return this.http.get(url, {headers});
   }
 
-  checkFriendRequestStatus(usrImageID: string)
+  checkFriendRequestStatus(usrImageID: string): Observable<any>
   {
-  	let url = AppConst.serverPath + 'login/' + usrImageID;
+    let url = AppConst.serverPath + 'checkfriendrequeststatus/?userImageID=' + usrImageID;
+    console.log(url);
+    return this.http.get(url);
+  }
 
+  sendFriendRequest(usrImageID: string): Observable<any>
+  {
+    let url = AppConst.serverPath + 'sendfriendrequest/?userImageID=' + usrImageID;
+    console.log(url);
+    return this.http.get(url);
   }
 
   logout()

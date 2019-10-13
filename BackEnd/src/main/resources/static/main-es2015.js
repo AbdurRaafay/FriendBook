@@ -41,7 +41,7 @@ module.exports = "<app-navbar></app-navbar>\n<div class = \"\" *ngIf=\"isLoggedI
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>friendrequest works!</p>\n"
+module.exports = "<div class = \"friend-request\">\n    <div class = \"user-pic\"> <img src='/images/{{profileImageID}}.jpg' width=\"300\" height=\"300\"> </div>\n    <div>\n        <ul style = \"list-style-type:none\">\n            <li *ngFor=\"let uname of userNameArray\">\n              <div class = \"friend-request-user-name\">\n                {{uname}}\n              </div>\n            </li>\n        </ul>    \n    </div>\n    <div class = \"friend-request-status\">\n        <h1 *ngIf=\"!sendfriendrequest\">Friend request pending</h1>\n    </div>\n    <div class = \"send-freind-request-button\">\n        <button *ngIf=\"sendfriendrequest\" (click)=\"onSendFriendRequestClick()\">Send Friend Request</button>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -157,7 +157,7 @@ const routes = [
     { path: 'wall', component: _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_4__["WallComponent"] },
     { path: 'index', component: _components_login_login_component__WEBPACK_IMPORTED_MODULE_5__["LoginComponent"] },
     { path: 'singlepost/:postID', component: _components_singlepost_singlepost_component__WEBPACK_IMPORTED_MODULE_7__["SinglepostComponent"] },
-    { path: 'friendrequest', component: _components_friendrequest_friendrequest_component__WEBPACK_IMPORTED_MODULE_8__["FriendrequestComponent"] },
+    { path: 'friendrequest/:friendImageID/:userFullName', component: _components_friendrequest_friendrequest_component__WEBPACK_IMPORTED_MODULE_8__["FriendrequestComponent"] },
     { path: 'friendswall/:friendImageID', component: _components_friendswall_friendswall_component__WEBPACK_IMPORTED_MODULE_9__["FriendswallComponent"] }
 ];
 let AppRoutingModule = class AppRoutingModule {
@@ -393,8 +393,8 @@ class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
             {
                 participantType: ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantType"].User,
                 id: 1,
-                displayName: "Arya Stark",
-                avatar: "https://66.media.tumblr.com/avatar_9dd9bb497b75_128.pnj",
+                displayName: "",
+                avatar: "",
                 status: ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Online
             },
         ];
@@ -420,8 +420,8 @@ class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
     }
     setFriendsList() {
         var friendsList;
+        this.mockedParticipants.length = 0;
         this.commService.getFriendsList().subscribe(res => {
-            this.mockedParticipants.length = 0;
             friendsList = res;
             friendsList.forEach(t => {
                 localStorage.setItem(t.imagePath, t.fullName);
@@ -479,7 +479,7 @@ class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvZnJpZW5kcmVxdWVzdC9mcmllbmRyZXF1ZXN0LmNvbXBvbmVudC5jc3MifQ== */"
+module.exports = ".friend-request\n{\n    margin-top: 200px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n            flex-direction: column;\n    -webkit-box-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n            justify-content: center;\n}\n\n.friend-request-user-name\n{\n    font-style: bold;\n    font-size: 50px;\n    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;\n    margin-left: 0;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9mcmllbmRyZXF1ZXN0L2ZyaWVuZHJlcXVlc3QuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7SUFFSSxpQkFBaUI7SUFDakIsb0JBQWE7SUFBYixhQUFhO0lBQ2IsNEJBQXNCO0lBQXRCLDZCQUFzQjtZQUF0QixzQkFBc0I7SUFDdEIseUJBQW1CO1lBQW5CLG1CQUFtQjtJQUNuQix3QkFBdUI7WUFBdkIsdUJBQXVCO0FBQzNCOztBQUVBOztJQUVJLGdCQUFnQjtJQUNoQixlQUFlO0lBQ2Ysd0VBQXdFO0lBQ3hFLGNBQWM7QUFDbEIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL2ZyaWVuZHJlcXVlc3QvZnJpZW5kcmVxdWVzdC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmZyaWVuZC1yZXF1ZXN0XG57XG4gICAgbWFyZ2luLXRvcDogMjAwcHg7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG59XG5cbi5mcmllbmQtcmVxdWVzdC11c2VyLW5hbWVcbntcbiAgICBmb250LXN0eWxlOiBib2xkO1xuICAgIGZvbnQtc2l6ZTogNTBweDtcbiAgICBmb250LWZhbWlseTogJ0ZyYW5rbGluIEdvdGhpYyBNZWRpdW0nLCAnQXJpYWwgTmFycm93JywgQXJpYWwsIHNhbnMtc2VyaWY7XG4gICAgbWFyZ2luLWxlZnQ6IDA7XG59Il19 */"
 
 /***/ }),
 
@@ -495,13 +495,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FriendrequestComponent", function() { return FriendrequestComponent; });
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
+/* harmony import */ var src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/services/communication.service */ "./src/app/services/communication.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
+
+
 
 
 let FriendrequestComponent = class FriendrequestComponent {
-    constructor() { }
+    constructor(commService, route) {
+        this.commService = commService;
+        this.route = route;
+        this.sendfriendrequest = true;
+    }
     ngOnInit() {
+        this.profileImageID = this.route.snapshot.paramMap.get('friendImageID');
+        this.fullname = this.route.snapshot.paramMap.get('userFullName');
+        this.userNameArray = this.fullname.split(" ");
+        this.commService.checkFriendRequestStatus(this.profileImageID).subscribe(res => {
+            console.log(res);
+            if (res.status === 'pending') {
+                this.sendfriendrequest = false;
+            }
+        }, error => { console.log(error); });
+    }
+    onSendFriendRequestClick() {
+        this.commService.sendFriendRequest(this.profileImageID).subscribe(res => {
+            console.log(res);
+            if (res.status === 'sent') {
+                this.sendfriendrequest = false;
+            }
+        }, error => { console.log(error); });
     }
 };
+FriendrequestComponent.ctorParameters = () => [
+    { type: src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_2__["CommunicationService"] },
+    { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"] }
+];
 FriendrequestComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-friendrequest',
@@ -801,8 +830,9 @@ let NavbarComponent = class NavbarComponent {
                 this.router.navigate(['/friendswall', srcItm.imageID]);
             }
         }
-        else if (typeof localStorage.getItem(srcItm.imageID) === 'undefined') //New person selected
+        else if (localStorage.getItem(srcItm.imageID) === null) //New person selected
          {
+            this.router.navigate(['/friendrequest', srcItm.imageID, srcItm.name]);
         }
     }
 };
@@ -984,7 +1014,7 @@ NPostDirective = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".container-newsfeed-main\n{\n    margin-top: 50px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: start;\n            justify-content: flex-start;\n}\n\n.container-newsfeed-profile\n{\n    margin-top: 50px;\n    margin-left: 50px;\n}\n\n.post-user-name\n{\n    font-style: bold;\n    font-size: 50px;\n    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;\n}\n\n.container-newsfeed\n{\n    margin-left: 10px;\n    margin-right: 0px;\n    width: 50%;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uZXdzZmVlZC9uZXdzZmVlZC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOztJQUVJLGdCQUFnQjtJQUNoQixvQkFBYTtJQUFiLGFBQWE7SUFDYix1QkFBMkI7WUFBM0IsMkJBQTJCO0FBQy9COztBQUVBOztJQUVJLGdCQUFnQjtJQUNoQixpQkFBaUI7QUFDckI7O0FBRUE7O0lBRUksZ0JBQWdCO0lBQ2hCLGVBQWU7SUFDZix3RUFBd0U7QUFDNUU7O0FBRUE7O0lBRUksaUJBQWlCO0lBQ2pCLGlCQUFpQjtJQUNqQixVQUFVO0FBQ2QiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL25ld3NmZWVkL25ld3NmZWVkLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGFpbmVyLW5ld3NmZWVkLW1haW5cbntcbiAgICBtYXJnaW4tdG9wOiA1MHB4O1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAganVzdGlmeS1jb250ZW50OiBmbGV4LXN0YXJ0O1xufVxuXG4uY29udGFpbmVyLW5ld3NmZWVkLXByb2ZpbGVcbntcbiAgICBtYXJnaW4tdG9wOiA1MHB4O1xuICAgIG1hcmdpbi1sZWZ0OiA1MHB4O1xufVxuXG4ucG9zdC11c2VyLW5hbWVcbntcbiAgICBmb250LXN0eWxlOiBib2xkO1xuICAgIGZvbnQtc2l6ZTogNTBweDtcbiAgICBmb250LWZhbWlseTogJ0ZyYW5rbGluIEdvdGhpYyBNZWRpdW0nLCAnQXJpYWwgTmFycm93JywgQXJpYWwsIHNhbnMtc2VyaWY7XG59XG5cbi5jb250YWluZXItbmV3c2ZlZWRcbntcbiAgICBtYXJnaW4tbGVmdDogMTBweDtcbiAgICBtYXJnaW4tcmlnaHQ6IDBweDtcbiAgICB3aWR0aDogNTAlO1xufSJdfQ== */"
+module.exports = ".container-newsfeed-main\n{\n    margin-top: 50px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: start;\n            justify-content: flex-start;\n}\n\n.container-newsfeed-profile\n{\n    margin-top: 50px;\n    margin-left: 50px;\n}\n\n.post-user-name\n{\n    font-style: bold;\n    font-size: 50px;\n    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;\n    margin-left: 0;\n}\n\n.container-newsfeed\n{\n    margin-left: 10px;\n    margin-right: 0px;\n    width: 50%;\n}\n\n.container-nomoreposts\n{\n    margin-top: 100px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uZXdzZmVlZC9uZXdzZmVlZC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOztJQUVJLGdCQUFnQjtJQUNoQixvQkFBYTtJQUFiLGFBQWE7SUFDYix1QkFBMkI7WUFBM0IsMkJBQTJCO0FBQy9COztBQUVBOztJQUVJLGdCQUFnQjtJQUNoQixpQkFBaUI7QUFDckI7O0FBRUE7O0lBRUksZ0JBQWdCO0lBQ2hCLGVBQWU7SUFDZix3RUFBd0U7SUFDeEUsY0FBYztBQUNsQjs7QUFFQTs7SUFFSSxpQkFBaUI7SUFDakIsaUJBQWlCO0lBQ2pCLFVBQVU7QUFDZDs7QUFFQTs7SUFFSSxpQkFBaUI7QUFDckIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL25ld3NmZWVkL25ld3NmZWVkLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGFpbmVyLW5ld3NmZWVkLW1haW5cbntcbiAgICBtYXJnaW4tdG9wOiA1MHB4O1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAganVzdGlmeS1jb250ZW50OiBmbGV4LXN0YXJ0O1xufVxuXG4uY29udGFpbmVyLW5ld3NmZWVkLXByb2ZpbGVcbntcbiAgICBtYXJnaW4tdG9wOiA1MHB4O1xuICAgIG1hcmdpbi1sZWZ0OiA1MHB4O1xufVxuXG4ucG9zdC11c2VyLW5hbWVcbntcbiAgICBmb250LXN0eWxlOiBib2xkO1xuICAgIGZvbnQtc2l6ZTogNTBweDtcbiAgICBmb250LWZhbWlseTogJ0ZyYW5rbGluIEdvdGhpYyBNZWRpdW0nLCAnQXJpYWwgTmFycm93JywgQXJpYWwsIHNhbnMtc2VyaWY7XG4gICAgbWFyZ2luLWxlZnQ6IDA7XG59XG5cbi5jb250YWluZXItbmV3c2ZlZWRcbntcbiAgICBtYXJnaW4tbGVmdDogMTBweDtcbiAgICBtYXJnaW4tcmlnaHQ6IDBweDtcbiAgICB3aWR0aDogNTAlO1xufVxuXG4uY29udGFpbmVyLW5vbW9yZXBvc3RzXG57XG4gICAgbWFyZ2luLXRvcDogMTAwcHg7XG59Il19 */"
 
 /***/ }),
 
@@ -1462,6 +1492,16 @@ let CommunicationService = class CommunicationService {
             'Authorization': basicHeader
         });
         return this.http.get(url, { headers });
+    }
+    checkFriendRequestStatus(usrImageID) {
+        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'checkfriendrequeststatus/?userImageID=' + usrImageID;
+        console.log(url);
+        return this.http.get(url);
+    }
+    sendFriendRequest(usrImageID) {
+        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'sendfriendrequest/?userImageID=' + usrImageID;
+        console.log(url);
+        return this.http.get(url);
     }
     logout() {
         let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'logout/';

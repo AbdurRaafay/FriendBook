@@ -1,0 +1,31 @@
+.friend-request
+{
+    margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.friend-request-user-name
+{
+    font-style: bold;
+    font-size: 50px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-left: 0;
+}
+
+.send-freind-request-button
+{
+    height: 60px;
+    border: none;
+    border-radius: 10px;
+    background-color: #3b0d85;
+    color: #fff;
+    font-family: 'Bellota-BoldItalic', sans-serif;
+    text-shadow: #73B6E2 0.5px 0.5px 0px;
+    font-size: 90%;
+    outline: 0;
+    margin: 0;
+    box-shadow: 0 9px #999;
+}

@@ -1,8 +1,18 @@
 <div class = "friend-request">
-    <div class = "user-pic"> <img src='/images/{{profileImageID}}.jpg' width="250" height="250"> </div>
-
-    <h1 class = "friend-request-status" *ngIf="!sendfriendrequest">Friend request pending</h1>
-
-    <button class = "send-freind-request-button" *ngIf="sendfriendrequest" (click)="onSendFriendRequestClick()">Send Friend Request</button>
-
+    <div class = "user-pic"> <img src='/images/{{profileImageID}}.jpg' width="300" height="300"> </div>
+    <div>
+        <ul style = "list-style-type:none">
+            <li *ngFor="let uname of userNameArray">
+              <div class = "friend-request-user-name">
+                {{uname}}
+              </div>
+            </li>
+        </ul>    
+    </div>
+    <div class = "friend-request-status">
+        <h1 *ngIf="!sendfriendrequest">Friend request pending</h1>
+    </div>
+    <div class = "send-freind-request-button">
+        <button *ngIf="sendfriendrequest" (click)="onSendFriendRequestClick()">Send Friend Request</button>
+    </div>
 </div>

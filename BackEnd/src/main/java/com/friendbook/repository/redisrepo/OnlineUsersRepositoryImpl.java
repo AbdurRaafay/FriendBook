@@ -59,6 +59,9 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
         strRedisTemplate.opsForHash().put(KEY, userID + "_ONLINE_STATUS", RedisUtility.createStringFromObject(mapObject));
     }
 
+    /*
+    * Check if user with userID is online and return user login name if user is online
+    * */
     @Override
     public String isUserOnline(String userID)
     {

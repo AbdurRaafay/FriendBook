@@ -17,6 +17,7 @@ import javax.annotation.PreDestroy;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class NotificationService
@@ -38,7 +39,11 @@ public class NotificationService
 
     @Autowired
     private FriendRequestRepository frndrepo;
+
     private boolean shutdown = false;
+    private Set<String> friendsListUpdate = new HashSet<>();
+    private Set<String> sentNotifications = new HashSet<>();
+    private Set<String> sentFriendRequestNotifications = new HashSet<>();
 
     @Async
     public void processNotification()
@@ -60,9 +65,9 @@ public class NotificationService
                             NotifiedUser nu = new NotifiedUser(frnd, nt.getId(), false);
                             lstNu.add(nu);
                         }
-                        notusrrepo.insertNotifiedUser(lstNu);
+                        notusrrepo.insertNotifiedUser(lstNu);//Save list of notified users for sendNotification()
                     }
-                    notrepo.updateNotificationStatus(nt.getId(), true);
+                    notrepo.updateNotificationStatus(nt.getId(), true);//Set status of processed notifications to true
                 }
             }
         }
@@ -71,7 +76,6 @@ public class NotificationService
     @Async
     public void sendNotification()
     {
-        Set<String> sentNotifications = new HashSet<>();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         while(!shutdown)
         {
@@ -116,24 +120,55 @@ public class NotificationService
                                 }
                             }
                         }
-                        List<FriendRequest> frp = frndrepo.getAllFriendRequestPending(info[0]);//Send friend requests
+
+                        //Send friend requests
+                        List<FriendRequest> frp = frndrepo.getAllFriendRequestPending(info[0]);
                         if (frp != null && !frp.isEmpty())
                         {
                             for(FriendRequest fr : frp)
                             {
-                                Map<String, Object> map = new HashMap<String, Object>();
-                                map.put("usrtoImageID", usrrep.getImageByID(fr.getToUserID()));
-                                map.put("entityID", usrrep.getImageByID(fr.getFromUserID()));
-                                map.put("usrfromFullName", usrrep.getFullNameByID(fr.getFromUserID()));
-                                map.put("type", "FRIEND_REQUEST");
-                                String usrEmail = usrrep.getEmailFromID(fr.getToUserID());
-                                System.out.println(usrEmail);
-                                messagingTemplate.convertAndSendToUser(usrEmail, "/queue/messages", map);
+                                String toUsrID = fr.getToUserID();
+                                String fromUsrID = fr.getFromUserID();
+                                // Make sure we are sending friend request only once
+                                if(!sentFriendRequestNotifications.contains(toUsrID + ":" + fromUsrID))
+                                {
+                                    Map<String, Object> map = new HashMap<String, Object>();
+                                    map.put("usrtoImageID", usrrep.getImageByID(toUsrID));
+                                    map.put("entityID", usrrep.getImageByID(fromUsrID));
+                                    map.put("usrfromFullName", usrrep.getFullNameByID(fr.getFromUserID()));
+                                    map.put("type", "FRIEND_REQUEST");
+                                    String usrEmail = usrrep.getEmailFromID(toUsrID);
+                                    System.out.println(usrEmail);
+                                    messagingTemplate.convertAndSendToUser(usrEmail, "/queue/messages", map);
+                                    sentFriendRequestNotifications.add(toUsrID + ":" + fromUsrID);
+                                }
                             }
                         }
+
+                        //Update friends list for newly accepted friend request
+
                     }
                 }
             }
+        }
+    }
+
+    public void addFriend(String usrIDA, String usrIDB)
+    {
+        friendsListUpdate.add(usrIDA + usrIDB);
+    }
+
+    //We need to delete all entries beginning with usrID so that next time usrID logs in we can send the friend request again
+    public void deleteFriendRequest(String usrID)
+    {
+        Set<String> resultFiltered = sentFriendRequestNotifications.stream().filter(line -> line.matches("$" + usrID + ":"))
+                .collect(Collectors.toSet());
+        resultFiltered.forEach(t->{
+            System.out.println(t);
+        });
+        if(!resultFiltered.isEmpty())
+        {
+            sentFriendRequestNotifications.removeAll(resultFiltered);
         }
     }
 
