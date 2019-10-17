@@ -24,6 +24,9 @@ export class WebsocketmessagingService
   private searchSubject = new Subject<any>();
   searchObs = this.searchSubject.asObservable(); 
 
+  private newFriendSubject = new Subject<any>();
+  newFriendObs = this.newFriendSubject.asObservable(); 
+
   connectToChat()
   {
     var that = this;
@@ -51,10 +54,15 @@ export class WebsocketmessagingService
   {
     if(payload.hasOwnProperty('onlineStatusMessage'))
       this.onlineSubject.next(payload);
-    else if(payload.hasOwnProperty('content'))
+    else if(payload.hasOwnProperty('content'))//Chat message
       this.chatSubject.next(payload);
-    else if(payload.hasOwnProperty('entityID'))
-      this.notificationSubject.next(payload);  
+    else if(payload.hasOwnProperty('type'))
+    {
+      if(payload.type === 'FRIEND_REQUEST' || payload.type === 'COMMENT' || payload.type === 'LIKE' || payload.type === 'DISLIKE' || payload.type === 'NEWPOST' )
+        this.notificationSubject.next(payload);
+      else if(payload.type === 'FRIEND_LIST_UPDATE')
+      this.newFriendSubject.next(payload);//Add new friend to friends list
+    }      
     else if(Array.isArray(payload))//Search messages are returned as Array
     {
       this.searchSubject.next(payload);  
@@ -74,5 +82,4 @@ export class WebsocketmessagingService
     var topic = `/app/search`;    
     stompClient.send(`${topic}`, {}, JSON.stringify(chatMessage)); 
   }
-
 }

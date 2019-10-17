@@ -24,6 +24,5 @@ export class AuthenticationService
   logout() 
   {
     this.loggedIn.next(false);
-    this.commService.logout();
   }  
 }

@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-navbar></app-navbar>\n<div class = \"\" *ngIf=\"isLoggedIn$ | async\">\n    <ng-chat class = \"container-friends\" [adapter]=\"adapter\" [userId]=\"999\" [historyEnabled]=\"true\" [historyPageSize]=\"4\" \n        [hideFriendsList]=\"false\" [audioEnabled]=\"false\" [browserNotificationsEnabled]=\"false\">\n    </ng-chat>\n</div>\n<router-outlet></router-outlet>"
+module.exports = "<app-navbar></app-navbar>\n<div class = \"\" *ngIf=\"isLoggedIn$ | async\">\n    <ng-chat class = \"container-friends\" [adapter]=\"adapter\" [userId]=\"999\" [historyEnabled]=\"true\" [historyPageSize]=\"4\" \n        [hideFriendsList]=\"false\" [audioEnabled]=\"false\" [browserNotificationsEnabled]=\"false\" [pollFriendsList]=\"false\" [pollingInterval]=\"0\"\n        (onParticipantClicked)=\"participantClicked($event)\">\n    </ng-chat>\n</div>\n<router-outlet></router-outlet>"
 
 /***/ }),
 
@@ -41,7 +41,18 @@ module.exports = "<app-navbar></app-navbar>\n<div class = \"\" *ngIf=\"isLoggedI
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class = \"friend-request\">\n    <div class = \"user-pic\"> <img src='/images/{{profileImageID}}.jpg' width=\"300\" height=\"300\"> </div>\n    <div>\n        <ul style = \"list-style-type:none\">\n            <li *ngFor=\"let uname of userNameArray\">\n              <div class = \"friend-request-user-name\">\n                {{uname}}\n              </div>\n            </li>\n        </ul>    \n    </div>\n    <div class = \"friend-request-status\">\n        <h1 *ngIf=\"!sendfriendrequest\">Friend request pending</h1>\n    </div>\n    <div class = \"send-freind-request-button\">\n        <button *ngIf=\"sendfriendrequest\" (click)=\"onSendFriendRequestClick()\">Send Friend Request</button>\n    </div>\n</div>"
+module.exports = "<div class = \"friend-request\">\n    <div class = \"user-pic\"> <img src='/images/{{profileImageID}}.jpg' width=\"300\" height=\"300\"> </div>\n    <div class=\"friend-request-user-name\">\n    <div fxLayout=\"column\" fxLayoutAlign=\"space-around center\">\n        <div *ngFor=\"let uname of userNameArray\">\n            <div class=\"user-name-list-element\">{{uname}}</div>\n        </div>\n    </div>\n    <div class = \"friend-request-status\">\n        <h1 *ngIf=\"!sendfriendrequest\">Friend request pending</h1>\n    </div>\n    <div class = \"send-freind-request-button\">\n        <button *ngIf=\"sendfriendrequest\" (click)=\"onSendFriendRequestClick()\">Send Friend Request</button>\n    </div>\n</div>"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/components/friendrequestmanage/friendrequestmanage.component.html":
+/*!*************************************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/components/friendrequestmanage/friendrequestmanage.component.html ***!
+  \*************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class = \"friend-request-manage\">\n    <div class = \"user-pic\"> <img src='/images/{{profileImageID}}.jpg' width=\"300\" height=\"300\"> </div>\n    <div>\n        <ul style = \"list-style-type:none\">\n            <li *ngFor=\"let uname of userNameArray\">\n              <div class = \"friend-request-user-name\">\n                {{uname}}\n              </div>\n            </li>\n        </ul>    \n    </div>\n    <div class=\"accept-friend-request-message\" *ngIf=\"acceptfriendrequestmessage\">\n        <h2>Friend request accepted</h2>\n    </div>\n    <div class=\"reject-friend-request-message\" *ngIf=\"rejectfriendrequestmessage\">\n            <h2>Friend request accepted</h2>\n    </div>\n    <div class = \"accept-friend-request-button\">\n        <button *ngIf=\"acceptfriendrequestbutton\" (click)=\"onAcceptFriendRequestClick()\">Accept Friend Request</button>\n    </div>\n    <div class = \"reject-friend-request-button\">\n        <button *ngIf=\"rejectfriendrequestbutton\" (click)=\"onRejectFriendRequestClick()\">Reject Friend Request</button>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -74,7 +85,7 @@ module.exports = "<div class=\"login\">\n    <ul style=\"list-style-type:none\">
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar class=\"nav-bar-friendbook\" fxLayout=\"row\" fxLayoutAlign=\"start center\" *ngIf=\"isLoggedIn$ | async\">\n    <div class=\"nav-item-title\">\n        FriendBook\n    </div>\n    <form class=\"nav-bar-search\">\n        <mat-form-field class=\"search-text-input\">\n            <input matInput placeholder=\"Search\" aria-label=\"Number\" [formControl]=\"searchFormControl\" [matAutocomplete]=\"auto\">\n            <mat-autocomplete class=\"search-autocomplete\" #auto=\"matAutocomplete\">\n            <mat-option (onSelectionChange)=\"onSearchItemSelected($event, option)\" *ngFor=\"let option of autoCompleteList\" [value]=\"option.name\">\n                <div class = \"search-result-item\">\n                    <img class = \"search-user-pic\" src=\"/images/{{option.imageID}}.jpg\" width=\"30\" height=\"30\"> &nbsp; &nbsp;\n                    <span class = \"search-user-name\">{{option.name}}</span>\n                </div>\n            </mat-option>\n            </mat-autocomplete>\n        </mat-form-field>\n    </form>\n    <span fxFlex></span>\n    <div class=\"nav-bar-bubble\" [matMenuTriggerFor]=\"notificationMenu\">{{noOfNotification}}</div>\n    <i class=\"nav-bar-notification\"><img src=\"/icons/notification.svg\" width=\"50\" height=\"50\"></i>\n    <mat-menu #notificationMenu=\"matMenu\" yPosition=\"above\">\n        <ng-container *ngFor=\"let item of menuItems\">\n            <button *ngIf=!item.templateName mat-menu-item (click)=\"select(item.postID)\">{{ item.text }}</button>\n        </ng-container>            \n    </mat-menu>\n    <div class=\"nav-bar-newsfeed\">\n        <i (click)=\"onNewsFeedClicked()\"><img src=\"/icons/home.svg\" width=\"50\" height=\"50\"></i>\n    </div>\n    <div class=\"nav-bar-wall\">\n        <i (click)=\"onWallClicked()\"><img src=\"/icons/firewall.svg\" width=\"50\" height=\"50\"></i>\n    </div>\n    <div class=\"nav-bar-logout\">\n        <i (click)=\"onLogoutClicked()\"><img src=\"/icons/logout.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n</mat-toolbar>"
+module.exports = "<mat-toolbar class=\"nav-bar-friendbook\" fxLayout=\"row\" fxLayoutAlign=\"start center\" *ngIf=\"isLoggedIn$ | async\">\n    <div class=\"nav-item-title\">\n        FriendBook\n    </div>\n    <form class=\"nav-bar-search\">\n        <mat-form-field class=\"search-text-input\">\n            <input matInput placeholder=\"Search\" aria-label=\"Number\" [formControl]=\"searchFormControl\" [matAutocomplete]=\"auto\">\n            <mat-autocomplete class=\"search-autocomplete\" #auto=\"matAutocomplete\">\n            <mat-option (onSelectionChange)=\"onSearchItemSelected($event, option)\" *ngFor=\"let option of autoCompleteList\" [value]=\"option.name\">\n                <div class = \"search-result-item\">\n                    <img class = \"search-user-pic\" src=\"/images/{{option.imageID}}.jpg\" width=\"30\" height=\"30\"> &nbsp; &nbsp;\n                    <span class = \"search-user-name\">{{option.name}}</span>\n                </div>\n            </mat-option>\n            </mat-autocomplete>\n        </mat-form-field>\n    </form>\n    <span fxFlex></span>\n    <div class=\"nav-bar-bubble\" [ngStyle]=\"{'visibility':enableNotification ? 'visible' : 'hidden'}\" [matMenuTriggerFor]=\"notificationMenu\">{{noOfNotification}}</div>\n    <i class=\"nav-bar-notification\"><img src=\"/icons/notification.svg\" width=\"50\" height=\"50\"></i>\n    <mat-menu #notificationMenu=\"matMenu\" yPosition=\"above\">\n        <ng-container *ngFor=\"let item of menuItems\">\n            <button *ngIf=!item.templateName mat-menu-item (click)=\"onNotificationItemSelected(item)\">{{ item.text }}</button>\n        </ng-container>            \n    </mat-menu>\n    <div class=\"nav-bar-newsfeed\">\n        <i (click)=\"onNewsFeedClicked()\"><img src=\"/icons/home.svg\" width=\"50\" height=\"50\"></i>\n    </div>\n    <div class=\"nav-bar-wall\">\n        <i (click)=\"onWallClicked()\"><img src=\"/icons/firewall.svg\" width=\"50\" height=\"50\"></i>\n    </div>\n    <div class=\"nav-bar-logout\">\n        <i (click)=\"onLogoutClicked()\"><img src=\"/icons/logout.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n</mat-toolbar>"
 
 /***/ }),
 
@@ -97,6 +108,17 @@ module.exports = "<br/>\n<div class=\"panel\"> \n  <div class = \"post-heading\"
 /***/ (function(module, exports) {
 
 module.exports = "<div class=\"container-newsfeed-main\">\n    <div class=\"container-newsfeed-profile\">\n        <div class = \"user-pic\"> <img src='/images/{{profileImageID}}.jpg' width=\"250\" height=\"250\"> </div>\n        <ul style = \"list-style-type:none\">\n            <li *ngFor=\"let uname of userNameArray\">\n              <div class = \"post-user-name\">\n                {{uname}}\n              </div>\n            </li>\n        </ul>    \n    </div>\n    <div class=\"container-newsfeed\">\n        <div class=\"container-posts\">\n            <div class=\"container-newposts\">\n                <ng-template np-host></ng-template>\n            </div>        \n            <div class=\"container-nomoreposts\" *ngIf=\"nomoreposts\">There are no more posts to show right now</div>        \n        </div>    \n    </div>\n</div>"
+
+/***/ }),
+
+/***/ "./node_modules/raw-loader/index.js!./src/app/components/register/register.component.html":
+/*!***************************************************************************************!*\
+  !*** ./node_modules/raw-loader!./src/app/components/register/register.component.html ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p>register works!</p>\n"
 
 /***/ }),
 
@@ -158,7 +180,7 @@ var routes = [
     { path: 'index', component: _components_login_login_component__WEBPACK_IMPORTED_MODULE_5__["LoginComponent"] },
     { path: 'singlepost/:postID', component: _components_singlepost_singlepost_component__WEBPACK_IMPORTED_MODULE_7__["SinglepostComponent"] },
     { path: 'friendrequest/:friendImageID/:userFullName', component: _components_friendrequest_friendrequest_component__WEBPACK_IMPORTED_MODULE_8__["FriendrequestComponent"] },
-    { path: 'friendswall/:friendImageID', component: _components_friendswall_friendswall_component__WEBPACK_IMPORTED_MODULE_9__["FriendswallComponent"] }
+    { path: 'friendswall/:friendImageID', component: _components_friendswall_friendswall_component__WEBPACK_IMPORTED_MODULE_9__["FriendswallComponent"] },
 ];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
@@ -237,6 +259,9 @@ var AppComponent = /** @class */ (function () {
             }
         });
     }
+    AppComponent.prototype.participantClicked = function (event) {
+        this.adapter.chatWindowOpen(event);
+    };
     AppComponent.prototype.checkScroll = function () {
         var a = document.documentElement.scrollTop;
         var b = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -306,6 +331,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_singlepost_singlepost_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/singlepost/singlepost.component */ "./src/app/components/singlepost/singlepost.component.ts");
 /* harmony import */ var _components_friendswall_friendswall_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/friendswall/friendswall.component */ "./src/app/components/friendswall/friendswall.component.ts");
 /* harmony import */ var _components_friendrequest_friendrequest_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/friendrequest/friendrequest.component */ "./src/app/components/friendrequest/friendrequest.component.ts");
+/* harmony import */ var _components_friendrequestmanage_friendrequestmanage_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./components/friendrequestmanage/friendrequestmanage.component */ "./src/app/components/friendrequestmanage/friendrequestmanage.component.ts");
+/* harmony import */ var _components_register_register_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./components/register/register.component */ "./src/app/components/register/register.component.ts");
+
+
 
 
 
@@ -346,7 +375,9 @@ var AppModule = /** @class */ (function () {
                 time_ago_pipe__WEBPACK_IMPORTED_MODULE_9__["TimeAgoPipe"],
                 _components_singlepost_singlepost_component__WEBPACK_IMPORTED_MODULE_20__["SinglepostComponent"],
                 _components_friendrequest_friendrequest_component__WEBPACK_IMPORTED_MODULE_22__["FriendrequestComponent"],
-                _components_friendswall_friendswall_component__WEBPACK_IMPORTED_MODULE_21__["FriendswallComponent"]
+                _components_friendswall_friendswall_component__WEBPACK_IMPORTED_MODULE_21__["FriendswallComponent"],
+                _components_friendrequestmanage_friendrequestmanage_component__WEBPACK_IMPORTED_MODULE_23__["FriendrequestmanageComponent"],
+                _components_register_register_component__WEBPACK_IMPORTED_MODULE_24__["RegisterComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -399,6 +430,7 @@ var ChatControl = /** @class */ (function (_super) {
     tslib__WEBPACK_IMPORTED_MODULE_0__["__extends"](ChatControl, _super);
     function ChatControl() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.chatHistory = [];
         _this.mockedHistory = [];
         _this.mockedParticipants = [
             {
@@ -419,6 +451,8 @@ var ChatControl = /** @class */ (function (_super) {
         this.wsService.onlineObs.subscribe(function (res) {
             _this.setOnlineStatus(res);
         });
+        this.wsService.newFriendObs.subscribe(function (res) {
+        });
     };
     ChatControl.prototype.listFriends = function () {
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(this.mockedParticipants.map(function (user) {
@@ -431,26 +465,30 @@ var ChatControl = /** @class */ (function (_super) {
             return participantResponse;
         }));
     };
+    ChatControl.prototype.addNewFriend = function (payload) {
+        this.createUser(payload);
+    };
     ChatControl.prototype.setFriendsList = function () {
         var _this = this;
         var friendsList;
         this.mockedParticipants.length = 0;
         this.commService.getFriendsList().subscribe(function (res) {
             friendsList = res;
-            friendsList.forEach(function (t) {
-                localStorage.setItem(t.imagePath, t.fullName);
-                var onlineStatus = t.onlinestatus === 'offline' ? ng_chat__WEBPACK_IMPORTED_MODULE_1__["ChatParticipantStatus"].Offline : ng_chat__WEBPACK_IMPORTED_MODULE_1__["ChatParticipantStatus"].Online;
-                var pRes = {
-                    participantType: ng_chat__WEBPACK_IMPORTED_MODULE_1__["ChatParticipantType"].User,
-                    id: t.imagePath,
-                    displayName: t.fullName,
-                    avatar: "/images/" + t.imagePath + ".jpg",
-                    status: onlineStatus
-                };
-                _this.mockedParticipants.push(pRes);
-            });
+            friendsList.forEach(function (t) { _this.createUser(t); });
             _this.listFriends().subscribe(function (res) { _this.onFriendsListChanged(res); });
         }, function (error) { console.log(error); });
+    };
+    ChatControl.prototype.createUser = function (usr) {
+        localStorage.setItem(usr.imagePath, usr.fullName);
+        var onlineStatus = usr.onlinestatus === 'offline' ? ng_chat__WEBPACK_IMPORTED_MODULE_1__["ChatParticipantStatus"].Offline : ng_chat__WEBPACK_IMPORTED_MODULE_1__["ChatParticipantStatus"].Online;
+        var pRes = {
+            participantType: ng_chat__WEBPACK_IMPORTED_MODULE_1__["ChatParticipantType"].User,
+            id: usr.imagePath,
+            displayName: usr.fullName,
+            avatar: "/images/" + usr.imagePath + ".jpg",
+            status: onlineStatus
+        };
+        this.mockedParticipants.push(pRes);
     };
     ChatControl.prototype.insertMessage = function (payload) {
         var replyMessage = new ng_chat__WEBPACK_IMPORTED_MODULE_1__["Message"]();
@@ -476,6 +514,14 @@ var ChatControl = /** @class */ (function (_super) {
         this.mockedParticipants[index] = pRes;
         this.listFriends().subscribe(function (res) { _this.onFriendsListChanged(res); });
     };
+    ChatControl.prototype.chatWindowOpen = function (event) {
+        var userHistory = this.chatHistory.find(function (x) { return x.userID == event.id; });
+        if (userHistory == null) {
+            this.commService.getChatHistory(event.id).subscribe(function (res) {
+                console.log(res);
+            });
+        }
+    };
     ChatControl.prototype.getMessageHistory = function (userId) {
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(this.mockedHistory).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["delay"])(500));
     };
@@ -496,7 +542,7 @@ var ChatControl = /** @class */ (function (_super) {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".friend-request\n{\n    margin-top: 200px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n            flex-direction: column;\n    -webkit-box-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n            justify-content: center;\n}\n\n.friend-request-user-name\n{\n    font-style: bold;\n    font-size: 50px;\n    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;\n    margin-left: 0;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9mcmllbmRyZXF1ZXN0L2ZyaWVuZHJlcXVlc3QuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7SUFFSSxpQkFBaUI7SUFDakIsb0JBQWE7SUFBYixhQUFhO0lBQ2IsNEJBQXNCO0lBQXRCLDZCQUFzQjtZQUF0QixzQkFBc0I7SUFDdEIseUJBQW1CO1lBQW5CLG1CQUFtQjtJQUNuQix3QkFBdUI7WUFBdkIsdUJBQXVCO0FBQzNCOztBQUVBOztJQUVJLGdCQUFnQjtJQUNoQixlQUFlO0lBQ2Ysd0VBQXdFO0lBQ3hFLGNBQWM7QUFDbEIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL2ZyaWVuZHJlcXVlc3QvZnJpZW5kcmVxdWVzdC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmZyaWVuZC1yZXF1ZXN0XG57XG4gICAgbWFyZ2luLXRvcDogMjAwcHg7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG59XG5cbi5mcmllbmQtcmVxdWVzdC11c2VyLW5hbWVcbntcbiAgICBmb250LXN0eWxlOiBib2xkO1xuICAgIGZvbnQtc2l6ZTogNTBweDtcbiAgICBmb250LWZhbWlseTogJ0ZyYW5rbGluIEdvdGhpYyBNZWRpdW0nLCAnQXJpYWwgTmFycm93JywgQXJpYWwsIHNhbnMtc2VyaWY7XG4gICAgbWFyZ2luLWxlZnQ6IDA7XG59Il19 */"
+module.exports = ".friend-request\n{\n    margin-top: 200px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n            flex-direction: column;\n    -webkit-box-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n            justify-content: center;\n}\n\n.user-name-list-element\n{\n    font-style: bold;\n    font-size: 30px;\n    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;\n    margin-right: 5px;\n    text-align: center;\n}\n\n.send-freind-request-button\n{\n\tbox-shadow: 0px 0px 0px 2px #9fb4f2;\n\tbackground:-webkit-gradient(linear, left top, left bottom, color-stop(5%, #7892c2), to(#476e9e));\n\tbackground:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%);\n\tbackground-color:#7892c2;\n\tborder-radius:10px;\n\tborder:1px solid #4e6096;\n\tdisplay:inline-block;\n\tcursor:pointer;\n\tcolor:#ffffff;\n\tfont-family:Arial;\n\tfont-size:19px;\n\tpadding:12px 37px;\n\ttext-decoration:none;\n    text-shadow:0px 1px 0px #283966;    \n}\n\n.send-freind-request-button:hover\n{\n\tbackground:-webkit-gradient(linear, left top, left bottom, color-stop(5%, #476e9e), to(#7892c2));\n\tbackground:linear-gradient(to bottom, #476e9e 5%, #7892c2 100%);\n\tbackground-color:#476e9e;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9mcmllbmRyZXF1ZXN0L2ZyaWVuZHJlcXVlc3QuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7SUFFSSxpQkFBaUI7SUFDakIsb0JBQWE7SUFBYixhQUFhO0lBQ2IsNEJBQXNCO0lBQXRCLDZCQUFzQjtZQUF0QixzQkFBc0I7SUFDdEIseUJBQW1CO1lBQW5CLG1CQUFtQjtJQUNuQix3QkFBdUI7WUFBdkIsdUJBQXVCO0FBQzNCOztBQUVBOztJQUVJLGdCQUFnQjtJQUNoQixlQUFlO0lBQ2Ysd0VBQXdFO0lBQ3hFLGlCQUFpQjtJQUNqQixrQkFBa0I7QUFDdEI7O0FBQ0E7O0NBRUMsbUNBQW1DO0NBQ25DLGdHQUErRDtDQUEvRCwrREFBK0Q7Q0FDL0Qsd0JBQXdCO0NBQ3hCLGtCQUFrQjtDQUNsQix3QkFBd0I7Q0FDeEIsb0JBQW9CO0NBQ3BCLGNBQWM7Q0FDZCxhQUFhO0NBQ2IsaUJBQWlCO0NBQ2pCLGNBQWM7Q0FDZCxpQkFBaUI7Q0FDakIsb0JBQW9CO0lBQ2pCLCtCQUErQjtBQUNuQzs7QUFFQTs7Q0FFQyxnR0FBK0Q7Q0FBL0QsK0RBQStEO0NBQy9ELHdCQUF3QjtBQUN6QiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvZnJpZW5kcmVxdWVzdC9mcmllbmRyZXF1ZXN0LmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuZnJpZW5kLXJlcXVlc3RcbntcbiAgICBtYXJnaW4tdG9wOiAyMDBweDtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbn1cblxuLnVzZXItbmFtZS1saXN0LWVsZW1lbnRcbntcbiAgICBmb250LXN0eWxlOiBib2xkO1xuICAgIGZvbnQtc2l6ZTogMzBweDtcbiAgICBmb250LWZhbWlseTogJ0ZyYW5rbGluIEdvdGhpYyBNZWRpdW0nLCAnQXJpYWwgTmFycm93JywgQXJpYWwsIHNhbnMtc2VyaWY7XG4gICAgbWFyZ2luLXJpZ2h0OiA1cHg7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuLnNlbmQtZnJlaW5kLXJlcXVlc3QtYnV0dG9uXG57XG5cdGJveC1zaGFkb3c6IDBweCAwcHggMHB4IDJweCAjOWZiNGYyO1xuXHRiYWNrZ3JvdW5kOmxpbmVhci1ncmFkaWVudCh0byBib3R0b20sICM3ODkyYzIgNSUsICM0NzZlOWUgMTAwJSk7XG5cdGJhY2tncm91bmQtY29sb3I6Izc4OTJjMjtcblx0Ym9yZGVyLXJhZGl1czoxMHB4O1xuXHRib3JkZXI6MXB4IHNvbGlkICM0ZTYwOTY7XG5cdGRpc3BsYXk6aW5saW5lLWJsb2NrO1xuXHRjdXJzb3I6cG9pbnRlcjtcblx0Y29sb3I6I2ZmZmZmZjtcblx0Zm9udC1mYW1pbHk6QXJpYWw7XG5cdGZvbnQtc2l6ZToxOXB4O1xuXHRwYWRkaW5nOjEycHggMzdweDtcblx0dGV4dC1kZWNvcmF0aW9uOm5vbmU7XG4gICAgdGV4dC1zaGFkb3c6MHB4IDFweCAwcHggIzI4Mzk2NjsgICAgXG59XG5cbi5zZW5kLWZyZWluZC1yZXF1ZXN0LWJ1dHRvbjpob3Zlclxue1xuXHRiYWNrZ3JvdW5kOmxpbmVhci1ncmFkaWVudCh0byBib3R0b20sICM0NzZlOWUgNSUsICM3ODkyYzIgMTAwJSk7XG5cdGJhY2tncm91bmQtY29sb3I6IzQ3NmU5ZTtcbn0iXX0= */"
 
 /***/ }),
 
@@ -557,6 +603,73 @@ var FriendrequestComponent = /** @class */ (function () {
         })
     ], FriendrequestComponent);
     return FriendrequestComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/friendrequestmanage/friendrequestmanage.component.css":
+/*!**********************************************************************************!*\
+  !*** ./src/app/components/friendrequestmanage/friendrequestmanage.component.css ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".friend-request-manage\n{\n    margin-top: 200px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n            flex-direction: column;\n    -webkit-box-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n            justify-content: center;\n}\n\n.friend-request-user-name\n{\n    font-style: bold;\n    font-size: 50px;\n    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;\n    margin-left: 0;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9mcmllbmRyZXF1ZXN0bWFuYWdlL2ZyaWVuZHJlcXVlc3RtYW5hZ2UuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7SUFFSSxpQkFBaUI7SUFDakIsb0JBQWE7SUFBYixhQUFhO0lBQ2IsNEJBQXNCO0lBQXRCLDZCQUFzQjtZQUF0QixzQkFBc0I7SUFDdEIseUJBQW1CO1lBQW5CLG1CQUFtQjtJQUNuQix3QkFBdUI7WUFBdkIsdUJBQXVCO0FBQzNCOztBQUVBOztJQUVJLGdCQUFnQjtJQUNoQixlQUFlO0lBQ2Ysd0VBQXdFO0lBQ3hFLGNBQWM7QUFDbEIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL2ZyaWVuZHJlcXVlc3RtYW5hZ2UvZnJpZW5kcmVxdWVzdG1hbmFnZS5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmZyaWVuZC1yZXF1ZXN0LW1hbmFnZVxue1xuICAgIG1hcmdpbi10b3A6IDIwMHB4O1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xufVxuXG4uZnJpZW5kLXJlcXVlc3QtdXNlci1uYW1lXG57XG4gICAgZm9udC1zdHlsZTogYm9sZDtcbiAgICBmb250LXNpemU6IDUwcHg7XG4gICAgZm9udC1mYW1pbHk6ICdGcmFua2xpbiBHb3RoaWMgTWVkaXVtJywgJ0FyaWFsIE5hcnJvdycsIEFyaWFsLCBzYW5zLXNlcmlmO1xuICAgIG1hcmdpbi1sZWZ0OiAwO1xufVxuIl19 */"
+
+/***/ }),
+
+/***/ "./src/app/components/friendrequestmanage/friendrequestmanage.component.ts":
+/*!*********************************************************************************!*\
+  !*** ./src/app/components/friendrequestmanage/friendrequestmanage.component.ts ***!
+  \*********************************************************************************/
+/*! exports provided: FriendrequestmanageComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FriendrequestmanageComponent", function() { return FriendrequestmanageComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/services/communication.service */ "./src/app/services/communication.service.ts");
+
+
+
+
+var FriendrequestmanageComponent = /** @class */ (function () {
+    function FriendrequestmanageComponent(commService, route) {
+        this.commService = commService;
+        this.route = route;
+        this.acceptfriendrequestbutton = true;
+        this.rejectfriendrequestbutton = true;
+        this.acceptfriendrequestmessage = false;
+        this.rejectfriendrequestmessage = false;
+    }
+    FriendrequestmanageComponent.prototype.ngOnInit = function () {
+        this.profileImageID = this.route.snapshot.paramMap.get('friendImageID');
+        this.fullname = this.route.snapshot.paramMap.get('userFullName');
+        this.userNameArray = this.fullname.split(" ");
+    };
+    FriendrequestmanageComponent.prototype.onAcceptFriendRequestClick = function () {
+        this.commService.managefriendrequest(this.profileImageID, 'yes').subscribe(function (res) { console.log(res); }, function (error) { console.log(error); });
+    };
+    FriendrequestmanageComponent.prototype.onRejectFriendRequestClick = function () {
+        this.commService.managefriendrequest(this.profileImageID, 'no').subscribe(function (res) { console.log(res); }, function (error) { console.log(error); });
+    };
+    FriendrequestmanageComponent.ctorParameters = function () { return [
+        { type: src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_3__["CommunicationService"] },
+        { type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"] }
+    ]; };
+    FriendrequestmanageComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-friendrequestmanage',
+            template: __webpack_require__(/*! raw-loader!./friendrequestmanage.component.html */ "./node_modules/raw-loader/index.js!./src/app/components/friendrequestmanage/friendrequestmanage.component.html"),
+            styles: [__webpack_require__(/*! ./friendrequestmanage.component.css */ "./src/app/components/friendrequestmanage/friendrequestmanage.component.css")]
+        })
+    ], FriendrequestmanageComponent);
+    return FriendrequestmanageComponent;
 }());
 
 
@@ -682,16 +795,30 @@ __webpack_require__.r(__webpack_exports__);
 
 var LoginComponent = /** @class */ (function () {
     function LoginComponent(commService, router, authService) {
+        var _this = this;
         this.commService = commService;
         this.router = router;
         this.authService = authService;
+        router.events.subscribe(function (event) {
+            if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_2__["NavigationEnd"]) {
+                if (_this.router.url === '/index') {
+                    var logInResult = localStorage.getItem('isLoggenIn');
+                    if (logInResult === 'true') //Check if we are a fresh login page or redirect
+                     {
+                        _this.commService.logout().subscribe(function (res) {
+                            console.log(res);
+                            if (res['status'] === 'LOGOUT_SUCCESS') {
+                                localStorage.clear();
+                            }
+                        });
+                    }
+                }
+            }
+        });
     }
-    LoginComponent.prototype.ngOnInit = function () {
-        localStorage.clear();
-        localStorage.setItem('isLoggenIn', 'false');
-    };
     LoginComponent.prototype.onClickMe = function (usrname) {
         var _this = this;
+        localStorage.clear();
         this.commService.sendCredential(usrname + "@foo.com", "hajmola").subscribe(function (res) {
             //localStorage.setItem("xAuthToken", );
             console.log(res);
@@ -789,16 +916,13 @@ var NavbarComponent = /** @class */ (function () {
         this.searchFormControl.valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_8__["debounceTime"])(500), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_8__["distinctUntilChanged"])()).subscribe(function (val) { _this.onSearchChange(val); });
     };
     NavbarComponent.prototype.onNotificationMessageReceived = function (payload) {
+        var menuItemText = payload.userFullName;
+        var mItem;
         if (payload.type === 'FRIEND_REQUEST') {
-            var menuItemText = payload.usrfromFullName;
             menuItemText += " has sent a friend request";
-            var abc = { text: menuItemText, postID: payload.entityID };
-            this.menuItems.push(abc);
-            this.enableNotification = true;
-            this.noOfNotification++;
+            mItem = { text: menuItemText, userImageID: payload.usrImageID, userFullName: payload.usrFullName, menuItemType: 'FRIEND_REQUEST' };
         }
         else {
-            var menuItemText = localStorage.getItem(payload.usrID);
             if (payload.type === 'NEWPOST')
                 menuItemText += " has made a post";
             else if (payload.type === 'LIKE')
@@ -807,11 +931,16 @@ var NavbarComponent = /** @class */ (function () {
                 menuItemText += " has disliked a post";
             else if (payload.type === 'COMMENT')
                 menuItemText += " has commented on a post";
-            var abc = { text: menuItemText, postID: payload.entityID };
-            this.menuItems.push(abc);
-            this.enableNotification = true;
-            this.noOfNotification++;
+            if (payload.hasOwnProperty('postID')) {
+                mItem = { text: menuItemText, postID: payload.postID, userImageID: payload.usrImageID, userFullName: payload.usrFullName, menuItemType: 'POST' };
+            }
+            else {
+                mItem = { text: menuItemText, userImageID: payload.usrImageID, userFullName: payload.usrFullName, menuItemType: 'POST' };
+            }
         }
+        this.menuItems.push(mItem);
+        this.enableNotification = true;
+        this.noOfNotification++;
     };
     NavbarComponent.prototype.onSearchMessageReceived = function (payload) {
         var _this = this;
@@ -835,28 +964,33 @@ var NavbarComponent = /** @class */ (function () {
         this.authService.logout();
         this.router.navigate(['/index']);
     };
-    NavbarComponent.prototype.select = function (pText) {
-        if (typeof this.alreadyClicked.find(function (x) { return x === pText; }) === 'undefined') {
-            this.alreadyClicked.push(pText);
+    NavbarComponent.prototype.onNotificationItemSelected = function (menuItem) {
+        if (typeof this.alreadyClicked.find(function (x) { return x === menuItem.postID; }) === 'undefined') {
+            this.alreadyClicked.push(menuItem.postID); //Put this notification menu item in seen list
             if (this.noOfNotification > 0)
                 this.noOfNotification--;
             if (this.noOfNotification === 0)
                 this.enableNotification = false;
         }
-        this.router.navigate(['/singlepost', pText]);
+        if (menuItem.menuItemType === 'POST') {
+            if (!menuItem.hasOwnProperty('postID')) //Non friend post
+             {
+                this.router.navigate(['/friendrequest', menuItem.imageID, menuItem.name]);
+            }
+        }
+        this.router.navigate(['/singlepost', menuItem.postID]);
     };
     NavbarComponent.prototype.onSearchChange = function (searchValue) {
         this.wscommService.sendSearchMessage(searchValue);
     };
     NavbarComponent.prototype.onSearchItemSelected = function (event, srcItm) {
-        if (typeof localStorage.getItem(srcItm.imageID) === 'string') //Friend selected
+        var isSelfSelected = srcItm.imageID === localStorage.getItem('userImageID');
+        var existInFriendsList = localStorage.getItem(srcItm.imageID);
+        if (typeof existInFriendsList === 'string') //Friend selected
          {
-            if (localStorage.getItem(srcItm.imageID) !== localStorage.getItem('userImageID')) //Dont load our own wall from here 
-             {
-                this.router.navigate(['/friendswall', srcItm.imageID]);
-            }
+            this.router.navigate(['/friendswall', srcItm.imageID]);
         }
-        else if (localStorage.getItem(srcItm.imageID) === null) //New person selected
+        else if (existInFriendsList === null && !isSelfSelected) //New person selected and it is not us
          {
             this.router.navigate(['/friendrequest', srcItm.imageID, srcItm.name]);
         }
@@ -1047,7 +1181,7 @@ var NPostDirective = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".container-newsfeed-main\n{\n    margin-top: 50px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: start;\n            justify-content: flex-start;\n}\n\n.container-newsfeed-profile\n{\n    margin-top: 50px;\n    margin-left: 50px;\n}\n\n.post-user-name\n{\n    font-style: bold;\n    font-size: 50px;\n    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;\n    margin-left: 0;\n}\n\n.container-newsfeed\n{\n    margin-left: 10px;\n    margin-right: 0px;\n    width: 50%;\n}\n\n.container-nomoreposts\n{\n    margin-top: 100px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uZXdzZmVlZC9uZXdzZmVlZC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOztJQUVJLGdCQUFnQjtJQUNoQixvQkFBYTtJQUFiLGFBQWE7SUFDYix1QkFBMkI7WUFBM0IsMkJBQTJCO0FBQy9COztBQUVBOztJQUVJLGdCQUFnQjtJQUNoQixpQkFBaUI7QUFDckI7O0FBRUE7O0lBRUksZ0JBQWdCO0lBQ2hCLGVBQWU7SUFDZix3RUFBd0U7SUFDeEUsY0FBYztBQUNsQjs7QUFFQTs7SUFFSSxpQkFBaUI7SUFDakIsaUJBQWlCO0lBQ2pCLFVBQVU7QUFDZDs7QUFFQTs7SUFFSSxpQkFBaUI7QUFDckIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL25ld3NmZWVkL25ld3NmZWVkLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGFpbmVyLW5ld3NmZWVkLW1haW5cbntcbiAgICBtYXJnaW4tdG9wOiA1MHB4O1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAganVzdGlmeS1jb250ZW50OiBmbGV4LXN0YXJ0O1xufVxuXG4uY29udGFpbmVyLW5ld3NmZWVkLXByb2ZpbGVcbntcbiAgICBtYXJnaW4tdG9wOiA1MHB4O1xuICAgIG1hcmdpbi1sZWZ0OiA1MHB4O1xufVxuXG4ucG9zdC11c2VyLW5hbWVcbntcbiAgICBmb250LXN0eWxlOiBib2xkO1xuICAgIGZvbnQtc2l6ZTogNTBweDtcbiAgICBmb250LWZhbWlseTogJ0ZyYW5rbGluIEdvdGhpYyBNZWRpdW0nLCAnQXJpYWwgTmFycm93JywgQXJpYWwsIHNhbnMtc2VyaWY7XG4gICAgbWFyZ2luLWxlZnQ6IDA7XG59XG5cbi5jb250YWluZXItbmV3c2ZlZWRcbntcbiAgICBtYXJnaW4tbGVmdDogMTBweDtcbiAgICBtYXJnaW4tcmlnaHQ6IDBweDtcbiAgICB3aWR0aDogNTAlO1xufVxuXG4uY29udGFpbmVyLW5vbW9yZXBvc3RzXG57XG4gICAgbWFyZ2luLXRvcDogMTAwcHg7XG59Il19 */"
+module.exports = ".container-newsfeed-main\n{\n    margin-top: 50px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: start;\n            justify-content: flex-start;\n}\n\n.container-newsfeed-profile\n{\n    margin-top: 50px;\n    margin-left: 50px;\n}\n\n.post-user-name\n{\n    font-style: bold;\n    font-size: 50px;\n    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;\n    margin: 0 auto;\n    text-align: center;\n}\n\n.container-newsfeed\n{\n    margin-left: 10px;\n    margin-right: 0px;\n    width: 50%;\n}\n\n.container-nomoreposts\n{\n    margin-top: 100px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uZXdzZmVlZC9uZXdzZmVlZC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOztJQUVJLGdCQUFnQjtJQUNoQixvQkFBYTtJQUFiLGFBQWE7SUFDYix1QkFBMkI7WUFBM0IsMkJBQTJCO0FBQy9COztBQUVBOztJQUVJLGdCQUFnQjtJQUNoQixpQkFBaUI7QUFDckI7O0FBRUE7O0lBRUksZ0JBQWdCO0lBQ2hCLGVBQWU7SUFDZix3RUFBd0U7SUFDeEUsY0FBYztJQUNkLGtCQUFrQjtBQUN0Qjs7QUFFQTs7SUFFSSxpQkFBaUI7SUFDakIsaUJBQWlCO0lBQ2pCLFVBQVU7QUFDZDs7QUFFQTs7SUFFSSxpQkFBaUI7QUFDckIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL25ld3NmZWVkL25ld3NmZWVkLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGFpbmVyLW5ld3NmZWVkLW1haW5cbntcbiAgICBtYXJnaW4tdG9wOiA1MHB4O1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAganVzdGlmeS1jb250ZW50OiBmbGV4LXN0YXJ0O1xufVxuXG4uY29udGFpbmVyLW5ld3NmZWVkLXByb2ZpbGVcbntcbiAgICBtYXJnaW4tdG9wOiA1MHB4O1xuICAgIG1hcmdpbi1sZWZ0OiA1MHB4O1xufVxuXG4ucG9zdC11c2VyLW5hbWVcbntcbiAgICBmb250LXN0eWxlOiBib2xkO1xuICAgIGZvbnQtc2l6ZTogNTBweDtcbiAgICBmb250LWZhbWlseTogJ0ZyYW5rbGluIEdvdGhpYyBNZWRpdW0nLCAnQXJpYWwgTmFycm93JywgQXJpYWwsIHNhbnMtc2VyaWY7XG4gICAgbWFyZ2luOiAwIGF1dG87XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4uY29udGFpbmVyLW5ld3NmZWVkXG57XG4gICAgbWFyZ2luLWxlZnQ6IDEwcHg7XG4gICAgbWFyZ2luLXJpZ2h0OiAwcHg7XG4gICAgd2lkdGg6IDUwJTtcbn1cblxuLmNvbnRhaW5lci1ub21vcmVwb3N0c1xue1xuICAgIG1hcmdpbi10b3A6IDEwMHB4O1xufSJdfQ== */"
 
 /***/ }),
 
@@ -1132,6 +1266,50 @@ var NewsfeedComponent = /** @class */ (function () {
         })
     ], NewsfeedComponent);
     return NewsfeedComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/components/register/register.component.css":
+/*!************************************************************!*\
+  !*** ./src/app/components/register/register.component.css ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvcmVnaXN0ZXIvcmVnaXN0ZXIuY29tcG9uZW50LmNzcyJ9 */"
+
+/***/ }),
+
+/***/ "./src/app/components/register/register.component.ts":
+/*!***********************************************************!*\
+  !*** ./src/app/components/register/register.component.ts ***!
+  \***********************************************************/
+/*! exports provided: RegisterComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegisterComponent", function() { return RegisterComponent; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var RegisterComponent = /** @class */ (function () {
+    function RegisterComponent() {
+    }
+    RegisterComponent.prototype.ngOnInit = function () {
+    };
+    RegisterComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
+            selector: 'app-register',
+            template: __webpack_require__(/*! raw-loader!./register.component.html */ "./node_modules/raw-loader/index.js!./src/app/components/register/register.component.html"),
+            styles: [__webpack_require__(/*! ./register.component.css */ "./src/app/components/register/register.component.css")]
+        })
+    ], RegisterComponent);
+    return RegisterComponent;
 }());
 
 
@@ -1456,7 +1634,6 @@ var AuthenticationService = /** @class */ (function () {
     };
     AuthenticationService.prototype.logout = function () {
         this.loggedIn.next(false);
-        this.commService.logout();
     };
     AuthenticationService.ctorParameters = function () { return [
         { type: _communication_service__WEBPACK_IMPORTED_MODULE_3__["CommunicationService"] }
@@ -1520,8 +1697,8 @@ var CommunicationService = /** @class */ (function () {
         var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getfriendslist/';
         return this.http.get(url);
     };
-    CommunicationService.prototype.getChatHistory = function (userID) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getchathistory/' + userID + '/';
+    CommunicationService.prototype.getChatHistory = function (userImageID) {
+        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getchathistory/?userImageID=' + userImageID;
         return this.http.get(url);
     };
     CommunicationService.prototype.addComment = function (postID, text) {
@@ -1557,6 +1734,11 @@ var CommunicationService = /** @class */ (function () {
     };
     CommunicationService.prototype.sendFriendRequest = function (usrImageID) {
         var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'sendfriendrequest/?userImageID=' + usrImageID;
+        console.log(url);
+        return this.http.get(url);
+    };
+    CommunicationService.prototype.managefriendrequest = function (usrImageID, friendrequeststatus) {
+        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'sendfriendrequest/?userImageID=' + usrImageID + '&frndrqststs=' + friendrequeststatus;
         console.log(url);
         return this.http.get(url);
     };
@@ -1651,6 +1833,8 @@ var WebsocketmessagingService = /** @class */ (function () {
         this.notificationObs = this.notificationSubject.asObservable();
         this.searchSubject = new rxjs__WEBPACK_IMPORTED_MODULE_4__["Subject"]();
         this.searchObs = this.searchSubject.asObservable();
+        this.newFriendSubject = new rxjs__WEBPACK_IMPORTED_MODULE_4__["Subject"]();
+        this.newFriendObs = this.newFriendSubject.asObservable();
     }
     WebsocketmessagingService.prototype.connectToChat = function () {
         var that = this;
@@ -1669,10 +1853,14 @@ var WebsocketmessagingService = /** @class */ (function () {
     WebsocketmessagingService.prototype.onMessageReceived = function (payload) {
         if (payload.hasOwnProperty('onlineStatusMessage'))
             this.onlineSubject.next(payload);
-        else if (payload.hasOwnProperty('content'))
+        else if (payload.hasOwnProperty('content')) //Chat message
             this.chatSubject.next(payload);
-        else if (payload.hasOwnProperty('entityID'))
-            this.notificationSubject.next(payload);
+        else if (payload.hasOwnProperty('type')) {
+            if (payload.type === 'FRIEND_REQUEST' || payload.type === 'COMMENT' || payload.type === 'LIKE' || payload.type === 'DISLIKE' || payload.type === 'NEWPOST')
+                this.notificationSubject.next(payload);
+            else if (payload.type === 'FRIEND_LIST_UPDATE')
+                this.newFriendSubject.next(payload); //Add new friend to friends list
+        }
         else if (Array.isArray(payload)) //Search messages are returned as Array
          {
             this.searchSubject.next(payload);

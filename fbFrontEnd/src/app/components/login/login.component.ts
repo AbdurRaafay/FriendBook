@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CommunicationService } from 'src/app/services/communication.service';
 
@@ -8,19 +8,36 @@ import { CommunicationService } from 'src/app/services/communication.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit 
+export class LoginComponent 
 {
-
-  constructor(private commService: CommunicationService, private router:Router, private authService: AuthenticationService) { }
-
-  ngOnInit() 
+  constructor(private commService: CommunicationService, private router:Router, private authService: AuthenticationService)
   {
-    localStorage.clear();
-    localStorage.setItem('isLoggenIn', 'false');    
+    router.events.subscribe(event => 
+    {
+      if (event instanceof NavigationEnd) 
+      {
+        if(this.router.url === '/index')
+        {
+          var logInResult = localStorage.getItem('isLoggenIn');
+          if (logInResult === 'true')//Check if we are a fresh login page or redirect
+          {
+            this.commService.logout().subscribe(res=>//Logout the currently logged in user
+              {
+                console.log(res);
+                if(res['status'] === 'LOGOUT_SUCCESS')
+                {
+                  localStorage.clear();
+                }
+              });
+          }      
+        }
+      }
+    });
   }
 
   onClickMe(usrname: string)
   {
+    localStorage.clear();
     this.commService.sendCredential(usrname + "@foo.com","hajmola").subscribe(
       res => 
       {

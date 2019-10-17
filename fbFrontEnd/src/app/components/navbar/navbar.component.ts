@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -13,7 +13,6 @@ interface SearchItem
   name: string;
   imageID: string;
 }
-
 
 @Component({
   selector: 'app-navbar',
@@ -30,7 +29,7 @@ export class NavbarComponent implements OnInit
   alreadyClicked: Array<string> = [];
   searchFormControl = new FormControl();
   autoCompleteList: SearchItem[] = [];
-  menuItems: Array<{text: string, postID: string}> = [];
+  menuItems: Array<any> = [];
   
   @ViewChild(MatMenuTrigger, {static: false}) notificationMenu: MatMenuTrigger;
   
@@ -54,20 +53,17 @@ export class NavbarComponent implements OnInit
     this.searchFormControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged()).subscribe(val=>{this.onSearchChange(val);});
   }
 
-  onNotificationMessageReceived(payload)
+  onNotificationMessageReceived(payload: any)
   {
+    let menuItemText = payload.userFullName;
+    let mItem: any; 
     if(payload.type === 'FRIEND_REQUEST')
     {
-      let menuItemText = payload.usrfromFullName;
       menuItemText += " has sent a friend request";
-      let abc = {text: menuItemText, postID: payload.entityID};
-      this.menuItems.push(abc);
-      this.enableNotification = true;
-      this.noOfNotification++;  
+      mItem = {text: menuItemText, userImageID: payload.usrImageID, userFullName: payload.usrFullName, menuItemType: 'FRIEND_REQUEST'};
     }
     else
     {
-      let menuItemText = localStorage.getItem(payload.usrID);
       if(payload.type === 'NEWPOST')
         menuItemText += " has made a post";
       else if(payload.type === 'LIKE')
@@ -75,12 +71,19 @@ export class NavbarComponent implements OnInit
       else if(payload.type === 'DISLIKE')
         menuItemText += " has disliked a post";
       else if(payload.type === 'COMMENT')
-      menuItemText += " has commented on a post";
-      let abc = {text: menuItemText, postID: payload.entityID};
-      this.menuItems.push(abc);
-      this.enableNotification = true;
-      this.noOfNotification++;  
+        menuItemText += " has commented on a post";
+      if(payload.hasOwnProperty('postID'))
+      {
+        mItem = {text: menuItemText, postID: payload.postID, userImageID: payload.usrImageID, userFullName: payload.usrFullName, menuItemType: 'POST'};
+      }
+      else
+      {
+        mItem = {text: menuItemText, userImageID: payload.usrImageID, userFullName: payload.usrFullName, menuItemType: 'POST'};
+      }
     }
+    this.menuItems.push(mItem);
+    this.enableNotification = true;
+    this.noOfNotification++;
   }
 
   onSearchMessageReceived(payload)
@@ -115,17 +118,24 @@ export class NavbarComponent implements OnInit
     this.router.navigate(['/index']);
   }
 
-  select(pText :string)
+  onNotificationItemSelected(menuItem: any)
   {
-    if (typeof this.alreadyClicked.find(x => x === pText) === 'undefined')
+    if (typeof this.alreadyClicked.find(x => x === menuItem.postID) === 'undefined')
     {
-      this.alreadyClicked.push(pText);
+      this.alreadyClicked.push(menuItem.postID);//Put this notification menu item in seen list
       if(this.noOfNotification > 0)
         this.noOfNotification--;   
       if(this.noOfNotification === 0)
         this.enableNotification = false;
-    }      
-    this.router.navigate(['/singlepost', pText]);
+    }
+    if(menuItem.menuItemType === 'POST')
+    {
+      if(!menuItem.hasOwnProperty('postID'))//Non friend post
+      {
+        this.router.navigate(['/friendrequest', menuItem.imageID, menuItem.name]);
+      }  
+    }
+    this.router.navigate(['/singlepost', menuItem.postID]);
   }
   
   onSearchChange(searchValue: string)
@@ -135,14 +145,13 @@ export class NavbarComponent implements OnInit
   
   onSearchItemSelected(event: any, srcItm: SearchItem)
   {
-    if (typeof localStorage.getItem(srcItm.imageID) === 'string')//Friend selected
+    var isSelfSelected = srcItm.imageID === localStorage.getItem('userImageID');
+    var existInFriendsList = localStorage.getItem(srcItm.imageID);  
+    if(typeof existInFriendsList === 'string')//Friend selected
     {
-      if(localStorage.getItem(srcItm.imageID) !== localStorage.getItem('userImageID'))//Dont load our own wall from here 
-      {
-        this.router.navigate(['/friendswall', srcItm.imageID]);
-      }
+      this.router.navigate(['/friendswall', srcItm.imageID]);
     }
-    else if (localStorage.getItem(srcItm.imageID) === null)//New person selected
+    else if(existInFriendsList === null && !isSelfSelected)//New person selected and it is not us
     {
       this.router.navigate(['/friendrequest', srcItm.imageID, srcItm.name]);
     }

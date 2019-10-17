@@ -17,3 +17,12 @@ https://spring.io/guides/gs/spring-boot-docker/
 
 Testing
 https://hellokoding.com/spring-boot-test-data-layer-example-with-datajpatest/
+
+Login
+https://stackblitz.com/edit/angular-material-login-form
+
+Elasticsearch
+https://www.elastic.co/blog/a-practical-introduction-to-elasticsearch
+https://blog.patricktriest.com/text-search-docker-elasticsearch/
+https://piotrminkowski.wordpress.com/2019/03/29/elasticsearch-with-spring-boot/
+https://towardsdatascience.com/a-hitchhikers-guide-to-spring-boot-elasticsearch-logstash-kibana-postgresql-and-docker-5602feaa9fd3

@@ -40,11 +40,6 @@ public class ChatRepositoryImpl implements ChatRepository
 
         List<Chat> fpc = mongoTemplate.find(query, Chat.class);
 
-        if(fpc != null && fpc.size() > 0)
-        {
-            System.out.println(fpc);
-        }
-
         return fpc;
     }
 

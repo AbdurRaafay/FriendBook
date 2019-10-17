@@ -16,11 +16,11 @@
         </mat-form-field>
     </form>
     <span fxFlex></span>
-    <div class="nav-bar-bubble" [matMenuTriggerFor]="notificationMenu">{{noOfNotification}}</div>
+    <div class="nav-bar-bubble" [ngStyle]="{'visibility':enableNotification ? 'visible' : 'hidden'}" [matMenuTriggerFor]="notificationMenu">{{noOfNotification}}</div>
     <i class="nav-bar-notification"><img src="/icons/notification.svg" width="50" height="50"></i>
     <mat-menu #notificationMenu="matMenu" yPosition="above">
         <ng-container *ngFor="let item of menuItems">
-            <button *ngIf=!item.templateName mat-menu-item (click)="select(item.postID)">{{ item.text }}</button>
+            <button *ngIf=!item.templateName mat-menu-item (click)="onNotificationItemSelected(item)">{{ item.text }}</button>
         </ng-container>            
     </mat-menu>
     <div class="nav-bar-newsfeed">

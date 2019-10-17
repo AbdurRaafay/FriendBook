@@ -41,7 +41,8 @@ public class NotificationService
     private FriendRequestRepository frndrepo;
 
     private boolean shutdown = false;
-    private Set<String> friendsListUpdate = new HashSet<>();
+    private Set<String> friendsListUpdateToBeNotified = new HashSet<>();
+    private Set<String> friendsListUpdateSent = new HashSet<>();
     private Set<String> sentNotifications = new HashSet<>();
     private Set<String> sentFriendRequestNotifications = new HashSet<>();
 
@@ -73,6 +74,7 @@ public class NotificationService
         }
     }
 
+    //For every online user, send notifications, friend requests and updated friends list
     @Async
     public void sendNotification()
     {
@@ -86,6 +88,8 @@ public class NotificationService
                 {
                     String status = oul.get("Info");
                     String[] info = status.split(",");
+                    String usrEmail = usrrep.getEmailFromID(info[0]);//info[0] has userID
+
                     long diff = 0;
                     try
                     {
@@ -97,7 +101,7 @@ public class NotificationService
                     {
                         System.out.println(e);
                     }
-                    if(diff > 5)//Dont send notifications before websocket connection is established otherwise messages are lost
+                    if(diff > 5)//Wait 5 seconds so that websocket connection is established otherwise messages are lost
                     {
                         List<NotifiedUser> nuLst = notusrrepo.getNotifiedUser(info[0]);
                         if (nuLst != null && !nuLst.isEmpty())
@@ -108,12 +112,16 @@ public class NotificationService
                                 {
                                     Notification nt = notrepo.getNotification(nu.getNotificationID());
                                     Map<String, Object> map = new HashMap<String, Object>();
-                                    map.put("usrID", usrrep.getImageByID(nt.getAuthorID()));
+                                    String imgID = usrrep.getImageByID(nt.getAuthorID());
+                                    map.put("usrImageID", imgID);
+                                    map.put("userFullName", usrrep.getFullNameByID(nt.getAuthorID()));
                                     map.put("time", nt.getPosttime().toString());
                                     map.put("type", nt.getNtype().toString());
-                                    map.put("entityID", nt.getEntityID());
+                                    if(usrrep.isFriend(usrEmail, imgID))//Do not send postID to non friend
+                                    {
+                                        map.put("postID", nt.getEntityID());
+                                    }
                                     System.out.println(map);
-                                    String usrEmail = usrrep.getEmailFromID(nu.getNotifiedUserID());
                                     System.out.println(usrEmail);
                                     messagingTemplate.convertAndSendToUser(usrEmail,"/queue/messages", map);
                                     sentNotifications.add(nu.getId());
@@ -121,7 +129,7 @@ public class NotificationService
                             }
                         }
 
-                        //Send friend requests
+                        //Send friend requests notification
                         List<FriendRequest> frp = frndrepo.getAllFriendRequestPending(info[0]);
                         if (frp != null && !frp.isEmpty())
                         {
@@ -133,12 +141,10 @@ public class NotificationService
                                 if(!sentFriendRequestNotifications.contains(toUsrID + ":" + fromUsrID))
                                 {
                                     Map<String, Object> map = new HashMap<String, Object>();
-                                    map.put("usrtoImageID", usrrep.getImageByID(toUsrID));
-                                    map.put("entityID", usrrep.getImageByID(fromUsrID));
-                                    map.put("usrfromFullName", usrrep.getFullNameByID(fr.getFromUserID()));
+                                    map.put("usrImageID", usrrep.getImageByID(fromUsrID));
+                                    map.put("usrFullName", usrrep.getFullNameByID(fr.getFromUserID()));
                                     map.put("type", "FRIEND_REQUEST");
-                                    String usrEmail = usrrep.getEmailFromID(toUsrID);
-                                    System.out.println(usrEmail);
+                                    System.out.println("Friend request notification " + usrEmail);
                                     messagingTemplate.convertAndSendToUser(usrEmail, "/queue/messages", map);
                                     sentFriendRequestNotifications.add(toUsrID + ":" + fromUsrID);
                                 }
@@ -146,7 +152,24 @@ public class NotificationService
                         }
 
                         //Update friends list for newly accepted friend request
-
+                        Set<String> resultFiltered = friendsListUpdateToBeNotified.stream()
+                                .filter(line -> line.matches("$" + info[0] + ":"))
+                                .collect(Collectors.toSet());
+                        resultFiltered.forEach(t->
+                        {
+                            if(!friendsListUpdateSent.contains(t))//Dont send if already sent ;-)
+                            {
+                                Map<String, Object> map = new HashMap<String, Object>();
+                                String usrID = t.substring(t.indexOf(":"));
+                                map.put("fullname", usrrep.getFullNameByID(usrID));
+                                map.put("imagePath", usrrep.getImageByID(usrID));
+                                map.put("onlinestatus", usrrep.getImageByID(usrID));
+                                map.put("type", "FRIEND_LIST_UPDATE");
+                                System.out.println("Friend list update " + map);
+                                messagingTemplate.convertAndSendToUser(usrEmail, "/queue/messages", map);
+                                friendsListUpdateSent.add(t);
+                            }
+                        });
                     }
                 }
             }
@@ -155,7 +178,7 @@ public class NotificationService
 
     public void addFriend(String usrIDA, String usrIDB)
     {
-        friendsListUpdate.add(usrIDA + usrIDB);
+        friendsListUpdateToBeNotified.add(usrIDA + ":" + usrIDB);
     }
 
     //We need to delete all entries beginning with usrID so that next time usrID logs in we can send the friend request again

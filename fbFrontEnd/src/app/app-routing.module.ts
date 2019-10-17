@@ -15,7 +15,7 @@ const routes: Routes =
   { path: 'index', component: LoginComponent },
   { path: 'singlepost/:postID', component: SinglepostComponent },
   { path: 'friendrequest/:friendImageID/:userFullName', component: FriendrequestComponent },
-  { path: 'friendswall/:friendImageID', component: FriendswallComponent }
+  { path: 'friendswall/:friendImageID', component: FriendswallComponent },
 ];
 
 @NgModule({

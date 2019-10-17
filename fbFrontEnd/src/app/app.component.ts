@@ -38,6 +38,11 @@ export class AppComponent
       });
   }
 
+  participantClicked(event: any)
+  {
+    this.adapter.chatWindowOpen(event);
+  }
+
   @HostListener('window:scroll')
   checkScroll() 
   {

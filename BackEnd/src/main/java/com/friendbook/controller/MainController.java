@@ -10,6 +10,7 @@ import java.security.Principal;
 
 import com.friendbook.model.*;
 import com.friendbook.repository.mongorepo.*;
+import com.friendbook.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,9 @@ public class MainController
 
     @Autowired
     private FriendRequestRepository frndrepo;
+
+    @Autowired
+    private NotificationService notSrv;
 
     @GetMapping("/getwallposts")
     public ResponseEntity<?> getWallPosts(Principal principal)
@@ -230,8 +234,11 @@ public class MainController
         Map<String, Object> map = new HashMap<>();
         if (frndrqststs.equals("yes"))
         {
-            usrrep.addFriend(getUserIDFromPricipal(principal), usrrep.getUserIDFromImageByID(userImageID));
+            String usrIDA = getUserIDFromPricipal(principal);
+            String usrIDB = usrrep.getUserIDFromImageByID(userImageID);
+            usrrep.addFriend(usrIDA, usrIDB);
             map.put("status", "added");
+            notSrv.addFriend(usrIDA, usrIDB);
         }
         else
         {
@@ -243,34 +250,40 @@ public class MainController
     @GetMapping("/getfriendswall/{id}")
     ResponseEntity<?> getfriendswall(Principal principal, @PathVariable String id)
     {
-
         Map<String, Object> map = new HashMap<>();
-        System.out.println("Get Friends Wall  " + id);
-
         if(usrrep.isFriend(principal.getName(), id))
         {
             List<Post> pstLst = fprep.findByOwnerID(usrrep.getUserIDFromImageByID(id),20);
             if(pstLst != null && pstLst.size() > 0)
             {
-                List<Map<String,Object>> fpreturn = new ArrayList<Map<String,Object>>();
-                for(Post ps : pstLst)
-                {
-
-                }
-                System.out.println("Get Friends Wall Success " + id);
                 return new ResponseEntity<>(pstLst, HttpStatus.OK);
-           }
-           else
-           {
-               map.put("status", "NO_POSTS");
-               return new ResponseEntity<>(map, HttpStatus.OK);
-           }
+            }
+            else
+            {
+                map.put("status", "NO_POSTS");
+                return new ResponseEntity<>(map, HttpStatus.OK);
+            }
         }
         else
         {
             map.put("status", "NOT_FRIEND");
             return new ResponseEntity<>(map, HttpStatus.OK);
         }
+    }
+
+    @GetMapping("/getchathistory")
+    public ResponseEntity<?> getChatHistory(Principal principal, @RequestParam String userImageID)
+    {
+        List<Chat> chats = chatrepo.findChats(getUserIDFromPricipal(principal), usrrep.getUserIDFromImageByID(userImageID));
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", "NO_CHAT_HISTORY");
+
+        if (chats != null && chats.size() > 0)
+        {
+            return new ResponseEntity<>(chats, HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     private String getUserIDFromPricipal(Principal principal)

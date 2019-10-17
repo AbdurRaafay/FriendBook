@@ -51,13 +51,15 @@ public class LoginController
         return new ResponseEntity<>("Session Active!", HttpStatus.OK);
     }
 
-    @RequestMapping(value="/logout")
-    public ResponseEntity<String> logout(Principal principal)
+    @GetMapping(value="/logout")
+    public ResponseEntity<?> logout(Principal principal)
     {
+        Map<String, Object> map = new HashMap<>();
         User currentUser = usrrep.findByEmail(principal.getName());
-        ousrrep.logoutUser(currentUser.getImageFileID());
+        ousrrep.logoutUser(currentUser.getId());
         SecurityContextHolder.clearContext();
         System.out.println(principal.getName() + " logged out");
-        return new ResponseEntity<String>("Logout Successfully!", HttpStatus.OK);
+        map.put("status", "LOGOUT_SUCCESS");
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }

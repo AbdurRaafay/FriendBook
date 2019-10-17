@@ -1,1 +1,24 @@
-<p>friendrequestmanage works!</p>
+<div class = "friend-request-manage">
+    <div class = "user-pic"> <img src='/images/{{profileImageID}}.jpg' width="300" height="300"> </div>
+    <div>
+        <ul style = "list-style-type:none">
+            <li *ngFor="let uname of userNameArray">
+              <div class = "friend-request-user-name">
+                {{uname}}
+              </div>
+            </li>
+        </ul>    
+    </div>
+    <div class="accept-friend-request-message" *ngIf="acceptfriendrequestmessage">
+        <h2>Friend request accepted</h2>
+    </div>
+    <div class="reject-friend-request-message" *ngIf="rejectfriendrequestmessage">
+            <h2>Friend request accepted</h2>
+    </div>
+    <div class = "accept-friend-request-button">
+        <button *ngIf="acceptfriendrequestbutton" (click)="onAcceptFriendRequestClick()">Accept Friend Request</button>
+    </div>
+    <div class = "reject-friend-request-button">
+        <button *ngIf="rejectfriendrequestbutton" (click)="onRejectFriendRequestClick()">Reject Friend Request</button>
+    </div>
+</div>

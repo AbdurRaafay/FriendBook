@@ -1,13 +1,10 @@
 <div class = "friend-request">
     <div class = "user-pic"> <img src='/images/{{profileImageID}}.jpg' width="300" height="300"> </div>
-    <div>
-        <ul style = "list-style-type:none">
-            <li *ngFor="let uname of userNameArray">
-              <div class = "friend-request-user-name">
-                {{uname}}
-              </div>
-            </li>
-        </ul>    
+    <div class="friend-request-user-name">
+    <div fxLayout="column" fxLayoutAlign="space-around center">
+        <div *ngFor="let uname of userNameArray">
+            <div class="user-name-list-element">{{uname}}</div>
+        </div>
     </div>
     <div class = "friend-request-status">
         <h1 *ngIf="!sendfriendrequest">Friend request pending</h1>

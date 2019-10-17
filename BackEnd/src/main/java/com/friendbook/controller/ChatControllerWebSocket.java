@@ -1,4 +1,4 @@
-package com.friendbook.controller.chat;
+package com.friendbook.controller;
 
 import java.io.IOException;
 import java.security.Principal;

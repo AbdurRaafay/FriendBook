@@ -48,9 +48,9 @@ export class CommunicationService
     return this.http.get(url);
   }
 
-  getChatHistory(userID: string)
+  getChatHistory(userImageID: string): Observable<any>
   {
-    let url = AppConst.serverPath + 'getchathistory/' + userID + '/';
+    let url = AppConst.serverPath + 'getchathistory/?userImageID=' + userImageID;
     return this.http.get(url);
   }
 
@@ -104,7 +104,14 @@ export class CommunicationService
     return this.http.get(url);
   }
 
-  logout()
+  managefriendrequest(usrImageID: string, friendrequeststatus: string): Observable<any>
+  {
+    let url = AppConst.serverPath + 'sendfriendrequest/?userImageID=' + usrImageID + '&frndrqststs=' + friendrequeststatus;
+    console.log(url);
+    return this.http.get(url);
+  }
+
+  logout(): Observable<any>
   {
     let url = AppConst.serverPath + 'logout/';
     return this.http.get(url);    

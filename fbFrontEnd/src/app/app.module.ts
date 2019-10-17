@@ -23,6 +23,7 @@ import { SinglepostComponent } from './components/singlepost/singlepost.componen
 import { FriendswallComponent } from './components/friendswall/friendswall.component';
 import { FriendrequestComponent } from './components/friendrequest/friendrequest.component';
 import { FriendrequestmanageComponent } from './components/friendrequestmanage/friendrequestmanage.component';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { FriendrequestmanageComponent } from './components/friendrequestmanage/f
     SinglepostComponent,
     FriendrequestComponent,
     FriendswallComponent,
-    FriendrequestmanageComponent
+    FriendrequestmanageComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
