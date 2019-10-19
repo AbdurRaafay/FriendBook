@@ -79,7 +79,7 @@ public class dbSeeder implements CommandLineRunner
     private NotificationService notSrv;
 
     @Override
-    public void run(String...strings) throws Exception
+    public void run(String...strings)
     {
         this.mongoOps = new MongoTemplate(new MongoClient("localhost", 27017), "FriendBookDB");
 

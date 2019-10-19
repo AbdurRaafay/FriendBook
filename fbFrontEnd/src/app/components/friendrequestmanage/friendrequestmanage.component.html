@@ -1,20 +1,12 @@
 <div class = "friend-request-manage">
     <div class = "user-pic"> <img src='/images/{{profileImageID}}.jpg' width="300" height="300"> </div>
-    <div>
-        <ul style = "list-style-type:none">
-            <li *ngFor="let uname of userNameArray">
-              <div class = "friend-request-user-name">
-                {{uname}}
-              </div>
-            </li>
-        </ul>    
+    <div fxLayout="column" fxLayoutAlign="space-around center">
+        <div *ngFor="let uname of userNameArray">
+            <div class="user-name-list-element">{{uname}}</div>
+        </div>
     </div>
-    <div class="accept-friend-request-message" *ngIf="acceptfriendrequestmessage">
-        <h2>Friend request accepted</h2>
-    </div>
-    <div class="reject-friend-request-message" *ngIf="rejectfriendrequestmessage">
-            <h2>Friend request accepted</h2>
-    </div>
+    <div class="accept-friend-request-message" *ngIf="acceptfriendrequestmessage">Friend request accepted</div>
+    <div class="reject-friend-request-message" *ngIf="rejectfriendrequestmessage">Friend request accepted</div>
     <div class = "accept-friend-request-button">
         <button *ngIf="acceptfriendrequestbutton" (click)="onAcceptFriendRequestClick()">Accept Friend Request</button>
     </div>

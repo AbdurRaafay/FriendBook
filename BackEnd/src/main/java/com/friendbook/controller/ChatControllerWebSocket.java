@@ -1,12 +1,9 @@
 package com.friendbook.controller;
 
-import java.io.IOException;
-import java.security.Principal;
 import java.util.Date;
 
 import com.friendbook.model.Chat;
 import com.friendbook.model.ChatMessage;
-import com.friendbook.model.Notification;
 import com.friendbook.repository.mongorepo.ChatRepository;
 import com.friendbook.repository.mongorepo.NotificationRepository;
 import com.friendbook.repository.mongorepo.UserRepository;
@@ -32,9 +29,6 @@ public class ChatControllerWebSocket
 
     @Autowired
     private UserRepository usrrep;
-
-    @Autowired
-    private NotificationRepository notrepo;
 
     @MessageMapping("/chat")
     public void sendMessage(@Payload ChatMessage chatMessage)

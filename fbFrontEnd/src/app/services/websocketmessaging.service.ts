@@ -41,8 +41,14 @@ export class WebsocketmessagingService
         {
           that.onMessageReceived(JSON.parse(messageOutput.body));
         });
-    }, 
+      }, 
       this.onError);    
+  }
+
+  disconnect()
+  {
+    stompClient.unsubscribe(`/user/queue/messages`);
+    stompClient.disconnect(function() { console.log("DisConnected"); });
   }
 
   onError(error:any)

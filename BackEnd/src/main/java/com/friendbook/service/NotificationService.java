@@ -51,19 +51,19 @@ public class NotificationService
     {
         while(!shutdown)
         {
-            List<Notification> notificationsList = notrepo.getAllNotifications();
+            List<Notification> notificationsList = notrepo.getAllNotifications();//Get all notifications
             if (notificationsList != null && !notificationsList.isEmpty())
             {
                 for(Notification nt : notificationsList)
                 {
                     String usrID = nt.getAuthorID();
-                    Set<String> lstFriends = usrrep.getFriendListFromUsrID(usrID);
+                    Set<String> lstFriends = usrrep.getFriendListFromUsrID(usrID);//Get all notification author's friends
                     if (lstFriends != null && !lstFriends.isEmpty())
                     {
                         List<NotifiedUser> lstNu = new ArrayList<>();
-                        for(String frnd : lstFriends)
+                        for(String frnd : lstFriends)//Create list of notified users
                         {
-                            NotifiedUser nu = new NotifiedUser(frnd, nt.getId(), false);
+                            NotifiedUser nu = new NotifiedUser(frnd, nt.getId(), false);//Insert unsent notified users in database
                             lstNu.add(nu);
                         }
                         notusrrepo.insertNotifiedUser(lstNu);//Save list of notified users for sendNotification()
@@ -89,7 +89,6 @@ public class NotificationService
                     String status = oul.get("Info");
                     String[] info = status.split(",");
                     String usrEmail = usrrep.getEmailFromID(info[0]);//info[0] has userID
-
                     long diff = 0;
                     try
                     {
@@ -108,9 +107,11 @@ public class NotificationService
                         {
                             for(NotifiedUser nu : nuLst)
                             {
-                                if(!sentNotifications.contains(nu.getId()))
+                                String notificationID = nu.getNotificationID();
+                                String sentNotChkID = usrEmail+nu.getId();
+                                if(!sentNotifications.contains(sentNotChkID))
                                 {
-                                    Notification nt = notrepo.getNotification(nu.getNotificationID());
+                                    Notification nt = notrepo.getNotification(notificationID);
                                     Map<String, Object> map = new HashMap<String, Object>();
                                     String imgID = usrrep.getImageByID(nt.getAuthorID());
                                     map.put("usrImageID", imgID);
@@ -124,7 +125,7 @@ public class NotificationService
                                     System.out.println(map);
                                     System.out.println(usrEmail);
                                     messagingTemplate.convertAndSendToUser(usrEmail,"/queue/messages", map);
-                                    sentNotifications.add(nu.getId());
+                                    sentNotifications.add(sentNotChkID);
                                 }
                             }
                         }
@@ -135,18 +136,19 @@ public class NotificationService
                         {
                             for(FriendRequest fr : frp)
                             {
-                                String toUsrID = fr.getToUserID();
                                 String fromUsrID = fr.getFromUserID();
+                                String chkSentFrndReq = usrEmail + fromUsrID;
                                 // Make sure we are sending friend request only once
-                                if(!sentFriendRequestNotifications.contains(toUsrID + ":" + fromUsrID))
+                                if(!sentFriendRequestNotifications.contains(chkSentFrndReq))
                                 {
+                                    System.out.println("Friend request list size " + frp.size());
                                     Map<String, Object> map = new HashMap<String, Object>();
                                     map.put("usrImageID", usrrep.getImageByID(fromUsrID));
-                                    map.put("usrFullName", usrrep.getFullNameByID(fr.getFromUserID()));
+                                    map.put("userFullName", usrrep.getFullNameByID(fromUsrID));
                                     map.put("type", "FRIEND_REQUEST");
                                     System.out.println("Friend request notification " + usrEmail);
                                     messagingTemplate.convertAndSendToUser(usrEmail, "/queue/messages", map);
-                                    sentFriendRequestNotifications.add(toUsrID + ":" + fromUsrID);
+                                    sentFriendRequestNotifications.add(chkSentFrndReq);
                                 }
                             }
                         }
@@ -161,7 +163,7 @@ public class NotificationService
                             {
                                 Map<String, Object> map = new HashMap<String, Object>();
                                 String usrID = t.substring(t.indexOf(":"));
-                                map.put("fullname", usrrep.getFullNameByID(usrID));
+                                map.put("userfullname", usrrep.getFullNameByID(usrID));
                                 map.put("imagePath", usrrep.getImageByID(usrID));
                                 map.put("onlinestatus", usrrep.getImageByID(usrID));
                                 map.put("type", "FRIEND_LIST_UPDATE");
@@ -181,17 +183,23 @@ public class NotificationService
         friendsListUpdateToBeNotified.add(usrIDA + ":" + usrIDB);
     }
 
-    //We need to delete all entries beginning with usrID so that next time usrID logs in we can send the friend request again
-    public void deleteFriendRequest(String usrID)
+    //We need to delete all entries beginning with usrID so that next time usrID logs in we can send the notifications again
+    public void deleteSentNotifications(String usrEmail)
     {
-        Set<String> resultFiltered = sentFriendRequestNotifications.stream().filter(line -> line.matches("$" + usrID + ":"))
+        System.out.println("Deletions " + usrEmail);
+        Set<String> resultFiltered = sentFriendRequestNotifications.stream().filter(line -> line.matches(usrEmail))
                 .collect(Collectors.toSet());
-        resultFiltered.forEach(t->{
-            System.out.println(t);
-        });
         if(!resultFiltered.isEmpty())
         {
+            resultFiltered.forEach(t->System.out.println(t));
             sentFriendRequestNotifications.removeAll(resultFiltered);
+        }
+        resultFiltered = sentNotifications.stream().filter(line -> line.matches(usrEmail))
+                .collect(Collectors.toSet());
+        if(!resultFiltered.isEmpty())
+        {
+            resultFiltered.forEach(t->System.out.println(t));
+            sentNotifications.removeAll(resultFiltered);
         }
     }
 

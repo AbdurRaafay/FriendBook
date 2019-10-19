@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ComponentFactoryResolver } from '@angular/core';
 
 import { NPostDirective } from 'src/app/components/newpost/newpost.directive';
 import { NewpostComponent } from 'src/app/components/newpost/newpost.component';
@@ -13,7 +13,7 @@ var homePostsCounter: number = 0;
   styleUrls: ['./newsfeed.component.css']
 })
 
-export class NewsfeedComponent implements OnInit 
+export class NewsfeedComponent implements OnInit , OnDestroy
 {
   @ViewChild(NPostDirective, {static: true}) npHost: NPostDirective;
   currentUserName: string = localStorage.getItem('currentUserName');
@@ -28,6 +28,11 @@ export class NewsfeedComponent implements OnInit
     this.componentFactory = this.componentFactoryResolver.resolveComponentFactory(NewpostComponent);
     console.log(this.currentUserName + " " + this.profileImageID);
     this.userNameArray = this.currentUserName.split(" ");
+  }
+
+  ngOnDestroy()
+  {
+    console.log('NewsFeed OnDestroy');
   }
 
   ngOnInit() 

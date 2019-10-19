@@ -1,5 +1,5 @@
 import { Component, Renderer2, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { ScrollService } from 'src/app/services/scroll.service';

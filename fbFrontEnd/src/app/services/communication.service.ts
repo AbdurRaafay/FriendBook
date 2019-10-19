@@ -116,4 +116,10 @@ export class CommunicationService
     let url = AppConst.serverPath + 'logout/';
     return this.http.get(url);    
   }
+
+  checksession(): Observable<any>
+  {
+    let url = AppConst.serverPath + 'checkSession';
+    return this.http.get(url);    
+  }
 }

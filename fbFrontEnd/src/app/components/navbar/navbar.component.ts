@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -20,7 +21,7 @@ interface SearchItem
   styleUrls: ['./navbar.component.css']
 })
 
-export class NavbarComponent implements OnInit
+export class NavbarComponent implements OnInit , OnDestroy
 {
   isLoggedIn$: Observable<boolean>;
   enableNotification: boolean = false;
@@ -29,12 +30,12 @@ export class NavbarComponent implements OnInit
   alreadyClicked: Array<string> = [];
   searchFormControl = new FormControl();
   autoCompleteList: SearchItem[] = [];
-  menuItems: Array<any> = [];
+  notificationMenuArray: Array<any> = [];
   
   @ViewChild(MatMenuTrigger, {static: false}) notificationMenu: MatMenuTrigger;
   
   constructor(private router:Router, private authService: AuthenticationService, private commService: CommunicationService, 
-    private wscommService: WebsocketmessagingService) {}
+    private wscommService: WebsocketmessagingService, private location: Location) {}
 
   ngOnInit() 
   {
@@ -53,6 +54,11 @@ export class NavbarComponent implements OnInit
     this.searchFormControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged()).subscribe(val=>{this.onSearchChange(val);});
   }
 
+  ngOnDestroy()
+  {
+    console.log('Navbar OnDestroy');
+  }
+
   onNotificationMessageReceived(payload: any)
   {
     let menuItemText = payload.userFullName;
@@ -60,7 +66,7 @@ export class NavbarComponent implements OnInit
     if(payload.type === 'FRIEND_REQUEST')
     {
       menuItemText += " has sent a friend request";
-      mItem = {text: menuItemText, userImageID: payload.usrImageID, userFullName: payload.usrFullName, menuItemType: 'FRIEND_REQUEST'};
+      mItem = {text: menuItemText, userImageID: payload.usrImageID, userFullName: payload.userFullName, menuItemType: 'FRIEND_REQUEST'};
     }
     else
     {
@@ -81,9 +87,20 @@ export class NavbarComponent implements OnInit
         mItem = {text: menuItemText, userImageID: payload.usrImageID, userFullName: payload.usrFullName, menuItemType: 'POST'};
       }
     }
-    this.menuItems.push(mItem);
+    var resetNotArray = localStorage.getItem('resetNotificationMenu');
+    if(resetNotArray === 'true')
+    {
+      localStorage.setItem('resetNotificationMenu', 'false');
+      this.notificationMenuArray.length = 0;
+      this.noOfNotification = 0;
+      this.enableNotification = false;          
+      console.log('noOfNotification ' + this.noOfNotification + ' notificationMenuArray ' + this.notificationMenuArray.length);
+    }      
+    console.log('noOfNotification ' + this.noOfNotification + ' notificationMenuArray ' + this.notificationMenuArray.length);
+    this.notificationMenuArray.push(mItem);
     this.enableNotification = true;
     this.noOfNotification++;
+    console.log('noOfNotification ' + this.noOfNotification + ' notificationMenuArray ' + this.notificationMenuArray.length);
   }
 
   onSearchMessageReceived(payload)
@@ -96,7 +113,8 @@ export class NavbarComponent implements OnInit
 
   onNotificationClicked()
   {
-    if(this.enableNotification)
+    console.log('Notification Bell clicked');
+    if(this.notificationMenuArray.length > 0 && this.enableNotification == false)
     {
       this.notificationMenu.openMenu();
     }
@@ -115,14 +133,15 @@ export class NavbarComponent implements OnInit
   onLogoutClicked()
   {
     this.authService.logout();
-    this.router.navigate(['/index']);
+    this.location.replaceState('/');
+    window.location.reload();
   }
 
   onNotificationItemSelected(menuItem: any)
   {
-    if (typeof this.alreadyClicked.find(x => x === menuItem.postID) === 'undefined')
+    if (typeof this.alreadyClicked.find(x => x === menuItem.userImageID) === 'undefined')
     {
-      this.alreadyClicked.push(menuItem.postID);//Put this notification menu item in seen list
+      this.alreadyClicked.push(menuItem.userImageID);//Put this notification menu item in seen list
       if(this.noOfNotification > 0)
         this.noOfNotification--;   
       if(this.noOfNotification === 0)
@@ -132,10 +151,16 @@ export class NavbarComponent implements OnInit
     {
       if(!menuItem.hasOwnProperty('postID'))//Non friend post
       {
-        this.router.navigate(['/friendrequest', menuItem.imageID, menuItem.name]);
-      }  
+        this.router.navigate(['/friendrequest', menuItem.userImageID, menuItem.userFullName]);
+      }
+      else
+        this.router.navigate(['/singlepost', menuItem.postID]);  
     }
-    this.router.navigate(['/singlepost', menuItem.postID]);
+    else if(menuItem.menuItemType === 'FRIEND_REQUEST')
+    {
+      console.log(menuItem);
+      this.router.navigate(['/friendrequest', menuItem.userImageID, menuItem.userFullName]);
+    }    
   }
   
   onSearchChange(searchValue: string)

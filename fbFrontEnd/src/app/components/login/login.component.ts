@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CommunicationService } from 'src/app/services/communication.service';
 
@@ -8,31 +8,29 @@ import { CommunicationService } from 'src/app/services/communication.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent 
+
+export class LoginComponent implements OnInit 
 {
   constructor(private commService: CommunicationService, private router:Router, private authService: AuthenticationService)
   {
-    router.events.subscribe(event => 
+
+  }
+  
+  ngOnInit()
+  {
+    var logInResult = localStorage.getItem('isLoggenIn');
+    if (logInResult === 'true')//Check if we are a fresh login page or redirect
     {
-      if (event instanceof NavigationEnd) 
-      {
-        if(this.router.url === '/index')
+      console.log('Already logged in');
+      this.commService.logout().subscribe(res=>//Logout the currently logged in user
         {
-          var logInResult = localStorage.getItem('isLoggenIn');
-          if (logInResult === 'true')//Check if we are a fresh login page or redirect
+          console.log(res);
+          if(res['status'] === 'LOGOUT_SUCCESS')
           {
-            this.commService.logout().subscribe(res=>//Logout the currently logged in user
-              {
-                console.log(res);
-                if(res['status'] === 'LOGOUT_SUCCESS')
-                {
-                  localStorage.clear();
-                }
-              });
-          }      
-        }
-      }
-    });
+            localStorage.clear();            
+          }
+        });
+    }
   }
 
   onClickMe(usrname: string)
@@ -43,10 +41,10 @@ export class LoginComponent
       {
         //localStorage.setItem("xAuthToken", );
         console.log(res);
-        localStorage.setItem('isLoggenIn', 'true');        
+        localStorage.setItem('isLoggenIn', 'true');
+        localStorage.setItem('resetNotificationMenu', 'true');      
         localStorage.setItem("userImageID", res[0].userImageID);
         localStorage.setItem("currentUserName", res[0].currentUserName);
-
         this.authService.login();
         this.router.navigate(['/newsfeed']);
   		},

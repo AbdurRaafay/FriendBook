@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.friendbook.model.User;
+import com.friendbook.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,9 @@ public class LoginController
     @Autowired
     private UserRepository usrrep;
 
+    @Autowired
+    private NotificationService notService;
+
     @GetMapping("/login")
     public ResponseEntity<?> token(HttpSession session, HttpServletRequest request)
     {
@@ -46,9 +50,9 @@ public class LoginController
     }
 
     @RequestMapping("/checkSession")
-    public ResponseEntity<String> checkSession()
+    public ResponseEntity<String> checkSession(Principal principal)
     {
-        return new ResponseEntity<>("Session Active!", HttpStatus.OK);
+        return new ResponseEntity<String>("SESSION_ACTIVE", HttpStatus.OK);
     }
 
     @GetMapping(value="/logout")
@@ -58,6 +62,7 @@ public class LoginController
         User currentUser = usrrep.findByEmail(principal.getName());
         ousrrep.logoutUser(currentUser.getId());
         SecurityContextHolder.clearContext();
+        notService.deleteSentNotifications(principal.getName());
         System.out.println(principal.getName() + " logged out");
         map.put("status", "LOGOUT_SUCCESS");
         return new ResponseEntity<>(map, HttpStatus.OK);

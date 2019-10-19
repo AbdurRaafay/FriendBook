@@ -1,25 +1,22 @@
 package com.friendbook.repository.redisrepo;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
-
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.friendbook.model.User;
+import com.friendbook.utility.RedisUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
-import com.friendbook.model.User;
-import com.friendbook.utility.RedisUtility;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Repository
 public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
 {
     private static final String KEY = "USER_STATUS";
-
-    private static final String KEY_NAMES = "USER_NAMES";
 
     @Autowired
     private StringRedisTemplate strRedisTemplate;
