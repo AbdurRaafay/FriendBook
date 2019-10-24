@@ -45,12 +45,6 @@ export class WebsocketmessagingService
       this.onError);    
   }
 
-  disconnect()
-  {
-    stompClient.unsubscribe(`/user/queue/messages`);
-    stompClient.disconnect(function() { console.log("DisConnected"); });
-  }
-
   onError(error:any)
   {
     console.log("Error Websocket" + error);
@@ -58,16 +52,16 @@ export class WebsocketmessagingService
 
   onMessageReceived(payload: any)
   {
-    if(payload.hasOwnProperty('onlineStatusMessage'))
-      this.onlineSubject.next(payload);
-    else if(payload.hasOwnProperty('content'))//Chat message
+    if(payload.hasOwnProperty('content'))//Chat message
       this.chatSubject.next(payload);
     else if(payload.hasOwnProperty('type'))
     {
       if(payload.type === 'FRIEND_REQUEST' || payload.type === 'COMMENT' || payload.type === 'LIKE' || payload.type === 'DISLIKE' || payload.type === 'NEWPOST' )
         this.notificationSubject.next(payload);
       else if(payload.type === 'FRIEND_LIST_UPDATE')
-      this.newFriendSubject.next(payload);//Add new friend to friends list
+        this.newFriendSubject.next(payload);//Add new friend to friends list
+      else if(payload.type === 'ONLINE_STATUS')
+        this.onlineSubject.next(payload);
     }      
     else if(Array.isArray(payload))//Search messages are returned as Array
     {

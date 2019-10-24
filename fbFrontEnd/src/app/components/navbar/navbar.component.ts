@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { CommunicationService } from 'src/app/services/communication.service';
 import { MatMenuTrigger } from '@angular/material';
@@ -21,7 +21,7 @@ interface SearchItem
   styleUrls: ['./navbar.component.css']
 })
 
-export class NavbarComponent implements OnInit , OnDestroy
+export class NavbarComponent implements OnInit
 {
   isLoggedIn$: Observable<boolean>;
   enableNotification: boolean = false;
@@ -29,7 +29,7 @@ export class NavbarComponent implements OnInit , OnDestroy
   noOfNotification: number = 0;
   alreadyClicked: Array<string> = [];
   searchFormControl = new FormControl();
-  autoCompleteList: SearchItem[] = [];
+  autoCompleteList: Observable<Array<SearchItem>>;
   notificationMenuArray: Array<any> = [];
   
   @ViewChild(MatMenuTrigger, {static: false}) notificationMenu: MatMenuTrigger;
@@ -48,15 +48,12 @@ export class NavbarComponent implements OnInit , OnDestroy
           { this.onNotificationMessageReceived(notres); });           
         }
       });
-    this.wscommService.searchObs.subscribe(seres=>{ this.onSearchMessageReceived(seres); });
-
+    this.wscommService.searchObs.subscribe(seres => { this.onSearchMessageReceived(seres); });
     //Introduce delay so that not too many calls to the backend are generated
-    this.searchFormControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged()).subscribe(val=>{this.onSearchChange(val);});
-  }
-
-  ngOnDestroy()
-  {
-    console.log('Navbar OnDestroy');
+    this.searchFormControl.valueChanges.pipe(debounceTime(100), distinctUntilChanged()).subscribe(val =>
+      {
+        this.wscommService.sendSearchMessage(val);        
+      });
   }
 
   onNotificationMessageReceived(payload: any)
@@ -80,40 +77,28 @@ export class NavbarComponent implements OnInit , OnDestroy
         menuItemText += " has commented on a post";
       if(payload.hasOwnProperty('postID'))
       {
-        mItem = {text: menuItemText, postID: payload.postID, userImageID: payload.usrImageID, userFullName: payload.usrFullName, menuItemType: 'POST'};
+        mItem = {text: menuItemText, postID: payload.postID, userImageID: payload.usrImageID, userFullName: payload.usrFullName, notUserID: payload.notUserID,
+           menuItemType: 'POST'};
       }
       else
       {
         mItem = {text: menuItemText, userImageID: payload.usrImageID, userFullName: payload.usrFullName, menuItemType: 'POST'};
       }
     }
-    var resetNotArray = localStorage.getItem('resetNotificationMenu');
-    if(resetNotArray === 'true')
-    {
-      localStorage.setItem('resetNotificationMenu', 'false');
-      this.notificationMenuArray.length = 0;
-      this.noOfNotification = 0;
-      this.enableNotification = false;          
-      console.log('noOfNotification ' + this.noOfNotification + ' notificationMenuArray ' + this.notificationMenuArray.length);
-    }      
-    console.log('noOfNotification ' + this.noOfNotification + ' notificationMenuArray ' + this.notificationMenuArray.length);
     this.notificationMenuArray.push(mItem);
     this.enableNotification = true;
     this.noOfNotification++;
-    console.log('noOfNotification ' + this.noOfNotification + ' notificationMenuArray ' + this.notificationMenuArray.length);
   }
 
-  onSearchMessageReceived(payload)
+  onSearchMessageReceived(payload: any)
   {
-    var searchList: any;
-    searchList = payload;
-    this.autoCompleteList.length = 0;
-    searchList.forEach(t => { var abc = {name: t.userName, imageID: t.imageID}; this.autoCompleteList.push(abc);}); 
+    var searchList: Array<any> = [];
+    payload.forEach(t => { var abc = {name: t.userName, imageID: t.imageID}; searchList.push(abc);});
+    this.autoCompleteList = of(searchList);
   }
 
   onNotificationClicked()
   {
-    console.log('Notification Bell clicked');
     if(this.notificationMenuArray.length > 0 && this.enableNotification == false)
     {
       this.notificationMenu.openMenu();
@@ -134,13 +119,14 @@ export class NavbarComponent implements OnInit , OnDestroy
   {
     this.authService.logout();
     this.location.replaceState('/');
-    window.location.reload();
+    window.location.reload();//Do a reload to erase everything and start with a fresh state
   }
 
   onNotificationItemSelected(menuItem: any)
   {
     if (typeof this.alreadyClicked.find(x => x === menuItem.userImageID) === 'undefined')
     {
+      console.log('New item clicked');
       this.alreadyClicked.push(menuItem.userImageID);//Put this notification menu item in seen list
       if(this.noOfNotification > 0)
         this.noOfNotification--;   
@@ -154,20 +140,14 @@ export class NavbarComponent implements OnInit , OnDestroy
         this.router.navigate(['/friendrequest', menuItem.userImageID, menuItem.userFullName]);
       }
       else
-        this.router.navigate(['/singlepost', menuItem.postID]);  
+        this.router.navigate(['/singlepost', menuItem.postID, menuItem.notUserID]);  
     }
     else if(menuItem.menuItemType === 'FRIEND_REQUEST')
     {
-      console.log(menuItem);
-      this.router.navigate(['/friendrequest', menuItem.userImageID, menuItem.userFullName]);
+      this.router.navigate(['/friendrequestmanage', menuItem.userImageID, menuItem.userFullName]);
     }    
   }
-  
-  onSearchChange(searchValue: string)
-  {
-    this.wscommService.sendSearchMessage(searchValue);
-  }
-  
+ 
   onSearchItemSelected(event: any, srcItm: SearchItem)
   {
     var isSelfSelected = srcItm.imageID === localStorage.getItem('userImageID');

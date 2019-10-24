@@ -23,7 +23,7 @@ export class SinglepostComponent implements OnInit
   ngOnInit()
   {
     this.singlePostviewContainerRef = this.npHost.viewContainerRef;
-    this.commService.getSinglePost(this.route.snapshot.paramMap.get('postID')).subscribe(res => 
+    this.commService.getSinglePost(this.route.snapshot.paramMap.get('postID'), this.route.snapshot.paramMap.get('notUserID')).subscribe(res => 
       {
         const componentRef = this.singlePostviewContainerRef.createComponent(this.singlePostcomponentFactory);
         (<NewpostComponent>componentRef.instance).fullName = res['fullName'] as string;

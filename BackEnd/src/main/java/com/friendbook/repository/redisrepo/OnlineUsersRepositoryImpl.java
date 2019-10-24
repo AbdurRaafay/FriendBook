@@ -17,6 +17,7 @@ import java.util.*;
 public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
 {
     private static final String KEY = "USER_STATUS";
+    private static final String REDIS_KEY_PREFIX = "spring:session:sessions:";
 
     @Autowired
     private StringRedisTemplate strRedisTemplate;
@@ -45,8 +46,9 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
     }
 
     @Override
-    public void logoutUser(String userID)
+    public void logoutUser(User usr)
     {
+        String userID = usr.getId();
         String tmp = (String) strRedisTemplate.opsForHash().get(KEY, userID + "_ONLINE_STATUS");
         Map<String, Object> mapObject = RedisUtility.createObjectFromString(tmp, new TypeReference<Map<String, Object>>(){});
         mapObject.put("isOnline", "no");
@@ -54,6 +56,8 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
         mapObject.put("LogoutTime", date.format(DateTimeFormatter.ISO_DATE_TIME));
         mapObject.put("LoginTime", "");
         strRedisTemplate.opsForHash().put(KEY, userID + "_ONLINE_STATUS", RedisUtility.createStringFromObject(mapObject));
+        if(usr.getFriendCount() > 0)
+            sendOnlineStatusNotification(usr, "offline");
     }
 
     /*
@@ -109,6 +113,14 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
         return frndLst;
     }
 
+    @Override
+    public boolean doesSessionExist(String token)
+    {
+        String searchkey = REDIS_KEY_PREFIX + token;
+        boolean searchresult = strRedisTemplate.hasKey(searchkey);
+        return searchresult;
+    }
+
     @Async
     void sendOnlineStatusNotification(User usr, String status)
     {
@@ -121,6 +133,7 @@ public class OnlineUsersRepositoryImpl implements OnlineUsersRepository
                 Map<String, Object> map = new HashMap<>();
                 map.put("onlineStatusMessage", status);
                 map.put("imagePath", usr.getImageFileID());
+                map.put("type", "ONLINE_STATUS");
                 messagingTemplate.convertAndSendToUser(name, "/queue/messages", map);
             }
         });

@@ -6,21 +6,11 @@ import { WebsocketmessagingService } from 'src/app/services/websocketmessaging.s
 
 export class ChatControl extends ChatAdapter
 {
-    chatHistory: Array<any> = [];
+    chatHistory: Array<{userImageID: string, userMessagesHistory: Array<Message>}> = [];
 
     public commService: CommunicationService;
     public wsService: WebsocketmessagingService;
-    public mockedHistory: Array<Message> = [];
-    public mockedParticipants: IChatParticipant[] = 
-    [
-        {
-            participantType: ChatParticipantType.User,
-            id: 1,
-            displayName: "",
-            avatar: "",
-            status: ChatParticipantStatus.Online
-        },
-    ];
+    public mockedParticipants: IChatParticipant[] = [];
 
     registerCallBacks()
     {
@@ -34,7 +24,7 @@ export class ChatControl extends ChatAdapter
             });
         this.wsService.newFriendObs.subscribe(res=>
             {
-
+                this.addNewFriend(res);
             });
     }
 
@@ -57,6 +47,7 @@ export class ChatControl extends ChatAdapter
     addNewFriend(payload: any)
     {
         this.createUser(payload);
+        this.listFriends().subscribe(res=>{this.onFriendsListChanged(res)});
     }
 
     setFriendsList(): void
@@ -100,41 +91,63 @@ export class ChatControl extends ChatAdapter
 
     setOnlineStatus(payload: any)
     {
-        console.log(payload);
         let user = this.mockedParticipants.find(x => x.id == payload.imagePath);
-        var onlineStatus = payload.onlineStatusMessage === 'online' ? ChatParticipantStatus.Online : ChatParticipantStatus.Offline;
-        var pRes: IChatParticipant = 
+        if(typeof user != 'undefined')
         {
-            participantType: ChatParticipantType.User,
-            id: user.id,
-            displayName: user.displayName,
-            avatar: "/images/" + user.id + ".jpg",
-            status: onlineStatus
-        };
-        var index = this.mockedParticipants.indexOf(user);
-        this.mockedParticipants[index] = pRes;
-        this.listFriends().subscribe(res=>{this.onFriendsListChanged(res)});
-    }
-
-    chatWindowOpen(event: any)
-    {
-        let userHistory = this.chatHistory.find(x => x.userID == event.id);
-        if(userHistory == null)
-        {
-            this.commService.getChatHistory(event.id).subscribe(res=>
+            var onlineStatus = payload.onlineStatusMessage === 'online' ? ChatParticipantStatus.Online : ChatParticipantStatus.Offline;
+            var pRes: IChatParticipant = 
             {
-                console.log(res);
-            });
+                participantType: ChatParticipantType.User,
+                id: user.id,
+                displayName: user.displayName,
+                avatar: "/images/" + user.id + ".jpg",
+                status: onlineStatus
+            };
+            var index = this.mockedParticipants.indexOf(user);
+            this.mockedParticipants[index] = pRes;
+            this.listFriends().subscribe(res=>{this.onFriendsListChanged(res)});    
         }
     }
 
     getMessageHistory(userId: any): Observable<Message[]>
     {
-        return of(this.mockedHistory).pipe(delay(500));
+        var mockedHistory: Array<Message> = [];
+        var userHistoryEntry = this.chatHistory.find(x => x.userImageID == userId);
+        if (typeof userHistoryEntry === 'undefined')
+        {
+            var usrMsgHistory: Array<Message> = [];
+            userHistoryEntry = {userImageID: userId, userMessagesHistory: []};
+            //No history entry for this user so fetch history from server
+            this.commService.getChatHistory(userId).subscribe(res=>
+            {
+                if(res.hasOwnProperty('status'))//No history found
+                {
+                }
+                else
+                {
+                    res.forEach(t => 
+                    { 
+                        var msg = {fromId: t.fromUserID, toId: t.toUserID, message: t.text, dateSent: t.timeStamp};
+                        usrMsgHistory.push(msg);
+                    });
+                    Array.prototype.push.apply(userHistoryEntry.userMessagesHistory, usrMsgHistory);
+                    Array.prototype.push.apply(mockedHistory, usrMsgHistory);
+                }
+            });
+            this.chatHistory.push(userHistoryEntry);
+        }
+        else
+        {
+            if(userHistoryEntry.userMessagesHistory.length > 0)
+                Array.prototype.push.apply(mockedHistory, userHistoryEntry.userMessagesHistory);
+        }
+        console.log(mockedHistory);     
+        return of(mockedHistory).pipe(delay(2000));
     }
     
     sendMessage(message: Message): void
     {
+        console.log(message);
         this.wsService.sendChatMessage(message.toId, message.fromId, message.message);
     }
 }

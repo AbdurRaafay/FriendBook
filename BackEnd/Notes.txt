@@ -15,14 +15,28 @@ https://spring.io/guides/topicals/spring-boot-docker/
 https://medium.com/@ievgen.degtiarenko/reduce-size-of-docker-image-with-spring-boot-application-2b3632263350
 https://spring.io/guides/gs/spring-boot-docker/
 
-Testing
-https://hellokoding.com/spring-boot-test-data-layer-example-with-datajpatest/
+*************************Testing
+https://www.blazemeter.com/blog/spring-boot-rest-api-unit-testing-with-junit/
+https://reflectoring.io/spring-boot-web-controller-test/
+https://reflectoring.io/spring-boot-mock/
+https://stackoverflow.com/questions/15203485/spring-test-security-how-to-mock-authentication
+https://www.javacodegeeks.com/2017/05/mocking-spring-security-context-unit-testing.html
+https://github.com/rest-assured/rest-assured/wiki/Usage#spring-mock-mvc-module
+
 
 Login
+https://code-maze.com/angular-material-form-validation/
 https://stackblitz.com/edit/angular-material-login-form
+https://jasonwatmore.com/post/2018/05/10/angular-6-reactive-forms-validation-example
+https://grokonez.com/java-integration/angular-6-upload-get-multipartfile-spring-boot-example
 
-Elasticsearch
+*************************Elasticsearch
 https://www.elastic.co/blog/a-practical-introduction-to-elasticsearch
 https://blog.patricktriest.com/text-search-docker-elasticsearch/
 https://piotrminkowski.wordpress.com/2019/03/29/elasticsearch-with-spring-boot/
 https://towardsdatascience.com/a-hitchhikers-guide-to-spring-boot-elasticsearch-logstash-kibana-postgresql-and-docker-5602feaa9fd3
+
+*************************Deployment
+https://www.tutorialspoint.com/spring_boot/spring_boot_tomcat_deployment.htm
+
+curl -X POST localhost:port/actuator/shutdown

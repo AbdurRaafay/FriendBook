@@ -42,7 +42,7 @@ import com.friendbook.repository.redisrepo.UserFeedRepository;
 public class dbSeeder implements CommandLineRunner
 {
     private String[] filetext = null;
-    private boolean initMongoDB = false;
+    private boolean initMongoDB = false;//Set this to true to reset database
 
     private int MaxUsers = 20;
     private int NoOfFriends = 5;
@@ -57,7 +57,7 @@ public class dbSeeder implements CommandLineRunner
     private Comment pstcmnt[] = new Comment[MaxComments];
 
     private List<User> users = new ArrayList<User>();
-    private List<String> names = new ArrayList<String>();
+    private List<String> names = new ArrayList<String>();//Display pic image file names
 
     private String usrnames[] = {"James Cameron","Brittany Spears","Angelina Jolie","Micky Mouse","Justin Bieber",
             "Erwin Schrodinger","Mark Twain","Thomas Mann","Franz Kafka","Elvis Presley",
@@ -114,11 +114,13 @@ public class dbSeeder implements CommandLineRunner
         filetext = ReadDummyFile();
         InitializeFeedPosts();
         InitializeComments();
-
+        ClearChats();
+        ClearNotifications();
+        ClearNotifiedUsers();
+        ClearFriendRequests();
         LinkPostswithUsers();
         InsertPosts();
         UpdatePosts();
-
         LinkPostswithComments();
         InsertComments();
         UpdateComments();
@@ -156,7 +158,7 @@ public class dbSeeder implements CommandLineRunner
             users.add(new User(Name[0], Name[1], Name[0] + Name[1] + "@foo.com", "654654654", SecurityUtility.passwordEncoder().encode("hajmola"),
                     true, GenerateRandomDate(),
                     Gender[ThreadLocalRandom.current().nextInt(0, 2)], UserFriendsID, uuid2.toString()));
-            names.add(uuid2.toString());
+            names.add(uuid2.toString());//Generate image file IDs
         }
     }
 
@@ -222,6 +224,42 @@ public class dbSeeder implements CommandLineRunner
         InsertComments();
     }
 
+    private void ClearChats()
+    {
+        if (mongoOps.collectionExists("Chats"))
+        {
+            mongoOps.dropCollection("Chats");
+            mongoOps.createCollection("Chats");
+        }
+    }
+
+    private void ClearNotifications()
+    {
+        if (mongoOps.collectionExists("Notifications"))
+        {
+            mongoOps.dropCollection("Notifications");
+            mongoOps.createCollection("Notifications");
+        }
+    }
+
+    private void ClearNotifiedUsers()
+    {
+        if (mongoOps.collectionExists("NotifiedUsers"))
+        {
+            mongoOps.dropCollection("NotifiedUsers");
+            mongoOps.createCollection("NotifiedUsers");
+        }
+    }
+
+    private void ClearFriendRequests()
+    {
+        if (mongoOps.collectionExists("FriendRequest"))
+        {
+            mongoOps.dropCollection("FriendRequest");
+            mongoOps.createCollection("FriendRequest");
+        }
+    }
+
     private void RenameFiles(List<String> names)
     {
         int Ind = 0;
@@ -276,34 +314,32 @@ public class dbSeeder implements CommandLineRunner
 			Q => A B C D E F G H I J K L M N O P
 			R =>
 			S =>
-			T =>  *
+			T =>
+
+			Last three users have no friends
 		 */
 
         String[] friends = {"BCDEFGHIJKLMNOPQ",	"ACDEFGHIJKLMNOPQ", "ABDEFGHIJKLMNOPQ", "ABCEFGHIJKLMNOPQ", "ABCDFGHIJKLMNOPQ", "ABCDEGHIJKLMNOPQ",
                 "ABCDEFHIJKLMNOPQ", "ABCDEFGIJKLMNOPQ", "ABCDEFGHJKLMNOPQ", "ABCDEFGHIKLMNOPQ", "ABCDEFGHIJLMNOPQ", "ABCDEFGHIJKMNOPQ",
                 "ABCDEFGHIJKLNOPQ", "ABCDEFGHIJKLMOPQ", "ABCDEFGHIJKLMNPQ", "ABCDEFGHIJKLMNOQ", "ABCDEFGHIJKLMNOP"};
 
-
         int i = 0, index = 0;
         List<Integer> list = new ArrayList<>();
         Set<String> userfriendslist = new HashSet<>();
-        /*
-         * The capital letters are converted to their ASCII code and subtracted from 65 to get an index into users array
-         */
         for(String usr:friends)
         {
-            byte[] indexes = usr.getBytes();
+            byte[] indexes = usr.getBytes();//Convert the ASCII characters into bytes
             list.clear();
             userfriendslist.clear();
             for(byte j:indexes)
             {
-                index = j - 65;
+                index = j - 65;//The capital letters are converted to their ASCII code and subtracted from 65 to get an index into users array
                 list.add(index);
-                userfriendslist.add(users.get(index).getId());
+                userfriendslist.add(users.get(index).getId());//Add friend's userID in friends set
             }
-            users.get(i).RemoveAllFriends();
+            users.get(i).RemoveAllFriends();//Make sure every user's friends set is empty otherwise setUserFriends() below has no effect
             users.get(i).setUserFriends(userfriendslist);
-            InsertUserFriends(users.get(i));
+            InsertUserFriends(users.get(i));//Store the updated friends set in database
             i++;
         }
     }
@@ -362,6 +398,7 @@ public class dbSeeder implements CommandLineRunner
         return result;
     }
 
+    //Set author IDs for posts
     private void LinkPostswithUsers()
     {
         int postIndex = 0;

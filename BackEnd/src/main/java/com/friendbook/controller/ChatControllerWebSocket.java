@@ -5,7 +5,6 @@ import java.util.Date;
 import com.friendbook.model.Chat;
 import com.friendbook.model.ChatMessage;
 import com.friendbook.repository.mongorepo.ChatRepository;
-import com.friendbook.repository.mongorepo.NotificationRepository;
 import com.friendbook.repository.mongorepo.UserRepository;
 import com.friendbook.repository.redisrepo.OnlineUsersRepository;
 

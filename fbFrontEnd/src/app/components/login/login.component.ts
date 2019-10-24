@@ -11,25 +11,31 @@ import { CommunicationService } from 'src/app/services/communication.service';
 
 export class LoginComponent implements OnInit 
 {
-  constructor(private commService: CommunicationService, private router:Router, private authService: AuthenticationService)
-  {
-
-  }
+  constructor(private commService: CommunicationService, private router:Router, private authService: AuthenticationService){}
   
   ngOnInit()
   {
     var logInResult = localStorage.getItem('isLoggenIn');
     if (logInResult === 'true')//Check if we are a fresh login page or redirect
     {
-      console.log('Already logged in');
-      this.commService.logout().subscribe(res=>//Logout the currently logged in user
+      var token = localStorage.getItem('xAuthToken');
+      console.log(token);
+      this.commService.checksession(token).subscribe(res=>
         {
           console.log(res);
-          if(res['status'] === 'LOGOUT_SUCCESS')
+          if(res['status'] === 'SESSION_ACTIVE')
           {
-            localStorage.clear();            
+            console.log('Already logged in');
+            this.commService.logout().subscribe(res=>//Logout the currently logged in user
+              {
+                if(res['status'] === 'LOGOUT_SUCCESS')
+                {
+                  localStorage.clear();            
+                }
+              });      
           }
-        });
+        }, 
+        error => { console.log(error); });
     }
   }
 
@@ -39,8 +45,7 @@ export class LoginComponent implements OnInit
     this.commService.sendCredential(usrname + "@foo.com","hajmola").subscribe(
       res => 
       {
-        //localStorage.setItem("xAuthToken", );
-        console.log(res);
+        localStorage.setItem('xAuthToken', res[0].token);
         localStorage.setItem('isLoggenIn', 'true');
         localStorage.setItem('resetNotificationMenu', 'true');      
         localStorage.setItem("userImageID", res[0].userImageID);

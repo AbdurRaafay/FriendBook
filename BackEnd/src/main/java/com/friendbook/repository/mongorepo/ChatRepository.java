@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface ChatRepository
 {
-    List<Chat> findChats(String fromUserID, String toUserID);
+    List<Chat> findChats(String fromUserID, String toUserID);//fromUserID and toUserID are imageIDs
     void insertChat(Chat cht);
 }

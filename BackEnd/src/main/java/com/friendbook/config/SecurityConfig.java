@@ -26,6 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     private static final String[] PUBLIC_MATCHERS =
             {
                     "/",
+                    "/checksession/**",
+                    "/actuator/**",
                     "/index",
                     "/index.html",
                     "/scripts.js",

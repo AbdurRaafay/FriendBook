@@ -34,6 +34,7 @@ public class HttpSessionConfig
     @PreDestroy
     public void Destroy()
     {
+        System.out.println("Shutting down lettuce");
         this.lcf.getConnection().close();
         this.lcf.destroy();
     }

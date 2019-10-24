@@ -14,7 +14,6 @@ export class CommunicationService
   getFriendsWallPosts(friendImageID: string): Observable<any>
   {
     let url = AppConst.serverPath + 'getfriendswall/' + friendImageID;
-    console.log(url);
     return this.http.get(url);  
   }
 
@@ -24,9 +23,9 @@ export class CommunicationService
     return this.http.get(url);  
   }
 
-  getSinglePost(postID: string): Observable<any> 
+  getSinglePost(postID: string, notUserID: string): Observable<any> 
   {
-    let url = AppConst.serverPath + 'getsinglepost/' + postID;
+    let url = AppConst.serverPath + 'getsinglepost/?PostID=' + postID + '&NotUserID=' + notUserID;
     return this.http.get(url);  
   }
 
@@ -106,7 +105,7 @@ export class CommunicationService
 
   managefriendrequest(usrImageID: string, friendrequeststatus: string): Observable<any>
   {
-    let url = AppConst.serverPath + 'sendfriendrequest/?userImageID=' + usrImageID + '&frndrqststs=' + friendrequeststatus;
+    let url = AppConst.serverPath + 'managefriendrequest/?userImageID=' + usrImageID + '&frndrqststs=' + friendrequeststatus;
     console.log(url);
     return this.http.get(url);
   }
@@ -117,9 +116,9 @@ export class CommunicationService
     return this.http.get(url);    
   }
 
-  checksession(): Observable<any>
+  checksession(token: string): Observable<any>
   {
-    let url = AppConst.serverPath + 'checkSession';
+    let url = AppConst.serverPath + 'checksession/?sessiontoken=' + token;
     return this.http.get(url);    
   }
 }

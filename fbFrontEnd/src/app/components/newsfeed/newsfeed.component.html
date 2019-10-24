@@ -1,14 +1,12 @@
 <div class="container-newsfeed-main">
     <div class="container-newsfeed-profile">
         <div class = "user-pic"> <img src='/images/{{profileImageID}}.jpg' width="250" height="250"> </div>
-        <ul style = "list-style-type:none">
-            <li *ngFor="let uname of userNameArray">
-              <div class = "post-user-name">
-                {{uname}}
-              </div>
-            </li>
-        </ul>    
-    </div>
+        <div fxLayout="column" fxLayoutAlign="space-around center">
+            <div *ngFor="let uname of userNameArray">
+                <div class="user-name-list-element">{{uname}}</div>
+            </div>
+        </div>
+        </div>
     <div class="container-newsfeed">
         <div class="container-posts">
             <div class="container-newposts">

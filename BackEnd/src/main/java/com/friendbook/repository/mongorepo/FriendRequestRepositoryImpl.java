@@ -49,4 +49,13 @@ public class FriendRequestRepositoryImpl implements FriendRequestRepository
         List<FriendRequest> frLst = mongoTemplate.find(query,FriendRequest.class);
         return frLst;
     }
+
+    @Override
+    public void deleteFriendRequest(String userAID, String userBID)//Delete friend request from userBID to userAID
+    {
+        Query query = new Query();
+        Criteria criteria = Criteria.where("toUserID").is(userAID).and("fromUserID").is(userBID);
+        query.addCriteria(criteria);
+        mongoTemplate.remove(query,FriendRequest.class);
+    }
 }

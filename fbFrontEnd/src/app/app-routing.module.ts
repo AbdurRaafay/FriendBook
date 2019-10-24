@@ -7,15 +7,18 @@ import { CustomReuseStrategy } from './route-reuse';
 import { SinglepostComponent } from './components/singlepost/singlepost.component';
 import { FriendrequestComponent } from './components/friendrequest/friendrequest.component';
 import { FriendswallComponent } from './components/friendswall/friendswall.component';
+import { FriendrequestmanageComponent } from './components/friendrequestmanage/friendrequestmanage.component';
 
 const routes: Routes = 
 [
   { path: 'newsfeed', component: NewsfeedComponent },
   { path: 'wall', component: WallComponent },
   { path: 'index', component: LoginComponent },
-  { path: 'singlepost/:postID', component: SinglepostComponent },
+  { path: 'singlepost/:postID/:notUserID', component: SinglepostComponent },
   { path: 'friendrequest/:friendImageID/:userFullName', component: FriendrequestComponent },
+  { path: 'friendrequestmanage/:friendImageID/:userFullName', component: FriendrequestmanageComponent },
   { path: 'friendswall/:friendImageID', component: FriendswallComponent },
+
 ];
 
 @NgModule({

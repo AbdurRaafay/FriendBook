@@ -124,14 +124,15 @@ public class UserRepositoryImpl implements UserRepository
     @Override
     public void addFriend(String userIDA, String userIDB)
     {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("id").is(userIDA));
+        Query queryA = new Query();
+        queryA.addCriteria(Criteria.where("id").is(userIDA));
         //Add userIDB as friend of userIDA
-        mongoTemplate.updateFirst(query, new Update().addToSet("userFriends", userIDB), User.class);
+        mongoTemplate.updateFirst(queryA, new Update().addToSet("userFriends", userIDB), User.class);
 
-        query.addCriteria(Criteria.where("id").is(userIDB));
+        Query queryB = new Query();
+        queryB.addCriteria(Criteria.where("id").is(userIDB));
         //Add userIDA as friend of userIDB
-        mongoTemplate.updateFirst(query, new Update().addToSet("userFriends", userIDA), User.class);
+        mongoTemplate.updateFirst(queryB, new Update().addToSet("userFriends", userIDA), User.class);
     }
 
     private User getUserFromUserID(String usrID)

@@ -9,8 +9,8 @@ import { CommunicationService } from 'src/app/services/communication.service';
 })
 export class FriendrequestmanageComponent implements OnInit 
 {
-  acceptfriendrequestbutton: boolean = true;
-  rejectfriendrequestbutton: boolean = true;
+  acceptfriendrequest: boolean = true;
+  rejectfriendrequest: boolean = true;
   acceptfriendrequestmessage: boolean = false;
   rejectfriendrequestmessage: boolean = false;
   profileImageID : string;
@@ -26,15 +26,16 @@ export class FriendrequestmanageComponent implements OnInit
     this.userNameArray = this.fullname.split(" ");
   }
 
-  onAcceptFriendRequestClick()
+  onManageFriendRequestClick(status: string)
   {
-    this.commService.managefriendrequest(this.profileImageID, 'yes').subscribe(res=>{console.log(res)},
-    error => { console.log(error); });
-  }
-
-  onRejectFriendRequestClick()
-  {
-    this.commService.managefriendrequest(this.profileImageID, 'no').subscribe(res=>{console.log(res)},
+    this.commService.managefriendrequest(this.profileImageID, status).subscribe(res=>
+      {        
+        console.log(res);
+        if(res['status'] === 'FRIEND_REQUEST_ACCEPTED')
+          this.acceptfriendrequestmessage = true;
+        else if(res['status'] === 'FRIEND_REQUEST_REJECTED')
+          this.rejectfriendrequestmessage = true;
+      },
     error => { console.log(error); });
   }
 }

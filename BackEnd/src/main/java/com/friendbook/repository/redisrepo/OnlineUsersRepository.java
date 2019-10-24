@@ -9,6 +9,7 @@ public interface OnlineUsersRepository
 {
     void putUser(User usr);
     String isUserOnline(String userID);
-    void logoutUser(String userID);
+    void logoutUser(User usr);
+    boolean doesSessionExist(String token);
     List<Map<String, String>> getOnlineUsersList();
 }

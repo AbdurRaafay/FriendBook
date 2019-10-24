@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-navbar></app-navbar>\n<div class = \"\" *ngIf=\"isLoggedIn$ | async\">\n    <ng-chat class = \"container-friends\" [adapter]=\"adapter\" [userId]=\"999\" [historyEnabled]=\"true\" [historyPageSize]=\"4\" \n        [hideFriendsList]=\"false\" [audioEnabled]=\"false\" [browserNotificationsEnabled]=\"false\" [pollFriendsList]=\"false\" [pollingInterval]=\"0\"\n        (onParticipantClicked)=\"participantClicked($event)\">\n    </ng-chat>\n</div>\n<router-outlet></router-outlet>"
+module.exports = "<app-navbar></app-navbar>\n<div class = \"\" *ngIf=\"isLoggedIn$ | async\">\n    <ng-chat class = \"container-friends\" [adapter]=\"adapter\" [userId]=\"999\" [historyEnabled]=\"true\" [historyPageSize]=\"4\" \n        [hideFriendsList]=\"false\" [audioEnabled]=\"false\" [browserNotificationsEnabled]=\"false\" [pollFriendsList]=\"false\" [pollingInterval]=\"0\">\n    </ng-chat>\n</div>\n<router-outlet></router-outlet>"
 
 /***/ }),
 
@@ -52,7 +52,7 @@ module.exports = "<div class = \"friend-request\">\n    <div class = \"user-pic\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class = \"friend-request-manage\">\n    <div class = \"user-pic\"> <img src='/images/{{profileImageID}}.jpg' width=\"300\" height=\"300\"> </div>\n    <div fxLayout=\"column\" fxLayoutAlign=\"space-around center\">\n        <div *ngFor=\"let uname of userNameArray\">\n            <div class=\"user-name-list-element\">{{uname}}</div>\n        </div>\n    </div>\n    <div class=\"accept-friend-request-message\" *ngIf=\"acceptfriendrequestmessage\">Friend request accepted</div>\n    <div class=\"reject-friend-request-message\" *ngIf=\"rejectfriendrequestmessage\">Friend request accepted</div>\n    <div class = \"accept-friend-request-button\">\n        <button *ngIf=\"acceptfriendrequestbutton\" (click)=\"onAcceptFriendRequestClick()\">Accept Friend Request</button>\n    </div>\n    <div class = \"reject-friend-request-button\">\n        <button *ngIf=\"rejectfriendrequestbutton\" (click)=\"onRejectFriendRequestClick()\">Reject Friend Request</button>\n    </div>\n</div>"
+module.exports = "<div class = \"friend-request-management\">\n    <div class = \"user-pic\"> <img src='/images/{{profileImageID}}.jpg' width=\"300\" height=\"300\"> </div>\n    <div fxLayout=\"column\" fxLayoutAlign=\"space-around center\">\n        <div *ngFor=\"let uname of userNameArray\">\n            <div class=\"user-name-list-element\">{{uname}}</div>\n        </div>\n    </div>  \n    <div class = \"accept-friend-request-message\" *ngIf=\"acceptfriendrequestmessage\">Friend request accepted</div>\n    <div class = \"reject-friend-request-message\" *ngIf=\"rejectfriendrequestmessage\">Friend request rejected</div>\n    <div class = \"accept-friend-request-button\">\n        <button *ngIf=\"acceptfriendrequest\" (click)=\"onManageFriendRequestClick('yes')\">Accept Friend Request</button>\n    </div>\n    <div class = \"reject-friend-request-button\">\n        <button *ngIf=\"rejectfriendrequest\" (click)=\"onManageFriendRequestClick('yes')\">Reject Friend Request</button>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -85,7 +85,7 @@ module.exports = "<div class=\"login\">\n    <ul style=\"list-style-type:none\">
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-toolbar class=\"nav-bar-friendbook\" fxLayout=\"row\" fxLayoutAlign=\"start center\" *ngIf=\"isLoggedIn$ | async\">\n    <div class=\"nav-item-title\">\n        FriendBook\n    </div>\n    <form class=\"nav-bar-search\">\n        <mat-form-field class=\"search-text-input\">\n            <input matInput placeholder=\"Search\" aria-label=\"Number\" [formControl]=\"searchFormControl\" [matAutocomplete]=\"auto\">\n            <mat-autocomplete class=\"search-autocomplete\" #auto=\"matAutocomplete\">\n            <mat-option (onSelectionChange)=\"onSearchItemSelected($event, option)\" *ngFor=\"let option of autoCompleteList\" [value]=\"option.name\">\n                <div class = \"search-result-item\">\n                    <img class = \"search-user-pic\" src=\"/images/{{option.imageID}}.jpg\" width=\"30\" height=\"30\"> &nbsp; &nbsp;\n                    <span class = \"search-user-name\">{{option.name}}</span>\n                </div>\n            </mat-option>\n            </mat-autocomplete>\n        </mat-form-field>\n    </form>\n    <span fxFlex></span>\n    <div class=\"nav-bar-bubble\" [ngStyle]=\"{'visibility':enableNotification ? 'visible' : 'hidden'}\" [matMenuTriggerFor]=\"notificationMenu\">{{noOfNotification}}</div>\n    <i class=\"nav-bar-notification\" (click)=\"onNotificationClicked()\"><img src=\"/icons/notification.svg\" width=\"50\" height=\"50\"></i>\n    <mat-menu #notificationMenu=\"matMenu\" yPosition=\"above\">\n        <ng-container *ngFor=\"let item of notificationMenuArray\">\n            <button *ngIf=!item.templateName mat-menu-item (click)=\"onNotificationItemSelected(item)\">{{ item.text }}</button>\n        </ng-container>            \n    </mat-menu>\n    <div class=\"nav-bar-newsfeed\">\n        <i (click)=\"onNewsFeedClicked()\"><img src=\"/icons/home.svg\" width=\"50\" height=\"50\"></i>\n    </div>\n    <div class=\"nav-bar-wall\">\n        <i (click)=\"onWallClicked()\"><img src=\"/icons/firewall.svg\" width=\"50\" height=\"50\"></i>\n    </div>\n    <div class=\"nav-bar-logout\">\n        <i (click)=\"onLogoutClicked()\"><img src=\"/icons/logout.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n</mat-toolbar>"
+module.exports = "<mat-toolbar class=\"nav-bar-friendbook\" fxLayout=\"row\" fxLayoutAlign=\"start center\" *ngIf=\"isLoggedIn$ | async\">\n    <div class=\"nav-item-title\">\n        FriendBook\n    </div>\n    <form class=\"nav-bar-search\">\n        <mat-form-field class=\"search-text-input\">\n            <input matInput placeholder=\"Search\" aria-label=\"Number\" [formControl]=\"searchFormControl\" [matAutocomplete]=\"auto\">\n            <mat-autocomplete class=\"search-autocomplete\" #auto=\"matAutocomplete\">\n            <mat-option (onSelectionChange)=\"onSearchItemSelected($event, option)\" *ngFor=\"let option of autoCompleteList | async\" [value]=\"option.name\">\n                <div class = \"search-result-item\">\n                    <img class = \"search-user-pic\" src=\"/images/{{option.imageID}}.jpg\" width=\"30\" height=\"30\"> &nbsp; &nbsp;\n                    <span class = \"search-user-name\">{{option.name}}</span>\n                </div>\n            </mat-option>\n            </mat-autocomplete>\n        </mat-form-field>\n    </form>\n    <div class=\"nav-bar-bubble\" [ngStyle]=\"{'visibility':enableNotification ? 'visible' : 'hidden'}\" [matMenuTriggerFor]=\"notificationMenu\">{{noOfNotification}}</div>\n    <i class=\"nav-bar-notification\" (click)=\"onNotificationClicked()\"><img src=\"/icons/notification.svg\" width=\"50\" height=\"50\"></i>\n    <mat-menu #notificationMenu=\"matMenu\" yPosition=\"above\">\n        <ng-container *ngFor=\"let item of notificationMenuArray\">\n            <button *ngIf=!item.templateName mat-menu-item (click)=\"onNotificationItemSelected(item)\">{{ item.text }}</button>\n        </ng-container>            \n    </mat-menu>\n    <div class=\"nav-bar-newsfeed\">\n        <i (click)=\"onNewsFeedClicked()\"><img src=\"/icons/home.svg\" width=\"50\" height=\"50\"></i>\n    </div>\n    <div class=\"nav-bar-wall\">\n        <i (click)=\"onWallClicked()\"><img src=\"/icons/firewall.svg\" width=\"50\" height=\"50\"></i>\n    </div>\n    <div class=\"nav-bar-logout\">\n        <i (click)=\"onLogoutClicked()\"><img src=\"/icons/logout.svg\" width=\"50\" height=\"50\"></i> \n    </div>\n</mat-toolbar>"
 
 /***/ }),
 
@@ -107,7 +107,7 @@ module.exports = "<br/>\n<div class=\"panel\"> \n  <div class = \"post-heading\"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container-newsfeed-main\">\n    <div class=\"container-newsfeed-profile\">\n        <div class = \"user-pic\"> <img src='/images/{{profileImageID}}.jpg' width=\"250\" height=\"250\"> </div>\n        <ul style = \"list-style-type:none\">\n            <li *ngFor=\"let uname of userNameArray\">\n              <div class = \"post-user-name\">\n                {{uname}}\n              </div>\n            </li>\n        </ul>    \n    </div>\n    <div class=\"container-newsfeed\">\n        <div class=\"container-posts\">\n            <div class=\"container-newposts\">\n                <ng-template np-host></ng-template>\n            </div>        \n            <div class=\"container-nomoreposts\" *ngIf=\"nomoreposts\">There are no more posts to show right now</div>        \n        </div>    \n    </div>\n</div>"
+module.exports = "<div class=\"container-newsfeed-main\">\n    <div class=\"container-newsfeed-profile\">\n        <div class = \"user-pic\"> <img src='/images/{{profileImageID}}.jpg' width=\"250\" height=\"250\"> </div>\n        <div fxLayout=\"column\" fxLayoutAlign=\"space-around center\">\n            <div *ngFor=\"let uname of userNameArray\">\n                <div class=\"user-name-list-element\">{{uname}}</div>\n            </div>\n        </div>\n        </div>\n    <div class=\"container-newsfeed\">\n        <div class=\"container-posts\">\n            <div class=\"container-newposts\">\n                <ng-template np-host></ng-template>\n            </div>        \n            <div class=\"container-nomoreposts\" *ngIf=\"nomoreposts\">There are no more posts to show right now</div>        \n        </div>    \n    </div>\n</div>"
 
 /***/ }),
 
@@ -164,6 +164,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_singlepost_singlepost_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/singlepost/singlepost.component */ "./src/app/components/singlepost/singlepost.component.ts");
 /* harmony import */ var _components_friendrequest_friendrequest_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/friendrequest/friendrequest.component */ "./src/app/components/friendrequest/friendrequest.component.ts");
 /* harmony import */ var _components_friendswall_friendswall_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/friendswall/friendswall.component */ "./src/app/components/friendswall/friendswall.component.ts");
+/* harmony import */ var _components_friendrequestmanage_friendrequestmanage_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/friendrequestmanage/friendrequestmanage.component */ "./src/app/components/friendrequestmanage/friendrequestmanage.component.ts");
+
 
 
 
@@ -178,8 +180,9 @@ const routes = [
     { path: 'newsfeed', component: _components_newsfeed_newsfeed_component__WEBPACK_IMPORTED_MODULE_3__["NewsfeedComponent"] },
     { path: 'wall', component: _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_4__["WallComponent"] },
     { path: 'index', component: _components_login_login_component__WEBPACK_IMPORTED_MODULE_5__["LoginComponent"] },
-    { path: 'singlepost/:postID', component: _components_singlepost_singlepost_component__WEBPACK_IMPORTED_MODULE_7__["SinglepostComponent"] },
+    { path: 'singlepost/:postID/:notUserID', component: _components_singlepost_singlepost_component__WEBPACK_IMPORTED_MODULE_7__["SinglepostComponent"] },
     { path: 'friendrequest/:friendImageID/:userFullName', component: _components_friendrequest_friendrequest_component__WEBPACK_IMPORTED_MODULE_8__["FriendrequestComponent"] },
+    { path: 'friendrequestmanage/:friendImageID/:userFullName', component: _components_friendrequestmanage_friendrequestmanage_component__WEBPACK_IMPORTED_MODULE_10__["FriendrequestmanageComponent"] },
     { path: 'friendswall/:friendImageID', component: _components_friendswall_friendswall_component__WEBPACK_IMPORTED_MODULE_9__["FriendswallComponent"] },
 ];
 let AppRoutingModule = class AppRoutingModule {
@@ -254,9 +257,6 @@ let AppComponent = class AppComponent {
                 this.wscommService.connectToChat();
             }
         });
-    }
-    participantClicked(event) {
-        this.adapter.chatWindowOpen(event);
     }
     checkScroll() {
         let a = document.documentElement.scrollTop;
@@ -420,16 +420,7 @@ class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
     constructor() {
         super(...arguments);
         this.chatHistory = [];
-        this.mockedHistory = [];
-        this.mockedParticipants = [
-            {
-                participantType: ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantType"].User,
-                id: 1,
-                displayName: "",
-                avatar: "",
-                status: ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Online
-            },
-        ];
+        this.mockedParticipants = [];
     }
     registerCallBacks() {
         this.wsService.chatObs.subscribe(res => {
@@ -439,6 +430,7 @@ class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
             this.setOnlineStatus(res);
         });
         this.wsService.newFriendObs.subscribe(res => {
+            this.addNewFriend(res);
         });
     }
     listFriends() {
@@ -454,6 +446,7 @@ class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
     }
     addNewFriend(payload) {
         this.createUser(payload);
+        this.listFriends().subscribe(res => { this.onFriendsListChanged(res); });
     }
     setFriendsList() {
         var friendsList;
@@ -485,32 +478,52 @@ class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
         this.onMessageReceived(user, replyMessage);
     }
     setOnlineStatus(payload) {
-        console.log(payload);
         let user = this.mockedParticipants.find(x => x.id == payload.imagePath);
-        var onlineStatus = payload.onlineStatusMessage === 'online' ? ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Online : ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Offline;
-        var pRes = {
-            participantType: ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantType"].User,
-            id: user.id,
-            displayName: user.displayName,
-            avatar: "/images/" + user.id + ".jpg",
-            status: onlineStatus
-        };
-        var index = this.mockedParticipants.indexOf(user);
-        this.mockedParticipants[index] = pRes;
-        this.listFriends().subscribe(res => { this.onFriendsListChanged(res); });
-    }
-    chatWindowOpen(event) {
-        let userHistory = this.chatHistory.find(x => x.userID == event.id);
-        if (userHistory == null) {
-            this.commService.getChatHistory(event.id).subscribe(res => {
-                console.log(res);
-            });
+        if (typeof user != 'undefined') {
+            var onlineStatus = payload.onlineStatusMessage === 'online' ? ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Online : ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantStatus"].Offline;
+            var pRes = {
+                participantType: ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatParticipantType"].User,
+                id: user.id,
+                displayName: user.displayName,
+                avatar: "/images/" + user.id + ".jpg",
+                status: onlineStatus
+            };
+            var index = this.mockedParticipants.indexOf(user);
+            this.mockedParticipants[index] = pRes;
+            this.listFriends().subscribe(res => { this.onFriendsListChanged(res); });
         }
     }
     getMessageHistory(userId) {
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["of"])(this.mockedHistory).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["delay"])(500));
+        var mockedHistory = [];
+        var userHistoryEntry = this.chatHistory.find(x => x.userImageID == userId);
+        if (typeof userHistoryEntry === 'undefined') {
+            var usrMsgHistory = [];
+            userHistoryEntry = { userImageID: userId, userMessagesHistory: [] };
+            //No history entry for this user so fetch history from server
+            this.commService.getChatHistory(userId).subscribe(res => {
+                if (res.hasOwnProperty('status')) //No history found
+                 {
+                }
+                else {
+                    res.forEach(t => {
+                        var msg = { fromId: t.fromUserID, toId: t.toUserID, message: t.text, dateSent: t.timeStamp };
+                        usrMsgHistory.push(msg);
+                    });
+                    Array.prototype.push.apply(userHistoryEntry.userMessagesHistory, usrMsgHistory);
+                    Array.prototype.push.apply(mockedHistory, usrMsgHistory);
+                }
+            });
+            this.chatHistory.push(userHistoryEntry);
+        }
+        else {
+            if (userHistoryEntry.userMessagesHistory.length > 0)
+                Array.prototype.push.apply(mockedHistory, userHistoryEntry.userMessagesHistory);
+        }
+        console.log(mockedHistory);
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["of"])(mockedHistory).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["delay"])(2000));
     }
     sendMessage(message) {
+        console.log(message);
         this.wsService.sendChatMessage(message.toId, message.fromId, message.message);
     }
 }
@@ -525,7 +538,7 @@ class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".friend-request\n{\n    margin-top: 200px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n            flex-direction: column;\n    -webkit-box-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n            justify-content: center;\n}\n\n.user-pic\n{\n\tmargin-bottom: 20px;\n}\n\n.user-name-list-element\n{\n    font-style: bold;\n    font-size: 30px;\n    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;\n    text-align: center;\n}\n\n.friend-request-status\n{\n    font-style: bold;\n    font-size: 30px;\n    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;\n    text-align: center;\n}\n\n.send-freind-request-button\n{\n    margin-top: 20px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9mcmllbmRyZXF1ZXN0L2ZyaWVuZHJlcXVlc3QuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7SUFFSSxpQkFBaUI7SUFDakIsb0JBQWE7SUFBYixhQUFhO0lBQ2IsNEJBQXNCO0lBQXRCLDZCQUFzQjtZQUF0QixzQkFBc0I7SUFDdEIseUJBQW1CO1lBQW5CLG1CQUFtQjtJQUNuQix3QkFBdUI7WUFBdkIsdUJBQXVCO0FBQzNCOztBQUVBOztDQUVDLG1CQUFtQjtBQUNwQjs7QUFFQTs7SUFFSSxnQkFBZ0I7SUFDaEIsZUFBZTtJQUNmLHdFQUF3RTtJQUN4RSxrQkFBa0I7QUFDdEI7O0FBRUE7O0lBRUksZ0JBQWdCO0lBQ2hCLGVBQWU7SUFDZix3RUFBd0U7SUFDeEUsa0JBQWtCO0FBQ3RCOztBQUVBOztJQUVJLGdCQUFnQjtBQUNwQiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvZnJpZW5kcmVxdWVzdC9mcmllbmRyZXF1ZXN0LmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuZnJpZW5kLXJlcXVlc3RcbntcbiAgICBtYXJnaW4tdG9wOiAyMDBweDtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbn1cblxuLnVzZXItcGljXG57XG5cdG1hcmdpbi1ib3R0b206IDIwcHg7XG59XG5cbi51c2VyLW5hbWUtbGlzdC1lbGVtZW50XG57XG4gICAgZm9udC1zdHlsZTogYm9sZDtcbiAgICBmb250LXNpemU6IDMwcHg7XG4gICAgZm9udC1mYW1pbHk6ICdGcmFua2xpbiBHb3RoaWMgTWVkaXVtJywgJ0FyaWFsIE5hcnJvdycsIEFyaWFsLCBzYW5zLXNlcmlmO1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxuLmZyaWVuZC1yZXF1ZXN0LXN0YXR1c1xue1xuICAgIGZvbnQtc3R5bGU6IGJvbGQ7XG4gICAgZm9udC1zaXplOiAzMHB4O1xuICAgIGZvbnQtZmFtaWx5OiAnRnJhbmtsaW4gR290aGljIE1lZGl1bScsICdBcmlhbCBOYXJyb3cnLCBBcmlhbCwgc2Fucy1zZXJpZjtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG59XG5cbi5zZW5kLWZyZWluZC1yZXF1ZXN0LWJ1dHRvblxue1xuICAgIG1hcmdpbi10b3A6IDIwcHg7XG59Il19 */"
+module.exports = ".friend-request\n{\n    margin-top: 200px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n            flex-direction: column;\n    -webkit-box-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n            justify-content: center;\n}\n\n.user-pic\n{\n\tmargin-bottom: 20px;\n}\n\n.user-name-list-element\n{\n    font-style: bold;\n    font-size: 30px;\n    text-align: center;\n}\n\n.friend-request-status\n{\n    font-style: bold;\n    font-size: 30px;\n    text-align: center;\n}\n\n.send-freind-request-button\n{\n    margin-top: 20px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9mcmllbmRyZXF1ZXN0L2ZyaWVuZHJlcXVlc3QuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7SUFFSSxpQkFBaUI7SUFDakIsb0JBQWE7SUFBYixhQUFhO0lBQ2IsNEJBQXNCO0lBQXRCLDZCQUFzQjtZQUF0QixzQkFBc0I7SUFDdEIseUJBQW1CO1lBQW5CLG1CQUFtQjtJQUNuQix3QkFBdUI7WUFBdkIsdUJBQXVCO0FBQzNCOztBQUVBOztDQUVDLG1CQUFtQjtBQUNwQjs7QUFFQTs7SUFFSSxnQkFBZ0I7SUFDaEIsZUFBZTtJQUNmLGtCQUFrQjtBQUN0Qjs7QUFFQTs7SUFFSSxnQkFBZ0I7SUFDaEIsZUFBZTtJQUNmLGtCQUFrQjtBQUN0Qjs7QUFFQTs7SUFFSSxnQkFBZ0I7QUFDcEIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL2ZyaWVuZHJlcXVlc3QvZnJpZW5kcmVxdWVzdC5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmZyaWVuZC1yZXF1ZXN0XG57XG4gICAgbWFyZ2luLXRvcDogMjAwcHg7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG59XG5cbi51c2VyLXBpY1xue1xuXHRtYXJnaW4tYm90dG9tOiAyMHB4O1xufVxuXG4udXNlci1uYW1lLWxpc3QtZWxlbWVudFxue1xuICAgIGZvbnQtc3R5bGU6IGJvbGQ7XG4gICAgZm9udC1zaXplOiAzMHB4O1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxuLmZyaWVuZC1yZXF1ZXN0LXN0YXR1c1xue1xuICAgIGZvbnQtc3R5bGU6IGJvbGQ7XG4gICAgZm9udC1zaXplOiAzMHB4O1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxuLnNlbmQtZnJlaW5kLXJlcXVlc3QtYnV0dG9uXG57XG4gICAgbWFyZ2luLXRvcDogMjBweDtcbn0iXX0= */"
 
 /***/ }),
 
@@ -596,7 +609,7 @@ FriendrequestComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".friend-request-manage .accept-friend-request-message .reject-friend-request-message\n{\n    margin-top: 200px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n            flex-direction: column;\n    -webkit-box-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n            justify-content: center;\n}\n\n.user-name-list-element\n{\n    font-style: bold;\n    font-size: 30px;\n    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;\n    text-align: center;\n}\n\n.accept-friend-request-button .reject-friend-request-button\n{\n    margin-top: 20px;  \n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9mcmllbmRyZXF1ZXN0bWFuYWdlL2ZyaWVuZHJlcXVlc3RtYW5hZ2UuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7SUFFSSxpQkFBaUI7SUFDakIsb0JBQWE7SUFBYixhQUFhO0lBQ2IsNEJBQXNCO0lBQXRCLDZCQUFzQjtZQUF0QixzQkFBc0I7SUFDdEIseUJBQW1CO1lBQW5CLG1CQUFtQjtJQUNuQix3QkFBdUI7WUFBdkIsdUJBQXVCO0FBQzNCOztBQUVBOztJQUVJLGdCQUFnQjtJQUNoQixlQUFlO0lBQ2Ysd0VBQXdFO0lBQ3hFLGtCQUFrQjtBQUN0Qjs7QUFFQTs7SUFFSSxnQkFBZ0I7QUFDcEIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL2ZyaWVuZHJlcXVlc3RtYW5hZ2UvZnJpZW5kcmVxdWVzdG1hbmFnZS5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmZyaWVuZC1yZXF1ZXN0LW1hbmFnZSAuYWNjZXB0LWZyaWVuZC1yZXF1ZXN0LW1lc3NhZ2UgLnJlamVjdC1mcmllbmQtcmVxdWVzdC1tZXNzYWdlXG57XG4gICAgbWFyZ2luLXRvcDogMjAwcHg7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG59XG5cbi51c2VyLW5hbWUtbGlzdC1lbGVtZW50XG57XG4gICAgZm9udC1zdHlsZTogYm9sZDtcbiAgICBmb250LXNpemU6IDMwcHg7XG4gICAgZm9udC1mYW1pbHk6ICdGcmFua2xpbiBHb3RoaWMgTWVkaXVtJywgJ0FyaWFsIE5hcnJvdycsIEFyaWFsLCBzYW5zLXNlcmlmO1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxuLmFjY2VwdC1mcmllbmQtcmVxdWVzdC1idXR0b24gLnJlamVjdC1mcmllbmQtcmVxdWVzdC1idXR0b25cbntcbiAgICBtYXJnaW4tdG9wOiAyMHB4OyAgXG59XG4iXX0= */"
+module.exports = ".friend-request-management\n{\n    margin-top: 200px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n            flex-direction: column;\n    -webkit-box-align: center;\n            align-items: center;\n    -webkit-box-pack: center;\n            justify-content: center;\n}\n\n.user-pic\n{\n\tmargin-bottom: 20px;\n}\n\n.user-name-list-element\n{\n    font-style: bold;\n    font-size: 30px;\n    text-align: center;\n}\n\n.friend-request-status\n{\n    font-style: bold;\n    font-size: 30px;\n    text-align: center;\n}\n\n.accept-friend-request-button\n{\n    margin-top: 20px;\n}\n\n.reject-friend-request-button\n{\n    margin-top: 20px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9mcmllbmRyZXF1ZXN0bWFuYWdlL2ZyaWVuZHJlcXVlc3RtYW5hZ2UuY29tcG9uZW50LmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7SUFFSSxpQkFBaUI7SUFDakIsb0JBQWE7SUFBYixhQUFhO0lBQ2IsNEJBQXNCO0lBQXRCLDZCQUFzQjtZQUF0QixzQkFBc0I7SUFDdEIseUJBQW1CO1lBQW5CLG1CQUFtQjtJQUNuQix3QkFBdUI7WUFBdkIsdUJBQXVCO0FBQzNCOztBQUVBOztDQUVDLG1CQUFtQjtBQUNwQjs7QUFFQTs7SUFFSSxnQkFBZ0I7SUFDaEIsZUFBZTtJQUNmLGtCQUFrQjtBQUN0Qjs7QUFFQTs7SUFFSSxnQkFBZ0I7SUFDaEIsZUFBZTtJQUNmLGtCQUFrQjtBQUN0Qjs7QUFFQTs7SUFFSSxnQkFBZ0I7QUFDcEI7O0FBRUE7O0lBRUksZ0JBQWdCO0FBQ3BCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9mcmllbmRyZXF1ZXN0bWFuYWdlL2ZyaWVuZHJlcXVlc3RtYW5hZ2UuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5mcmllbmQtcmVxdWVzdC1tYW5hZ2VtZW50XG57XG4gICAgbWFyZ2luLXRvcDogMjAwcHg7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG59XG5cbi51c2VyLXBpY1xue1xuXHRtYXJnaW4tYm90dG9tOiAyMHB4O1xufVxuXG4udXNlci1uYW1lLWxpc3QtZWxlbWVudFxue1xuICAgIGZvbnQtc3R5bGU6IGJvbGQ7XG4gICAgZm9udC1zaXplOiAzMHB4O1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxuLmZyaWVuZC1yZXF1ZXN0LXN0YXR1c1xue1xuICAgIGZvbnQtc3R5bGU6IGJvbGQ7XG4gICAgZm9udC1zaXplOiAzMHB4O1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbn1cblxuLmFjY2VwdC1mcmllbmQtcmVxdWVzdC1idXR0b25cbntcbiAgICBtYXJnaW4tdG9wOiAyMHB4O1xufVxuXG4ucmVqZWN0LWZyaWVuZC1yZXF1ZXN0LWJ1dHRvblxue1xuICAgIG1hcmdpbi10b3A6IDIwcHg7XG59Il19 */"
 
 /***/ }),
 
@@ -622,8 +635,8 @@ let FriendrequestmanageComponent = class FriendrequestmanageComponent {
     constructor(commService, route) {
         this.commService = commService;
         this.route = route;
-        this.acceptfriendrequestbutton = true;
-        this.rejectfriendrequestbutton = true;
+        this.acceptfriendrequest = true;
+        this.rejectfriendrequest = true;
         this.acceptfriendrequestmessage = false;
         this.rejectfriendrequestmessage = false;
     }
@@ -632,11 +645,14 @@ let FriendrequestmanageComponent = class FriendrequestmanageComponent {
         this.fullname = this.route.snapshot.paramMap.get('userFullName');
         this.userNameArray = this.fullname.split(" ");
     }
-    onAcceptFriendRequestClick() {
-        this.commService.managefriendrequest(this.profileImageID, 'yes').subscribe(res => { console.log(res); }, error => { console.log(error); });
-    }
-    onRejectFriendRequestClick() {
-        this.commService.managefriendrequest(this.profileImageID, 'no').subscribe(res => { console.log(res); }, error => { console.log(error); });
+    onManageFriendRequestClick(status) {
+        this.commService.managefriendrequest(this.profileImageID, status).subscribe(res => {
+            console.log(res);
+            if (res['status'] === 'FRIEND_REQUEST_ACCEPTED')
+                this.acceptfriendrequestmessage = true;
+            else if (res['status'] === 'FRIEND_REQUEST_REJECTED')
+                this.rejectfriendrequestmessage = true;
+        }, error => { console.log(error); });
     }
 };
 FriendrequestmanageComponent.ctorParameters = () => [
@@ -780,21 +796,26 @@ let LoginComponent = class LoginComponent {
         var logInResult = localStorage.getItem('isLoggenIn');
         if (logInResult === 'true') //Check if we are a fresh login page or redirect
          {
-            console.log('Already logged in');
-            this.commService.logout().subscribe(res => //Logout the currently logged in user
-             {
+            var token = localStorage.getItem('xAuthToken');
+            console.log(token);
+            this.commService.checksession(token).subscribe(res => {
                 console.log(res);
-                if (res['status'] === 'LOGOUT_SUCCESS') {
-                    localStorage.clear();
+                if (res['status'] === 'SESSION_ACTIVE') {
+                    console.log('Already logged in');
+                    this.commService.logout().subscribe(res => //Logout the currently logged in user
+                     {
+                        if (res['status'] === 'LOGOUT_SUCCESS') {
+                            localStorage.clear();
+                        }
+                    });
                 }
-            });
+            }, error => { console.log(error); });
         }
     }
     onClickMe(usrname) {
         localStorage.clear();
         this.commService.sendCredential(usrname + "@foo.com", "hajmola").subscribe(res => {
-            //localStorage.setItem("xAuthToken", );
-            console.log(res);
+            localStorage.setItem('xAuthToken', res[0].token);
             localStorage.setItem('isLoggenIn', 'true');
             localStorage.setItem('resetNotificationMenu', 'true');
             localStorage.setItem("userImageID", res[0].userImageID);
@@ -830,7 +851,7 @@ LoginComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".nav-bar-friendbook\n{\n    width: 100%;\n    top: 0;\n    position: fixed;\n    background-color: #b6bedf;\n}\n\n.nav-item-title\n{\n    float: left;    \n    font-style: italic;\n    font-size: 50px;\n    font-family: \"Times New Roman\", Times, serif;\n    margin-right: 50px;\n    margin-left: 10px;\n}\n\n.nav-bar-search\n{\n    float: left;\n    width: 3vw;\n    height: 50px;\n    margin-right: 30vw;\n}\n\n.search-result-item\n{\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n            flex-direction: row;\n    -webkit-box-align: center;\n            align-items: center;\n    white-space: nowrap;\n    line-height: 45px;\n    height: 45px;\n    padding: 0 16px;\n    text-align: left;\n    max-width: 100%;\n    box-sizing: border-box;\n}\n\n.search-text-input\n{\n    width: 30vw;\n    height: 50px;\n}\n\n.nav-bar-notification, .nav-bar-newsfeed, .nav-bar-wall, .nav-bar-logout\n{\n    float: left;\n    margin-right: 10px;\n    margin-left: 10px;\n}\n\n.nav-bar-bubble\n{\n    visibility: hidden;\n    position: relative;\n    top: -10px;\n    right: -70px;\n    padding: 5px 10px;\n    border-radius: 50%;\n    background-color: red;\n    color: white;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uYXZiYXIvbmF2YmFyLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0lBRUksV0FBVztJQUNYLE1BQU07SUFDTixlQUFlO0lBQ2YseUJBQXlCO0FBQzdCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLDRDQUE0QztJQUM1QyxrQkFBa0I7SUFDbEIsaUJBQWlCO0FBQ3JCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxVQUFVO0lBQ1YsWUFBWTtJQUNaLGtCQUFrQjtBQUN0Qjs7QUFFQTs7SUFFSSxvQkFBYTtJQUFiLGFBQWE7SUFDYiw4QkFBbUI7SUFBbkIsNkJBQW1CO1lBQW5CLG1CQUFtQjtJQUNuQix5QkFBbUI7WUFBbkIsbUJBQW1CO0lBQ25CLG1CQUFtQjtJQUNuQixpQkFBaUI7SUFDakIsWUFBWTtJQUNaLGVBQWU7SUFDZixnQkFBZ0I7SUFDaEIsZUFBZTtJQUNmLHNCQUFzQjtBQUMxQjs7QUFFQTs7SUFFSSxXQUFXO0lBQ1gsWUFBWTtBQUNoQjs7QUFFQTs7SUFFSSxXQUFXO0lBQ1gsa0JBQWtCO0lBQ2xCLGlCQUFpQjtBQUNyQjs7QUFFQTs7SUFFSSxrQkFBa0I7SUFDbEIsa0JBQWtCO0lBQ2xCLFVBQVU7SUFDVixZQUFZO0lBQ1osaUJBQWlCO0lBQ2pCLGtCQUFrQjtJQUNsQixxQkFBcUI7SUFDckIsWUFBWTtBQUNoQiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvbmF2YmFyL25hdmJhci5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLm5hdi1iYXItZnJpZW5kYm9va1xue1xuICAgIHdpZHRoOiAxMDAlO1xuICAgIHRvcDogMDtcbiAgICBwb3NpdGlvbjogZml4ZWQ7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogI2I2YmVkZjtcbn1cblxuLm5hdi1pdGVtLXRpdGxlXG57XG4gICAgZmxvYXQ6IGxlZnQ7ICAgIFxuICAgIGZvbnQtc3R5bGU6IGl0YWxpYztcbiAgICBmb250LXNpemU6IDUwcHg7XG4gICAgZm9udC1mYW1pbHk6IFwiVGltZXMgTmV3IFJvbWFuXCIsIFRpbWVzLCBzZXJpZjtcbiAgICBtYXJnaW4tcmlnaHQ6IDUwcHg7XG4gICAgbWFyZ2luLWxlZnQ6IDEwcHg7XG59XG5cbi5uYXYtYmFyLXNlYXJjaFxue1xuICAgIGZsb2F0OiBsZWZ0O1xuICAgIHdpZHRoOiAzdnc7XG4gICAgaGVpZ2h0OiA1MHB4O1xuICAgIG1hcmdpbi1yaWdodDogMzB2dztcbn1cblxuLnNlYXJjaC1yZXN1bHQtaXRlbVxue1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IHJvdztcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIHdoaXRlLXNwYWNlOiBub3dyYXA7XG4gICAgbGluZS1oZWlnaHQ6IDQ1cHg7XG4gICAgaGVpZ2h0OiA0NXB4O1xuICAgIHBhZGRpbmc6IDAgMTZweDtcbiAgICB0ZXh0LWFsaWduOiBsZWZ0O1xuICAgIG1heC13aWR0aDogMTAwJTtcbiAgICBib3gtc2l6aW5nOiBib3JkZXItYm94O1xufVxuXG4uc2VhcmNoLXRleHQtaW5wdXRcbntcbiAgICB3aWR0aDogMzB2dztcbiAgICBoZWlnaHQ6IDUwcHg7XG59XG5cbi5uYXYtYmFyLW5vdGlmaWNhdGlvbiwgLm5hdi1iYXItbmV3c2ZlZWQsIC5uYXYtYmFyLXdhbGwsIC5uYXYtYmFyLWxvZ291dFxue1xuICAgIGZsb2F0OiBsZWZ0O1xuICAgIG1hcmdpbi1yaWdodDogMTBweDtcbiAgICBtYXJnaW4tbGVmdDogMTBweDtcbn1cblxuLm5hdi1iYXItYnViYmxlXG57XG4gICAgdmlzaWJpbGl0eTogaGlkZGVuO1xuICAgIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgICB0b3A6IC0xMHB4O1xuICAgIHJpZ2h0OiAtNzBweDtcbiAgICBwYWRkaW5nOiA1cHggMTBweDtcbiAgICBib3JkZXItcmFkaXVzOiA1MCU7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmVkO1xuICAgIGNvbG9yOiB3aGl0ZTtcbn0iXX0= */"
+module.exports = ".nav-bar-friendbook\n{\n    width: 100%;\n    top: 0;\n    position: fixed;\n    background-color: #b6bedf;\n}\n\n.nav-item-title\n{\n    float: left;    \n    font-style: italic;\n    font-size: 50px;\n    font-family: \"Times New Roman\", Times, serif;\n    margin-right: 50px;\n    margin-left: 10px;\n}\n\n.nav-bar-search\n{\n    float: left;\n    width: 3vw;\n    height: 50px;\n    margin-right: 30%;\n}\n\n.search-result-item\n{\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n            flex-direction: row;\n    -webkit-box-align: center;\n            align-items: center;\n    white-space: nowrap;\n    line-height: 45px;\n    height: 45px;\n    padding: 0 16px;\n    text-align: left;\n    max-width: 100%;\n    box-sizing: border-box;\n}\n\n.search-text-input\n{\n    width: 30vw;\n    height: 50px;\n}\n\n.nav-bar-notification, .nav-bar-newsfeed, .nav-bar-wall, .nav-bar-logout\n{\n    float: left;\n    margin-right: 10px;\n    margin-left: 10px;\n}\n\n.nav-bar-bubble\n{\n    visibility: hidden;\n    position: relative;\n    top: -10px;\n    right: -70px;\n    padding: 5px 10px;\n    border-radius: 50%;\n    background-color: red;\n    color: white;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uYXZiYXIvbmF2YmFyLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7O0lBRUksV0FBVztJQUNYLE1BQU07SUFDTixlQUFlO0lBQ2YseUJBQXlCO0FBQzdCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxrQkFBa0I7SUFDbEIsZUFBZTtJQUNmLDRDQUE0QztJQUM1QyxrQkFBa0I7SUFDbEIsaUJBQWlCO0FBQ3JCOztBQUVBOztJQUVJLFdBQVc7SUFDWCxVQUFVO0lBQ1YsWUFBWTtJQUNaLGlCQUFpQjtBQUNyQjs7QUFFQTs7SUFFSSxvQkFBYTtJQUFiLGFBQWE7SUFDYiw4QkFBbUI7SUFBbkIsNkJBQW1CO1lBQW5CLG1CQUFtQjtJQUNuQix5QkFBbUI7WUFBbkIsbUJBQW1CO0lBQ25CLG1CQUFtQjtJQUNuQixpQkFBaUI7SUFDakIsWUFBWTtJQUNaLGVBQWU7SUFDZixnQkFBZ0I7SUFDaEIsZUFBZTtJQUNmLHNCQUFzQjtBQUMxQjs7QUFFQTs7SUFFSSxXQUFXO0lBQ1gsWUFBWTtBQUNoQjs7QUFFQTs7SUFFSSxXQUFXO0lBQ1gsa0JBQWtCO0lBQ2xCLGlCQUFpQjtBQUNyQjs7QUFFQTs7SUFFSSxrQkFBa0I7SUFDbEIsa0JBQWtCO0lBQ2xCLFVBQVU7SUFDVixZQUFZO0lBQ1osaUJBQWlCO0lBQ2pCLGtCQUFrQjtJQUNsQixxQkFBcUI7SUFDckIsWUFBWTtBQUNoQiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvbmF2YmFyL25hdmJhci5jb21wb25lbnQuY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLm5hdi1iYXItZnJpZW5kYm9va1xue1xuICAgIHdpZHRoOiAxMDAlO1xuICAgIHRvcDogMDtcbiAgICBwb3NpdGlvbjogZml4ZWQ7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogI2I2YmVkZjtcbn1cblxuLm5hdi1pdGVtLXRpdGxlXG57XG4gICAgZmxvYXQ6IGxlZnQ7ICAgIFxuICAgIGZvbnQtc3R5bGU6IGl0YWxpYztcbiAgICBmb250LXNpemU6IDUwcHg7XG4gICAgZm9udC1mYW1pbHk6IFwiVGltZXMgTmV3IFJvbWFuXCIsIFRpbWVzLCBzZXJpZjtcbiAgICBtYXJnaW4tcmlnaHQ6IDUwcHg7XG4gICAgbWFyZ2luLWxlZnQ6IDEwcHg7XG59XG5cbi5uYXYtYmFyLXNlYXJjaFxue1xuICAgIGZsb2F0OiBsZWZ0O1xuICAgIHdpZHRoOiAzdnc7XG4gICAgaGVpZ2h0OiA1MHB4O1xuICAgIG1hcmdpbi1yaWdodDogMzAlO1xufVxuXG4uc2VhcmNoLXJlc3VsdC1pdGVtXG57XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgd2hpdGUtc3BhY2U6IG5vd3JhcDtcbiAgICBsaW5lLWhlaWdodDogNDVweDtcbiAgICBoZWlnaHQ6IDQ1cHg7XG4gICAgcGFkZGluZzogMCAxNnB4O1xuICAgIHRleHQtYWxpZ246IGxlZnQ7XG4gICAgbWF4LXdpZHRoOiAxMDAlO1xuICAgIGJveC1zaXppbmc6IGJvcmRlci1ib3g7XG59XG5cbi5zZWFyY2gtdGV4dC1pbnB1dFxue1xuICAgIHdpZHRoOiAzMHZ3O1xuICAgIGhlaWdodDogNTBweDtcbn1cblxuLm5hdi1iYXItbm90aWZpY2F0aW9uLCAubmF2LWJhci1uZXdzZmVlZCwgLm5hdi1iYXItd2FsbCwgLm5hdi1iYXItbG9nb3V0XG57XG4gICAgZmxvYXQ6IGxlZnQ7XG4gICAgbWFyZ2luLXJpZ2h0OiAxMHB4O1xuICAgIG1hcmdpbi1sZWZ0OiAxMHB4O1xufVxuXG4ubmF2LWJhci1idWJibGVcbntcbiAgICB2aXNpYmlsaXR5OiBoaWRkZW47XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgIHRvcDogLTEwcHg7XG4gICAgcmlnaHQ6IC03MHB4O1xuICAgIHBhZGRpbmc6IDVweCAxMHB4O1xuICAgIGJvcmRlci1yYWRpdXM6IDUwJTtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZWQ7XG4gICAgY29sb3I6IHdoaXRlO1xufSJdfQ== */"
 
 /***/ }),
 
@@ -848,12 +869,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm2015/common.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm2015/router.js");
-/* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
-/* harmony import */ var src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/communication.service */ "./src/app/services/communication.service.ts");
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm2015/material.js");
-/* harmony import */ var src_app_services_websocketmessaging_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/services/websocketmessaging.service */ "./src/app/services/websocketmessaging.service.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm2015/index.js");
+/* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
+/* harmony import */ var src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/communication.service */ "./src/app/services/communication.service.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm2015/material.js");
+/* harmony import */ var src_app_services_websocketmessaging_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/services/websocketmessaging.service */ "./src/app/services/websocketmessaging.service.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm2015/forms.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm2015/operators/index.js");
+
 
 
 
@@ -875,8 +898,7 @@ let NavbarComponent = class NavbarComponent {
         this.isSearchLoading = false;
         this.noOfNotification = 0;
         this.alreadyClicked = [];
-        this.searchFormControl = new _angular_forms__WEBPACK_IMPORTED_MODULE_8__["FormControl"]();
-        this.autoCompleteList = [];
+        this.searchFormControl = new _angular_forms__WEBPACK_IMPORTED_MODULE_9__["FormControl"]();
         this.notificationMenuArray = [];
     }
     ngOnInit() {
@@ -888,10 +910,9 @@ let NavbarComponent = class NavbarComponent {
         });
         this.wscommService.searchObs.subscribe(seres => { this.onSearchMessageReceived(seres); });
         //Introduce delay so that not too many calls to the backend are generated
-        this.searchFormControl.valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_9__["debounceTime"])(500), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_9__["distinctUntilChanged"])()).subscribe(val => { this.onSearchChange(val); });
-    }
-    ngOnDestroy() {
-        console.log('Navbar OnDestroy');
+        this.searchFormControl.valueChanges.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_10__["debounceTime"])(100), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_10__["distinctUntilChanged"])()).subscribe(val => {
+            this.wscommService.sendSearchMessage(val);
+        });
     }
     onNotificationMessageReceived(payload) {
         let menuItemText = payload.userFullName;
@@ -910,34 +931,23 @@ let NavbarComponent = class NavbarComponent {
             else if (payload.type === 'COMMENT')
                 menuItemText += " has commented on a post";
             if (payload.hasOwnProperty('postID')) {
-                mItem = { text: menuItemText, postID: payload.postID, userImageID: payload.usrImageID, userFullName: payload.usrFullName, menuItemType: 'POST' };
+                mItem = { text: menuItemText, postID: payload.postID, userImageID: payload.usrImageID, userFullName: payload.usrFullName, notUserID: payload.notUserID,
+                    menuItemType: 'POST' };
             }
             else {
                 mItem = { text: menuItemText, userImageID: payload.usrImageID, userFullName: payload.usrFullName, menuItemType: 'POST' };
             }
         }
-        var resetNotArray = localStorage.getItem('resetNotificationMenu');
-        if (resetNotArray === 'true') {
-            localStorage.setItem('resetNotificationMenu', 'false');
-            this.notificationMenuArray.length = 0;
-            this.noOfNotification = 0;
-            this.enableNotification = false;
-            console.log('noOfNotification ' + this.noOfNotification + ' notificationMenuArray ' + this.notificationMenuArray.length);
-        }
-        console.log('noOfNotification ' + this.noOfNotification + ' notificationMenuArray ' + this.notificationMenuArray.length);
         this.notificationMenuArray.push(mItem);
         this.enableNotification = true;
         this.noOfNotification++;
-        console.log('noOfNotification ' + this.noOfNotification + ' notificationMenuArray ' + this.notificationMenuArray.length);
     }
     onSearchMessageReceived(payload) {
-        var searchList;
-        searchList = payload;
-        this.autoCompleteList.length = 0;
-        searchList.forEach(t => { var abc = { name: t.userName, imageID: t.imageID }; this.autoCompleteList.push(abc); });
+        var searchList = [];
+        payload.forEach(t => { var abc = { name: t.userName, imageID: t.imageID }; searchList.push(abc); });
+        this.autoCompleteList = Object(rxjs__WEBPACK_IMPORTED_MODULE_4__["of"])(searchList);
     }
     onNotificationClicked() {
-        console.log('Notification Bell clicked');
         if (this.notificationMenuArray.length > 0 && this.enableNotification == false) {
             this.notificationMenu.openMenu();
         }
@@ -951,10 +961,11 @@ let NavbarComponent = class NavbarComponent {
     onLogoutClicked() {
         this.authService.logout();
         this.location.replaceState('/');
-        window.location.reload();
+        window.location.reload(); //Do a reload to erase everything and start with a fresh state
     }
     onNotificationItemSelected(menuItem) {
         if (typeof this.alreadyClicked.find(x => x === menuItem.userImageID) === 'undefined') {
+            console.log('New item clicked');
             this.alreadyClicked.push(menuItem.userImageID); //Put this notification menu item in seen list
             if (this.noOfNotification > 0)
                 this.noOfNotification--;
@@ -967,15 +978,11 @@ let NavbarComponent = class NavbarComponent {
                 this.router.navigate(['/friendrequest', menuItem.userImageID, menuItem.userFullName]);
             }
             else
-                this.router.navigate(['/singlepost', menuItem.postID]);
+                this.router.navigate(['/singlepost', menuItem.postID, menuItem.notUserID]);
         }
         else if (menuItem.menuItemType === 'FRIEND_REQUEST') {
-            console.log(menuItem);
-            this.router.navigate(['/friendrequest', menuItem.userImageID, menuItem.userFullName]);
+            this.router.navigate(['/friendrequestmanage', menuItem.userImageID, menuItem.userFullName]);
         }
-    }
-    onSearchChange(searchValue) {
-        this.wscommService.sendSearchMessage(searchValue);
     }
     onSearchItemSelected(event, srcItm) {
         var isSelfSelected = srcItm.imageID === localStorage.getItem('userImageID');
@@ -992,13 +999,13 @@ let NavbarComponent = class NavbarComponent {
 };
 NavbarComponent.ctorParameters = () => [
     { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] },
-    { type: src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_4__["AuthenticationService"] },
-    { type: src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_5__["CommunicationService"] },
-    { type: src_app_services_websocketmessaging_service__WEBPACK_IMPORTED_MODULE_7__["WebsocketmessagingService"] },
+    { type: src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_5__["AuthenticationService"] },
+    { type: src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_6__["CommunicationService"] },
+    { type: src_app_services_websocketmessaging_service__WEBPACK_IMPORTED_MODULE_8__["WebsocketmessagingService"] },
     { type: _angular_common__WEBPACK_IMPORTED_MODULE_2__["Location"] }
 ];
 tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
-    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])(_angular_material__WEBPACK_IMPORTED_MODULE_6__["MatMenuTrigger"], { static: false })
+    Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])(_angular_material__WEBPACK_IMPORTED_MODULE_7__["MatMenuTrigger"], { static: false })
 ], NavbarComponent.prototype, "notificationMenu", void 0);
 NavbarComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -1169,7 +1176,7 @@ NPostDirective = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".container-newsfeed-main\n{\n    margin-top: 50px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: start;\n            justify-content: flex-start;\n}\n\n.container-newsfeed-profile\n{\n    margin-top: 50px;\n    margin-left: 50px;\n}\n\n.post-user-name\n{\n    font-style: bold;\n    font-size: 50px;\n    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;\n    margin: 0 auto;\n    text-align: center;\n}\n\n.container-newsfeed\n{\n    margin-left: 10px;\n    margin-right: 0px;\n    width: 50%;\n}\n\n.container-nomoreposts\n{\n    margin-top: 100px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uZXdzZmVlZC9uZXdzZmVlZC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOztJQUVJLGdCQUFnQjtJQUNoQixvQkFBYTtJQUFiLGFBQWE7SUFDYix1QkFBMkI7WUFBM0IsMkJBQTJCO0FBQy9COztBQUVBOztJQUVJLGdCQUFnQjtJQUNoQixpQkFBaUI7QUFDckI7O0FBRUE7O0lBRUksZ0JBQWdCO0lBQ2hCLGVBQWU7SUFDZix3RUFBd0U7SUFDeEUsY0FBYztJQUNkLGtCQUFrQjtBQUN0Qjs7QUFFQTs7SUFFSSxpQkFBaUI7SUFDakIsaUJBQWlCO0lBQ2pCLFVBQVU7QUFDZDs7QUFFQTs7SUFFSSxpQkFBaUI7QUFDckIiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL25ld3NmZWVkL25ld3NmZWVkLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIuY29udGFpbmVyLW5ld3NmZWVkLW1haW5cbntcbiAgICBtYXJnaW4tdG9wOiA1MHB4O1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAganVzdGlmeS1jb250ZW50OiBmbGV4LXN0YXJ0O1xufVxuXG4uY29udGFpbmVyLW5ld3NmZWVkLXByb2ZpbGVcbntcbiAgICBtYXJnaW4tdG9wOiA1MHB4O1xuICAgIG1hcmdpbi1sZWZ0OiA1MHB4O1xufVxuXG4ucG9zdC11c2VyLW5hbWVcbntcbiAgICBmb250LXN0eWxlOiBib2xkO1xuICAgIGZvbnQtc2l6ZTogNTBweDtcbiAgICBmb250LWZhbWlseTogJ0ZyYW5rbGluIEdvdGhpYyBNZWRpdW0nLCAnQXJpYWwgTmFycm93JywgQXJpYWwsIHNhbnMtc2VyaWY7XG4gICAgbWFyZ2luOiAwIGF1dG87XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4uY29udGFpbmVyLW5ld3NmZWVkXG57XG4gICAgbWFyZ2luLWxlZnQ6IDEwcHg7XG4gICAgbWFyZ2luLXJpZ2h0OiAwcHg7XG4gICAgd2lkdGg6IDUwJTtcbn1cblxuLmNvbnRhaW5lci1ub21vcmVwb3N0c1xue1xuICAgIG1hcmdpbi10b3A6IDEwMHB4O1xufSJdfQ== */"
+module.exports = ".container-newsfeed-main\n{\n    margin-top: 50px;\n    display: -webkit-box;\n    display: flex;\n    -webkit-box-pack: start;\n            justify-content: flex-start;\n}\n\n.container-newsfeed-profile\n{\n    margin-top: 50px;\n    margin-left: 50px;\n}\n\n.user-name-list-element\n{\n    font-style: bold;\n    font-size: 30px;\n    text-align: center;\n}\n\n.container-newsfeed\n{\n    margin-left: 10px;\n    margin-right: 0px;\n    width: 50%;\n}\n\n.container-nomoreposts\n{\n    margin-top: 100px;\n    text-align: center; \n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9uZXdzZmVlZC9uZXdzZmVlZC5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBOztJQUVJLGdCQUFnQjtJQUNoQixvQkFBYTtJQUFiLGFBQWE7SUFDYix1QkFBMkI7WUFBM0IsMkJBQTJCO0FBQy9COztBQUVBOztJQUVJLGdCQUFnQjtJQUNoQixpQkFBaUI7QUFDckI7O0FBRUE7O0lBRUksZ0JBQWdCO0lBQ2hCLGVBQWU7SUFDZixrQkFBa0I7QUFDdEI7O0FBRUE7O0lBRUksaUJBQWlCO0lBQ2pCLGlCQUFpQjtJQUNqQixVQUFVO0FBQ2Q7O0FBRUE7O0lBRUksaUJBQWlCO0lBQ2pCLGtCQUFrQjtBQUN0QiIsImZpbGUiOiJzcmMvYXBwL2NvbXBvbmVudHMvbmV3c2ZlZWQvbmV3c2ZlZWQuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5jb250YWluZXItbmV3c2ZlZWQtbWFpblxue1xuICAgIG1hcmdpbi10b3A6IDUwcHg7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGZsZXgtc3RhcnQ7XG59XG5cbi5jb250YWluZXItbmV3c2ZlZWQtcHJvZmlsZVxue1xuICAgIG1hcmdpbi10b3A6IDUwcHg7XG4gICAgbWFyZ2luLWxlZnQ6IDUwcHg7XG59XG5cbi51c2VyLW5hbWUtbGlzdC1lbGVtZW50XG57XG4gICAgZm9udC1zdHlsZTogYm9sZDtcbiAgICBmb250LXNpemU6IDMwcHg7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xufVxuXG4uY29udGFpbmVyLW5ld3NmZWVkXG57XG4gICAgbWFyZ2luLWxlZnQ6IDEwcHg7XG4gICAgbWFyZ2luLXJpZ2h0OiAwcHg7XG4gICAgd2lkdGg6IDUwJTtcbn1cblxuLmNvbnRhaW5lci1ub21vcmVwb3N0c1xue1xuICAgIG1hcmdpbi10b3A6IDEwMHB4O1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjsgXG59Il19 */"
 
 /***/ }),
 
@@ -1344,7 +1351,7 @@ let SinglepostComponent = class SinglepostComponent {
     }
     ngOnInit() {
         this.singlePostviewContainerRef = this.npHost.viewContainerRef;
-        this.commService.getSinglePost(this.route.snapshot.paramMap.get('postID')).subscribe(res => {
+        this.commService.getSinglePost(this.route.snapshot.paramMap.get('postID'), this.route.snapshot.paramMap.get('notUserID')).subscribe(res => {
             const componentRef = this.singlePostviewContainerRef.createComponent(this.singlePostcomponentFactory);
             componentRef.instance.fullName = res['fullName'];
             componentRef.instance.text = res['text'];
@@ -1639,15 +1646,14 @@ let CommunicationService = class CommunicationService {
     }
     getFriendsWallPosts(friendImageID) {
         let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getfriendswall/' + friendImageID;
-        console.log(url);
         return this.http.get(url);
     }
     getWallPosts() {
         let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getwallposts/';
         return this.http.get(url);
     }
-    getSinglePost(postID) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getsinglepost/' + postID;
+    getSinglePost(postID, notUserID) {
+        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getsinglepost/?PostID=' + postID + '&NotUserID=' + notUserID;
         return this.http.get(url);
     }
     getNewsFeed() {
@@ -1703,7 +1709,7 @@ let CommunicationService = class CommunicationService {
         return this.http.get(url);
     }
     managefriendrequest(usrImageID, friendrequeststatus) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'sendfriendrequest/?userImageID=' + usrImageID + '&frndrqststs=' + friendrequeststatus;
+        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'managefriendrequest/?userImageID=' + usrImageID + '&frndrqststs=' + friendrequeststatus;
         console.log(url);
         return this.http.get(url);
     }
@@ -1711,8 +1717,8 @@ let CommunicationService = class CommunicationService {
         let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'logout/';
         return this.http.get(url);
     }
-    checksession() {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'checkSession';
+    checksession(token) {
+        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'checksession/?sessiontoken=' + token;
         return this.http.get(url);
     }
 };
@@ -1814,23 +1820,19 @@ let WebsocketmessagingService = class WebsocketmessagingService {
             });
         }, this.onError);
     }
-    disconnect() {
-        stompClient.unsubscribe(`/user/queue/messages`);
-        stompClient.disconnect(function () { console.log("DisConnected"); });
-    }
     onError(error) {
         console.log("Error Websocket" + error);
     }
     onMessageReceived(payload) {
-        if (payload.hasOwnProperty('onlineStatusMessage'))
-            this.onlineSubject.next(payload);
-        else if (payload.hasOwnProperty('content')) //Chat message
+        if (payload.hasOwnProperty('content')) //Chat message
             this.chatSubject.next(payload);
         else if (payload.hasOwnProperty('type')) {
             if (payload.type === 'FRIEND_REQUEST' || payload.type === 'COMMENT' || payload.type === 'LIKE' || payload.type === 'DISLIKE' || payload.type === 'NEWPOST')
                 this.notificationSubject.next(payload);
             else if (payload.type === 'FRIEND_LIST_UPDATE')
                 this.newFriendSubject.next(payload); //Add new friend to friends list
+            else if (payload.type === 'ONLINE_STATUS')
+                this.onlineSubject.next(payload);
         }
         else if (Array.isArray(payload)) //Search messages are returned as Array
          {

@@ -47,6 +47,9 @@ public class MainController
     private NotificationRepository notrepo;
 
     @Autowired
+    private NotifiedUserRepository notuserrepo;
+
+    @Autowired
     private FriendRequestRepository frndrepo;
 
     @Autowired
@@ -62,8 +65,8 @@ public class MainController
             return new ResponseEntity<>("", HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/getsinglepost/{PostID}")
-    public ResponseEntity<?> getSinglePost(Principal principal, @PathVariable String PostID)
+    @GetMapping("/getsinglepost")
+    public ResponseEntity<?> getSinglePost(Principal principal, @RequestParam String PostID, @RequestParam String NotUserID)
     {
         Post pret = pstrepo.getSinglePost(PostID);
         if (pret != null)
@@ -82,7 +85,7 @@ public class MainController
                 map.put("locklikesdislikes", "true");
             else
                 map.put("locklikesdislikes", "false");
-            Notification nt = notrepo.getNotificationFromEntityID(PostID);
+            notuserrepo.deleteNotifiedUser(NotUserID);//Delete the notified user entry which have been read
             return new ResponseEntity<>(map, HttpStatus.OK);
         }
         else
@@ -231,18 +234,20 @@ public class MainController
     @GetMapping("/managefriendrequest")
     public ResponseEntity<?> managefriendRequest(Principal principal, @RequestParam String userImageID, @RequestParam String frndrqststs)
     {
+        System.out.println("Friend request status " + frndrqststs);
         Map<String, Object> map = new HashMap<>();
         if (frndrqststs.equals("yes"))
         {
             String usrIDA = getUserIDFromPricipal(principal);
             String usrIDB = usrrep.getUserIDFromImageByID(userImageID);
             usrrep.addFriend(usrIDA, usrIDB);
-            map.put("status", "added");
+            map.put("status", "FRIEND_REQUEST_ACCEPTED");
+            frndrepo.deleteFriendRequest(usrIDA, usrIDB);
             notSrv.addFriend(usrIDA, usrIDB);
         }
         else
         {
-            map.put("status", "rejected");
+            map.put("status", "FRIEND_REQUEST_REJECTED");
         }
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
@@ -274,7 +279,7 @@ public class MainController
     @GetMapping("/getchathistory")
     public ResponseEntity<?> getChatHistory(Principal principal, @RequestParam String userImageID)
     {
-        List<Chat> chats = chatrepo.findChats(getUserIDFromPricipal(principal), usrrep.getUserIDFromImageByID(userImageID));
+        List<Chat> chats = chatrepo.findChats( usrrep.getImageByID(getUserIDFromPricipal(principal)), userImageID);
         Map<String, Object> map = new HashMap<>();
         map.put("status", "NO_CHAT_HISTORY");
 

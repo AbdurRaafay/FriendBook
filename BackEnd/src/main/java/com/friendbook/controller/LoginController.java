@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.friendbook.repository.mongorepo.UserRepository;
@@ -44,15 +44,24 @@ public class LoginController
         Map<String, Object> map = new HashMap<>();
         map.put("token", session.getId());
         map.put("userImageID", currentUser.getImageFileID());
-        map.put("currentUserName", currentUser.getFirstName() + " " + currentUser.getLastName());
+        map.put("currentUserName", usrrep.getFullNameByID(currentUser.getId()));
         fpreturn.add(map);
         return new ResponseEntity<>(fpreturn, HttpStatus.OK);
     }
 
-    @RequestMapping("/checkSession")
-    public ResponseEntity<String> checkSession(Principal principal)
+    @GetMapping("/checksession")
+    public ResponseEntity<?> checkSession(@RequestParam String sessiontoken)
     {
-        return new ResponseEntity<String>("SESSION_ACTIVE", HttpStatus.OK);
+        Map<String, Object> map = new HashMap<>();
+        if(ousrrep.doesSessionExist(sessiontoken))
+        {
+            map.put("status", "SESSION_ACTIVE");
+        }
+        else
+        {
+            map.put("status", "SESSION_NOT_ACTIVE");
+        }
+        return new ResponseEntity<>(map, HttpStatus.OK);
     }
 
     @GetMapping(value="/logout")
@@ -60,7 +69,7 @@ public class LoginController
     {
         Map<String, Object> map = new HashMap<>();
         User currentUser = usrrep.findByEmail(principal.getName());
-        ousrrep.logoutUser(currentUser.getId());
+        ousrrep.logoutUser(currentUser);
         SecurityContextHolder.clearContext();
         notService.deleteSentNotifications(principal.getName());
         System.out.println(principal.getName() + " logged out");

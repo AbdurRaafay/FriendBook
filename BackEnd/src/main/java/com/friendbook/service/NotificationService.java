@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PreDestroy;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,8 +42,6 @@ public class NotificationService
     private FriendRequestRepository frndrepo;
 
     private boolean shutdown = false;
-    private Set<String> friendsListUpdateToBeNotified = new HashSet<>();
-    private Set<String> friendsListUpdateSent = new HashSet<>();
     private Set<String> sentNotifications = new HashSet<>();
     private Set<String> sentFriendRequestNotifications = new HashSet<>();
 
@@ -74,7 +73,7 @@ public class NotificationService
         }
     }
 
-    //For every online user, send notifications, friend requests and updated friends list
+    //For every online user, send notifications and friend requests
     @Async
     public void sendNotification()
     {
@@ -121,6 +120,7 @@ public class NotificationService
                                     if(usrrep.isFriend(usrEmail, imgID))//Do not send postID to non friend
                                     {
                                         map.put("postID", nt.getEntityID());
+                                        map.put("notUserID", nu.getId());//Send notified userID so that it can be used later for deletion
                                     }
                                     System.out.println(map);
                                     System.out.println(usrEmail);
@@ -152,60 +152,62 @@ public class NotificationService
                                 }
                             }
                         }
-
-                        //Update friends list for newly accepted friend request
-                        Set<String> resultFiltered = friendsListUpdateToBeNotified.stream()
-                                .filter(line -> line.matches("$" + info[0] + ":"))
-                                .collect(Collectors.toSet());
-                        resultFiltered.forEach(t->
-                        {
-                            if(!friendsListUpdateSent.contains(t))//Dont send if already sent ;-)
-                            {
-                                Map<String, Object> map = new HashMap<String, Object>();
-                                String usrID = t.substring(t.indexOf(":"));
-                                map.put("userfullname", usrrep.getFullNameByID(usrID));
-                                map.put("imagePath", usrrep.getImageByID(usrID));
-                                map.put("onlinestatus", usrrep.getImageByID(usrID));
-                                map.put("type", "FRIEND_LIST_UPDATE");
-                                System.out.println("Friend list update " + map);
-                                messagingTemplate.convertAndSendToUser(usrEmail, "/queue/messages", map);
-                                friendsListUpdateSent.add(t);
-                            }
-                        });
                     }
                 }
             }
         }
     }
 
-    public void addFriend(String usrIDA, String usrIDB)
+    //Send friend list update message to user(email) about usrIDA
+    private void sendFriendListUpdateMessage(String usrIDA, String email, String onlineStatus)
     {
-        friendsListUpdateToBeNotified.add(usrIDA + ":" + usrIDB);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("userfullname", usrrep.getFullNameByID(usrIDA));
+        map.put("imagePath", usrrep.getImageByID(usrIDA));
+        map.put("onlinestatus",onlineStatus);
+        map.put("type", "FRIEND_LIST_UPDATE");
+        System.out.println("Friend list update " + map);
+        messagingTemplate.convertAndSendToUser(email, "/queue/messages", map);
+    }
+
+    public void addFriend(String usrIDA, String usrIDB)//usrIDA has accepted friend request of usrIDB
+    {
+        String onlineStatusUsrIDA = ousrrep.isUserOnline(usrIDA);
+        String onlineStatusUsrIDB = ousrrep.isUserOnline(usrIDB);
+
+        if(!onlineStatusUsrIDB.equals("offline"))//If usrIDB is online
+            sendFriendListUpdateMessage(usrIDA, usrrep.getEmailFromID(usrIDB), onlineStatusUsrIDA);
+        if(!onlineStatusUsrIDA.equals("offline"))//If usrIDA is online
+            sendFriendListUpdateMessage(usrIDB, usrrep.getEmailFromID(usrIDA), onlineStatusUsrIDB);
     }
 
     //We need to delete all entries beginning with usrID so that next time usrID logs in we can send the notifications again
     public void deleteSentNotifications(String usrEmail)
     {
         System.out.println("Deletions " + usrEmail);
-        Set<String> resultFiltered = sentFriendRequestNotifications.stream().filter(line -> line.matches(usrEmail))
+        Set<String> resultFiltered = sentNotifications.stream().filter(line -> line.contains(usrEmail))
                 .collect(Collectors.toSet());
+        System.out.println(resultFiltered);
+        if(!resultFiltered.isEmpty())
+        {
+            sentNotifications.removeAll(resultFiltered);
+        }
+        System.out.println(sentNotifications);
+
+        resultFiltered = sentFriendRequestNotifications.stream().filter(line -> line.contains(usrEmail))
+                .collect(Collectors.toSet());
+
         if(!resultFiltered.isEmpty())
         {
             resultFiltered.forEach(t->System.out.println(t));
             sentFriendRequestNotifications.removeAll(resultFiltered);
-        }
-        resultFiltered = sentNotifications.stream().filter(line -> line.matches(usrEmail))
-                .collect(Collectors.toSet());
-        if(!resultFiltered.isEmpty())
-        {
-            resultFiltered.forEach(t->System.out.println(t));
-            sentNotifications.removeAll(resultFiltered);
         }
     }
 
     @PreDestroy
     private void beandestroy()
     {
+        System.out.println("Destroyed");
         shutdown = true;
     }
 }

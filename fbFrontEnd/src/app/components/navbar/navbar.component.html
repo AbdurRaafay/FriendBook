@@ -2,11 +2,11 @@
     <div class="nav-item-title">
         FriendBook
     </div>
-    <form class="nav-bar-search">
+    <form class="nav-bar-search" fxFlex = "60%">
         <mat-form-field class="search-text-input">
             <input matInput placeholder="Search" aria-label="Number" [formControl]="searchFormControl" [matAutocomplete]="auto">
             <mat-autocomplete class="search-autocomplete" #auto="matAutocomplete">
-            <mat-option (onSelectionChange)="onSearchItemSelected($event, option)" *ngFor="let option of autoCompleteList" [value]="option.name">
+            <mat-option (onSelectionChange)="onSearchItemSelected($event, option)" *ngFor="let option of autoCompleteList | async" [value]="option.name">
                 <div class = "search-result-item">
                     <img class = "search-user-pic" src="/images/{{option.imageID}}.jpg" width="30" height="30"> &nbsp; &nbsp;
                     <span class = "search-user-name">{{option.name}}</span>

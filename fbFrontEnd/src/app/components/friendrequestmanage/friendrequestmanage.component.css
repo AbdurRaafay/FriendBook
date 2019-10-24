@@ -1,4 +1,4 @@
-.friend-request-manage .accept-friend-request-message .reject-friend-request-message
+.friend-request-management
 {
     margin-top: 200px;
     display: flex;
@@ -7,15 +7,31 @@
     justify-content: center;
 }
 
+.user-pic
+{
+	margin-bottom: 20px;
+}
+
 .user-name-list-element
 {
     font-style: bold;
     font-size: 30px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-align: center;
 }
 
-.accept-friend-request-button .reject-friend-request-button
+.friend-request-status
 {
-    margin-top: 20px;  
+    font-style: bold;
+    font-size: 30px;
+    text-align: center;
+}
+
+.accept-friend-request-button
+{
+    margin-top: 20px;
+}
+
+.reject-friend-request-button
+{
+    margin-top: 20px;
 }
