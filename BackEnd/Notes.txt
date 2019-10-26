@@ -16,16 +16,16 @@ https://medium.com/@ievgen.degtiarenko/reduce-size-of-docker-image-with-spring-b
 https://spring.io/guides/gs/spring-boot-docker/
 
 *************************Testing
+https://memorynotfound.com/unit-test-spring-mvc-rest-service-junit-mockito/
+https://medium.com/@MelvinBlokhuijzen/spring-websocket-endpoints-integration-testing-180357b4f24c
 https://www.blazemeter.com/blog/spring-boot-rest-api-unit-testing-with-junit/
 https://reflectoring.io/spring-boot-web-controller-test/
 https://reflectoring.io/spring-boot-mock/
-https://stackoverflow.com/questions/15203485/spring-test-security-how-to-mock-authentication
 https://www.javacodegeeks.com/2017/05/mocking-spring-security-context-unit-testing.html
-https://github.com/rest-assured/rest-assured/wiki/Usage#spring-mock-mvc-module
-
 
 Login
-https://code-maze.com/angular-material-form-validation/
+https://itnext.io/materror-cross-field-validators-in-angular-material-7-97053b2ed0cf
+https://angular-templates.io/tutorials/about/angular-forms-and-validations
 https://stackblitz.com/edit/angular-material-login-form
 https://jasonwatmore.com/post/2018/05/10/angular-6-reactive-forms-validation-example
 https://grokonez.com/java-integration/angular-6-upload-get-multipartfile-spring-boot-example

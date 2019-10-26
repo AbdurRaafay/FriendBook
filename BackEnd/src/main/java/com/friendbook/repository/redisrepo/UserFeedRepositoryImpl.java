@@ -29,6 +29,8 @@ public class UserFeedRepositoryImpl implements UserFeedRepository
     @Autowired
     private PostRepository fprep;
 
+    //Convert posts to json with additional locklikesdislikes field
+    //locklikesdislikes ensures a user likes or dislikes a post only once
     private List<String> getPostJson(String usrID, List<Post> pstlst)
     {
         List<String> tmpret = new ArrayList<String>();
@@ -46,7 +48,7 @@ public class UserFeedRepositoryImpl implements UserFeedRepository
 
                 String tmpappend = tmp.substring(0,tmp.length()-1) + ",\"fullName\":\"" +
                         userRepository.getFullNameByID(pst.getAuthorID()) + "\",\"imgPath\":\"" +
-                        userRepository.getImageByID(pst.getAuthorID()) + "\"}";
+                        userRepository.getImageByID(pst.getAuthorID()) + lockStatus;
                 tmpret.add(tmpappend);
             }
             else
@@ -133,13 +135,16 @@ public class UserFeedRepositoryImpl implements UserFeedRepository
         List<String> tmpret = new ArrayList<String>();
         int pagesize = 10;
         String tmp = (String) strRedisTemplate.opsForHash().get(KEY, usrID + "_WALLCOUNTER");
-        if(tmp == null)
+        if(tmp == null)//Check if data is in redis
         {
+            System.out.println("No redis counter found for user wall");
             List<Post> fp = fprep.findByOwnerID(usrID, 100);
             if(fp != null)
             {
+                System.out.println("Inserting data into redis");
+
                 System.out.println("From database size fp " + fp.size());
-                if(fp.size() <= pagesize)
+                if(fp.size() <= pagesize)//User has less than pagesize posts
                 {
                     tmpret = getPostJson(usrID, fp);
                     //These are just dummy values so that getuserData returns null next time
