@@ -38,6 +38,8 @@ public class LoginController
     public ResponseEntity<?> token(HttpSession session, HttpServletRequest request)
     {
         List<Map<String,Object>> fpreturn = new ArrayList<Map<String,Object>>();
+        final String authorization = request.getHeader("Authorization");
+        System.out.println("Auth  " + authorization);
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         User currentUser = usrrep.findByEmail(name);
         ousrrep.putUser(currentUser);

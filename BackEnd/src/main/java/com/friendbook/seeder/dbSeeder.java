@@ -26,8 +26,6 @@ import com.friendbook.utility.SecurityUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import com.mongodb.MongoClient;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -64,6 +62,7 @@ public class dbSeeder implements CommandLineRunner
             "Karl Marx","Micheal Jackson","Celine Dion","Anna Kornikova","James Bond","Diago Maradonna",
             "Isaac Newton","Steve Wozniak","Ken Thomson","Alan Turing"};
 
+    @Autowired
     private MongoOperations mongoOps;
 
     @Autowired
@@ -81,8 +80,6 @@ public class dbSeeder implements CommandLineRunner
     @Override
     public void run(String...strings)
     {
-        this.mongoOps = new MongoTemplate(new MongoClient("localhost", 27017), "FriendBookDB");
-
         if(initMongoDB)
             InitializeMongoDB();
         InitializeRedisCache();
@@ -128,16 +125,18 @@ public class dbSeeder implements CommandLineRunner
 
     private void InitializeRedisCache()
     {
-        for (int i = 0; i < MaxUsers; i++)
+        List<User> usrList = mongoOps.findAll(User.class);
+        if(usrList != null && usrList.size() > 0)
         {
-            String Name[] = usrnames[i].split(" ");
-            User currentUser = usrrep.findByEmail(Name[0] + Name[1] + "@foo.com");
-            if(!currentUser.getUserFriends().isEmpty())
+            for(User usr:usrList)
             {
-                List<Post> fp = fprep.getPostsOfFriends(currentUser.getUserFriends());
-                if(!fp.isEmpty())
+                if(!usr.getUserFriends().isEmpty())
                 {
-                    usrfdrep.saveUserData(currentUser.getId(), fp, "_NEWSFEEDCOUNTER", "_NEWSFEEDDATA");
+                    List<Post> fp = fprep.getPostsOfFriends(usr.getUserFriends());
+                    if(!fp.isEmpty())
+                    {
+                        usrfdrep.saveUserData(usr.getId(), fp, "_NEWSFEEDCOUNTER", "_NEWSFEEDDATA");
+                    }
                 }
             }
         }
@@ -155,7 +154,7 @@ public class dbSeeder implements CommandLineRunner
         {
             Name = usrnames[i].split(" ");
             UUID uuid2 = Generators.randomBasedGenerator().generate();
-            users.add(new User(Name[0], Name[1], Name[0] + Name[1] + "@foo.com", "654654654", SecurityUtility.passwordEncoder().encode("hajmola"),
+            users.add(new User(Name[0], Name[1], Name[0] + Name[1] + "@foo.com", "654654654", SecurityUtility.passwordEncoder().encode("t1ng@m1ng@dIngd0ng"),
                     true, GenerateRandomDate(),
                     Gender[ThreadLocalRandom.current().nextInt(0, 2)], UserFriendsID, uuid2.toString()));
             names.add(uuid2.toString());//Generate image file IDs

@@ -15,13 +15,8 @@ import java.util.Set;
 @Repository
 public class UserRepositoryImpl implements UserRepository
 {
-    private final MongoTemplate mongoTemplate;
-
     @Autowired
-    public UserRepositoryImpl(MongoTemplate mongoTemplate)
-    {
-        this.mongoTemplate = mongoTemplate;
-    }
+    private MongoTemplate mongoTemplate;
 
     @Override
     public User findByEmail(String email)

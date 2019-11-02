@@ -12,13 +12,8 @@ import java.util.List;
 @Repository
 public class FriendRequestRepositoryImpl implements FriendRequestRepository
 {
-    private final MongoTemplate mongoTemplate;
-
     @Autowired
-    public FriendRequestRepositoryImpl(MongoTemplate mongoTemplate)
-    {
-        this.mongoTemplate = mongoTemplate;
-    }
+    private MongoTemplate mongoTemplate;
 
     @Override
     public void insertFriendRequest(FriendRequest freq)

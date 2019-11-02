@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.friendbook.model.Post;
+import com.friendbook.model.PostFrontEnd;
 import com.friendbook.repository.mongorepo.UserRepository;
 import com.friendbook.utility.RedisUtility;
 
@@ -36,23 +37,16 @@ public class UserFeedRepositoryImpl implements UserFeedRepository
         List<String> tmpret = new ArrayList<String>();
         for(Post pst : pstlst)
         {
-            String tmp = RedisUtility.createJsonFromPosts(pst);
-            if(tmp != null)
-            {
-                String lockStatus;
-
-                if(pst.hasUserLikedPost(pst.getAuthorID()) || pst.hasUserDislikedPost(pst.getAuthorID()))
-                    lockStatus = ",\"locklikesdislikes\":\"true\"}";
-                else
-                    lockStatus = ",\"locklikesdislikes\":\"false\"}";
-
-                String tmpappend = tmp.substring(0,tmp.length()-1) + ",\"fullName\":\"" +
-                        userRepository.getFullNameByID(pst.getAuthorID()) + "\",\"imgPath\":\"" +
-                        userRepository.getImageByID(pst.getAuthorID()) + lockStatus;
-                tmpret.add(tmpappend);
-            }
+            boolean lockStatus;
+            if(pst.hasUserLikedPost(pst.getAuthorID()) || pst.hasUserDislikedPost(pst.getAuthorID()))
+                lockStatus = true;
             else
-                return null;
+                lockStatus = false;
+            PostFrontEnd pf = new PostFrontEnd(pst.getId(), pst.getPosttime(), pst.getPosttext(), pst.getLikes(),
+                    pst.getDislikes(), pst.getNumComments(), lockStatus, userRepository.getFullNameByID(pst.getAuthorID()),
+                    userRepository.getImageByID(pst.getAuthorID()));
+            String tmp = RedisUtility.createJsonFromPosts(pf);
+            tmpret.add(tmp);
         }
         return tmpret;
     }

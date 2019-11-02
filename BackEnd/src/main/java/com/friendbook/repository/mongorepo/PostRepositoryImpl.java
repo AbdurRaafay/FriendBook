@@ -17,13 +17,8 @@ import java.util.Set;
 @Repository
 public class PostRepositoryImpl implements PostRepository
 {
-    private final MongoTemplate mongoTemplate;
-
     @Autowired
-    public PostRepositoryImpl(MongoTemplate mongoTemplate)
-    {
-        this.mongoTemplate = mongoTemplate;
-    }
+    private MongoTemplate mongoTemplate;
 
     @Override
     public String insertPost(Post pst)

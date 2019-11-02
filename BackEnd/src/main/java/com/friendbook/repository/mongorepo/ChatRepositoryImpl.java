@@ -15,13 +15,8 @@ import java.util.List;
 @Repository
 public class ChatRepositoryImpl implements ChatRepository
 {
-    private final MongoTemplate mongoTemplate;
-
     @Autowired
-    public ChatRepositoryImpl(MongoTemplate mongoTemplate)
-    {
-        this.mongoTemplate = mongoTemplate;
-    }
+    private MongoTemplate mongoTemplate;
 
     @Override
     public List<Chat> findChats(String fromUserID, String toUserID)//fromUserID and toUserID are imageIDs

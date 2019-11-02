@@ -6,7 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.friendbook.model.Post;
+import com.friendbook.model.PostFrontEnd;
 
 import java.io.IOException;
 import java.util.Map;
@@ -53,7 +53,7 @@ public final class RedisUtility
         return null;
     }
 
-    public static String createJsonFromPosts(Post pst)
+    public static String createJsonFromPosts(PostFrontEnd pst)
     {
         try
         {

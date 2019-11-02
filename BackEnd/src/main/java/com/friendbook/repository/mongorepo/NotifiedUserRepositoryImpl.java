@@ -12,13 +12,8 @@ import java.util.List;
 @Repository
 public class NotifiedUserRepositoryImpl implements NotifiedUserRepository
 {
-    private final MongoTemplate mongoTemplate;
-
     @Autowired
-    public NotifiedUserRepositoryImpl(MongoTemplate mongoTemplate)
-    {
-        this.mongoTemplate = mongoTemplate;
-    }
+    private MongoTemplate mongoTemplate;
 
     @Override
     public void insertNotifiedUser(List<NotifiedUser> nu)

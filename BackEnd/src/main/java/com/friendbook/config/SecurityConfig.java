@@ -1,5 +1,6 @@
 package com.friendbook.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -39,6 +40,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                     "/assets/images/*.jpg",
             };
 
+    @Autowired
+    private CustomBasicAuthenticationEntryPoint authenticationEntryPoint;
+
+
     private BCryptPasswordEncoder passwordEncoder()
     {
         return SecurityUtility.passwordEncoder();
@@ -73,7 +78,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-        http.httpBasic().and().authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated();
+        http.httpBasic().authenticationEntryPoint(authenticationEntryPoint)
+                .and().authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated();
+
         http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(true).sessionRegistry(sessionRegistry());
     }
 

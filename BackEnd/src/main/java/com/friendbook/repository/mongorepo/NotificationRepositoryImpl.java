@@ -14,13 +14,8 @@ import java.util.List;
 @Repository
 public class NotificationRepositoryImpl implements NotificationRepository
 {
-    private final MongoTemplate mongoTemplate;
-
     @Autowired
-    public NotificationRepositoryImpl(MongoTemplate mongoTemplate)
-    {
-        this.mongoTemplate = mongoTemplate;
-    }
+    private MongoTemplate mongoTemplate;
 
     @Override
     public void insertNotification(Notification ntf)
