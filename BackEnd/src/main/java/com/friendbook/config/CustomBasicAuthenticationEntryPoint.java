@@ -11,6 +11,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
+//We need this so that the browser DOES NOT display the enter password dialog box, instead the 401 response is returned as
+//json
 @Component
 public class CustomBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoint
 {

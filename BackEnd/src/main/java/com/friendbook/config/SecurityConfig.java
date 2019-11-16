@@ -28,6 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             {
                     "/",
                     "/checksession/**",
+                    "/register/**",
+                    "/checkemailavailability/**",
                     "/actuator/**",
                     "/index",
                     "/index.html",
@@ -42,7 +44,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
     @Autowired
     private CustomBasicAuthenticationEntryPoint authenticationEntryPoint;
-
 
     private BCryptPasswordEncoder passwordEncoder()
     {
@@ -81,11 +82,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         http.httpBasic().authenticationEntryPoint(authenticationEntryPoint)
                 .and().authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated();
 
+        //Prevent multiple logins with same userID password combination
         http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(true).sessionRegistry(sessionRegistry());
     }
 
     @Bean
-    public SessionRegistry sessionRegistry()
+    public SessionRegistry sessionRegistry()//SessionRegistry is used for obtaining list of sessions including expired sessions
     {
         SessionRegistry sessionRegistry = new SessionRegistryImpl();
         return sessionRegistry;

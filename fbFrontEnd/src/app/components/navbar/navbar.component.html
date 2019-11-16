@@ -20,8 +20,8 @@
     <i class="nav-bar-notification" (click)="onNotificationClicked()"><img src="/icons/notification.svg" width="50" height="50"></i>
     <mat-menu #notificationMenu="matMenu" yPosition="above">
         <ng-container *ngFor="let item of notificationMenuArray">
-            <button *ngIf=!item.templateName mat-menu-item (click)="onNotificationItemSelected(item)">{{ item.text }}</button>
-        </ng-container>            
+            <button *ngIf=!item.templateName mat-menu-item (click)="onNotificationItemSelected(item)">{{item.text}}</button>
+        </ng-container>
     </mat-menu>
     <div class="nav-bar-newsfeed">
         <i (click)="onNewsFeedClicked()"><img src="/icons/home.svg" width="50" height="50"></i>

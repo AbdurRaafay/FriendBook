@@ -193,6 +193,17 @@ public class User
         this.imageFileID = imageFileID;
     }
 
+    public User(String firstName, String lastName, String email, String phone, String password, Date birthDate, String gender)
+    {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.birthDate = birthDate;
+        this.gender = gender;
+    }
+
     @Override
     public String toString()
     {

@@ -5,6 +5,7 @@ import java.util.Set;
 
 public interface UserRepository
 {
+    boolean doesEmailExist(String email);
     User findByEmail(String email);
     String getFullNameByID(String userID);
     String getImageByID(String userID);

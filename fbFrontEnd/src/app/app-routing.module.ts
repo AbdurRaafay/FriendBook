@@ -8,6 +8,7 @@ import { SinglepostComponent } from './components/singlepost/singlepost.componen
 import { FriendrequestComponent } from './components/friendrequest/friendrequest.component';
 import { FriendswallComponent } from './components/friendswall/friendswall.component';
 import { FriendrequestmanageComponent } from './components/friendrequestmanage/friendrequestmanage.component';
+import { RegisterComponent } from './components/register/register.component';
 
 const routes: Routes = 
 [
@@ -18,7 +19,7 @@ const routes: Routes =
   { path: 'friendrequest/:friendImageID/:userFullName', component: FriendrequestComponent },
   { path: 'friendrequestmanage/:friendImageID/:userFullName', component: FriendrequestmanageComponent },
   { path: 'friendswall/:friendImageID', component: FriendswallComponent },
-
+  { path: 'register', component: RegisterComponent }
 ];
 
 @NgModule({

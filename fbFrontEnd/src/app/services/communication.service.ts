@@ -103,7 +103,7 @@ export class CommunicationService
     return this.http.get(url);
   }
 
-  managefriendrequest(usrImageID: string, friendrequeststatus: string): Observable<any>
+  manageFriendRequest(usrImageID: string, friendrequeststatus: string): Observable<any>
   {
     let url = AppConst.serverPath + 'managefriendrequest/?userImageID=' + usrImageID + '&frndrqststs=' + friendrequeststatus;
     console.log(url);
@@ -116,9 +116,17 @@ export class CommunicationService
     return this.http.get(url);    
   }
 
-  checksession(token: string): Observable<any>
+  checkSession(token: string): Observable<any>
   {
     let url = AppConst.serverPath + 'checksession/?sessiontoken=' + token;
     return this.http.get(url);    
   }
+
+  checkEmailAvailability(emailID: string): Observable<any>
+  {
+    let url = AppConst.serverPath + 'checkemailavailability/?emailID=' + emailID;
+    return this.http.get(url);    
+  }
+
+
 }

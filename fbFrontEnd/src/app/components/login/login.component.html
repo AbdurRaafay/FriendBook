@@ -1,24 +1,34 @@
-<div class="login">
-    <ul style="list-style-type:none">
-        <li><button (click)="onClickMe('JamesCameron')">James Cameron</button></li>
-        <li><button (click)="onClickMe('BrittanySpears')">Brittany Spears</button></li>
-        <li><button (click)="onClickMe('AngelinaJolie')">Angelina Jolie</button></li>
-        <li><button (click)="onClickMe('MickyMouse')">Micky Mouse</button></li>
-        <li><button (click)="onClickMe('JustinBieber')">Justin Bieber</button></li>
-        <li><button (click)="onClickMe('ErwinSchrodinger')">Erwin Schrodinger</button></li>
-        <li><button (click)="onClickMe('MarkTwain')">Mark Twain</button></li>
-        <li><button (click)="onClickMe('ThomasMann')">Thomas Mann</button></li>
-        <li><button (click)="onClickMe('FranzKafka')">Franz Kafka</button></li>
-        <li><button (click)="onClickMe('ElvisPresley')">Elvis Presley</button></li>
-        <li><button (click)="onClickMe('KarlMarx')">Karl Marx</button></li>
-        <li><button (click)="onClickMe('MichealJackson')">Micheal Jackson</button></li>
-        <li><button (click)="onClickMe('CelineDion')">Celine Dion</button></li>
-        <li><button (click)="onClickMe('AnnaKornikova')">Anna Kornikova</button></li>
-        <li><button (click)="onClickMe('JamesBond')">James Bond</button></li>
-        <li><button (click)="onClickMe('DiagoMaradonna')">Diago Maradonna</button></li>
-        <li><button (click)="onClickMe('IsaacNewton')">Isaac Newton</button></li>
-        <li><button (click)="onClickMe('SteveWozniak')">Steve Wozniak</button></li>
-        <li><button (click)="onClickMe('KenThomson')">Ken Thomson</button></li>
-        <li><button (click)="onClickMe('AlanTuring')">Alan Turing</button></li>
-      </ul>
+<div class = "login-form">
+  <mat-card>
+    <mat-card-title class = "login-form-title">FriendBook</mat-card-title>
+    <mat-card-content  class = "login-form-content">
+      <form [formGroup]="loginForm" (ngSubmit)="onFormSubmit(loginForm.value)">
+        <p>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Username" formControlName="username">
+            <mat-error *ngFor="let validation of validation_messages.username">
+              <mat-error class="error-message" *ngIf="loginForm.get('username').hasError(validation.type) && (loginForm.get('username').dirty 
+              || loginForm.get('username').touched)">{{validation.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+        </p>      
+        <p>
+          <mat-form-field>
+            <input type="password" matInput placeholder="Password" formControlName="password">
+            <mat-error *ngFor="let validation of validation_messages.password">
+              <mat-error class="error-message" *ngIf="loginForm.get('password').hasError(validation.type) && (loginForm.get('password').dirty 
+              || loginForm.get('password').touched)">{{validation.message}}</mat-error>
+            </mat-error>
+          </mat-form-field>
+        </p>      
+        <mat-error class="error-message" *ngIf="loginFailure">Invalid Login</mat-error>
+        <div class = "button-login">
+          <button type="submit" mat-button>Login</button>
+        </div>
+        <div class = "button-register">
+          <button (click)="onRegister()" mat-button>Register</button>
+        </div>  
+      </form>
+    </mat-card-content>
+  </mat-card>  
 </div>

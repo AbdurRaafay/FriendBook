@@ -130,6 +130,19 @@ public class UserRepositoryImpl implements UserRepository
         mongoTemplate.updateFirst(queryB, new Update().addToSet("userFriends", userIDA), User.class);
     }
 
+    @Override
+    public boolean doesEmailExist(String email)
+    {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("email").is(email));
+        User usr = mongoTemplate.findOne(query, User.class);
+
+        if(usr == null)
+            return false;
+        else
+            return true;
+    }
+
     private User getUserFromUserID(String usrID)
     {
         User usr = null;

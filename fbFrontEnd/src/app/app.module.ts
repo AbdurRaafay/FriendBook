@@ -3,10 +3,8 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatInputModule, MatAutocompleteModule, MatFormFieldModule, MatMenuModule } from '@angular/material';
-import { MatToolbarModule } from '@angular/material';
-import { MatListModule } from '@angular/material/list'; 
-import { MatSidenavModule } from '@angular/material/sidenav'; 
+import { MatInputModule, MatAutocompleteModule, MatFormFieldModule, MatMenuModule, MatCardModule, MatButtonModule, 
+  MatNativeDateModule, MatSelectModule, MatToolbarModule, MatListModule, MatSidenavModule, MatDatepickerModule } from '@angular/material';
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { NgChatModule } from 'ng-chat';
 
@@ -55,11 +53,16 @@ import { RegisterComponent } from './components/register/register.component';
     MatToolbarModule,
     MatMenuModule,
     MatListModule,
+    MatCardModule, 
+    MatButtonModule,
     MatSidenavModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     FlexLayoutModule
   ],
-  providers: [],
-  bootstrap: [AppComponent],
+  providers: [ MatDatepickerModule ],
+  bootstrap: [ AppComponent ],
   entryComponents: [ NewpostComponent ]
 })
 export class AppModule { }

@@ -28,7 +28,7 @@ export class FriendrequestmanageComponent implements OnInit
 
   onManageFriendRequestClick(status: string)
   {
-    this.commService.managefriendrequest(this.profileImageID, status).subscribe(res=>
+    this.commService.manageFriendRequest(this.profileImageID, status).subscribe(res=>
       {        
         console.log(res);
         if(res['status'] === 'FRIEND_REQUEST_ACCEPTED')
