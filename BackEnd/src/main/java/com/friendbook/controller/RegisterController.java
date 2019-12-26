@@ -31,11 +31,11 @@ public class RegisterController
     }
 
     @PostMapping(value = "/registernewuser", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> registerNewUser(@RequestPart String userData, @RequestPart MultipartFile imageFile)
+    public void registerNewUser(@RequestParam("userData") String userData, @RequestParam("imageFile") MultipartFile imageFile)
     {
-        Map<String, Object> map = new HashMap<String, Object>();
-            map.put("status", "AVAILABLE");
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        System.out.println("User Data " + userData);
+        System.out.println("Image File " + imageFile);
+
     }
 
 }

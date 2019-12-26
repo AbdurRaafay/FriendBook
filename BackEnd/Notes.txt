@@ -2,7 +2,6 @@ MongoDB service start
 sudo service mongod start
 
 cat /dev/null > ~/.bash_history && history -c && exit
-redis-server --loadmodule ./redisearch.so&
 
 https://medium.com/@uditgogoi1/search-bar-with-autocomplete-using-angular-5-and-angular-material-c5a77a429da7
 https://stackblitz.com/edit/angular-material-google-search?file=app%2Fapp.component.ts
@@ -27,14 +26,26 @@ https://reflectoring.io/spring-boot-web-controller-test/
 https://reflectoring.io/spring-boot-mock/
 https://www.javacodegeeks.com/2017/05/mocking-spring-security-context-unit-testing.html
 
-*************************Login
-https://loiane.com/2017/08/angular-reactive-forms-trigger-validation-on-submit/
-https://github.com/AngularTemplates/angular-forms-and-validations/blob/master/src/app/forms/forms.component.ts
-https://itnext.io/materror-cross-field-validators-in-angular-material-7-97053b2ed0cf
-https://angular-templates.io/tutorials/about/angular-forms-and-validations
-https://stackblitz.com/edit/angular-material-login-form
-https://jasonwatmore.com/post/2018/05/10/angular-6-reactive-forms-validation-example
-https://grokonez.com/java-integration/angular-6-upload-get-multipartfile-spring-boot-example
+*************************Angular Responsive Design
+https://www.youtube.com/watch?v=6pidsgeLLzE
+https://github.com/angular/flex-layout/wiki/Responsive-API
+https://www.smashingmagazine.com/2018/10/news-application-with-angular-and-material-design/
+https://medium.com/@nima_ap/creating-a-responsive-dashboard-in-angular-5-from-scratch-147f6a493d9e
+https://stackoverflow.com/questions/41923289/how-to-make-angular-flex-layout-wrap-based-on-screensize
+https://slides.com/thomasburleson/flex-layout#/8/5
+https://www.infragistics.com/products/ignite-ui-angular/angular/components/general/wpf_to_angular_guide/layout.html
+https://alligator.io/angular/flex-layout/
+https://www.positronx.io/angular-css3-flexbox-holy-grail-layout/
+http://blog.sodhanalibrary.com/2015/08/responsive-web-design-using-angularjs.html
+https://stackoverflow.com/questions/50760480/angular-flex-layout-responsive-layout-combining-row-and-column
+https://brianflove.com/2017/05/03/responsive-angular/
+https://stackoverflow.com/questions/41923289/how-to-make-angular-flex-layout-wrap-based-on-screensize
+https://www.youtube.com/watch?v=geqjUtKJX5s
+https://www.youtube.com/watch?v=BhHJexXUx1A
+https://www.youtube.com/watch?v=Q6qhzG7mObU
+https://www.youtube.com/watch?v=ZYV6dYtz4HA
+https://www.youtube.com/watch?v=k32voqQhODc
+https://stackoverflow.com/questions/57919656/responsive-grid-with-angular-flex-layout-angular-material-and-mat-card-with-i
 
 *************************Elasticsearch
 https://www.elastic.co/blog/a-practical-introduction-to-elasticsearch
@@ -46,3 +57,44 @@ https://towardsdatascience.com/a-hitchhikers-guide-to-spring-boot-elasticsearch-
 https://www.tutorialspoint.com/spring_boot/spring_boot_tomcat_deployment.htm
 
 curl -X POST localhost:port/actuator/shutdown
+
+*************************Ecommerce Java Microservice
+https://github.com/ewolff/microservice-kafka
+https://epsagon.com/blog/distribute-messages-between-java-microservices-using-kafka/
+https://github.com/shopizer-ecommerce/shopizer
+https://github.com/sqshq/piggymetrics
+https://github.com/bagisto/bagisto
+https://github.com/antkaynak/Keyist-Ecommerce
+https://github.com/idugalic/micro-ecommerce
+https://github.com/AravindSh/E-Commerce-POC
+https://github.com/yugabyte/yugastore-java
+https://github.com/sriharshaganti/ecommerce-microservices
+https://github.com/xebialabs/e-commerce-microservice
+https://github.com/venkataravuri/e-commerce-microservices-sample
+https://github.com/striderarun/ecommerce-microservices
+https://github.com/developma/spring-microservice-for-e-commerce
+https://github.com/shopizer-ecommerce/shopizer
+https://www.baeldung.com/spring-angular-ecommerce
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

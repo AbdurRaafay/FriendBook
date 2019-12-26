@@ -87,7 +87,7 @@
             <mat-error class="error-message" *ngIf="selectFileTouched && !hasValidImageFile">Wrong Image Size</mat-error>          
           </p>
           <mat-error class="error-message" *ngIf="registerFailure">Registration Failure</mat-error>
-          <button class = "button-register" type="submit" [disabled]="!registerForm.valid && !hasValidImageFile" mat-raised-button color="primary">Register</button>              
+          <button class = "button-register" type="submit" [disabled]="!registerForm.valid || !hasValidImageFile" mat-raised-button color="primary">Register</button>              
         </form>
       </mat-card-content>
     </mat-card>  

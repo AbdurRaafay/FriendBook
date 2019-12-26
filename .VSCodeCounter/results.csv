@@ -1,69 +1,47 @@
-filename, language, JSON, JavaScript, Properties, Markdown, SCSS, TypeScript, CSS, HTML, comment, blank, total
-.editorconfig, Properties, 0, 0, 10, 0, 0, 0, 0, 0, 1, 3, 14
-README.md, Markdown, 0, 0, 0, 14, 0, 0, 0, 0, 0, 14, 28
-angular.json, JSON, 102, 0, 0, 0, 0, 0, 0, 0, 20, 0, 122
-e2e/protractor.conf.js, JavaScript, 0, 24, 0, 0, 0, 0, 0, 0, 6, 2, 32
-e2e/src/app.e2e-spec.ts, TypeScript, 0, 0, 0, 0, 0, 18, 0, 0, 1, 5, 24
-e2e/src/app.po.ts, TypeScript, 0, 0, 0, 0, 0, 9, 0, 0, 0, 3, 12
-e2e/tsconfig.json, JSON, 13, 0, 0, 0, 0, 0, 0, 0, 0, 1, 14
-karma.conf.js, JavaScript, 0, 29, 0, 0, 0, 0, 0, 0, 2, 2, 33
-package-lock.json, JSON, 13712, 0, 0, 0, 0, 0, 0, 0, 0, 1, 13713
-package.json, JSON, 54, 0, 0, 0, 0, 0, 0, 0, 0, 1, 55
-src/app/app-routing.module.ts, TypeScript, 0, 0, 0, 0, 0, 24, 0, 0, 0, 3, 27
-src/app/app.component.css, CSS, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
-src/app/app.component.html, HTML, 0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 8
-src/app/app.component.ts, TypeScript, 0, 0, 0, 0, 0, 54, 0, 0, 0, 6, 60
-src/app/app.module.ts, TypeScript, 0, 0, 0, 0, 0, 63, 0, 0, 0, 3, 66
-src/app/components/chatcontainer/chatcontrol.ts, TypeScript, 0, 0, 0, 0, 0, 117, 0, 0, 0, 14, 131
-src/app/components/friendrequest/friendrequest.component.css, CSS, 0, 0, 0, 0, 0, 0, 28, 0, 0, 4, 32
-src/app/components/friendrequest/friendrequest.component.html, HTML, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 12
-src/app/components/friendrequest/friendrequest.component.ts, TypeScript, 0, 0, 0, 0, 0, 43, 0, 0, 0, 4, 47
-src/app/components/friendrequestmanage/friendrequestmanage.component.css, CSS, 0, 0, 0, 0, 0, 0, 18, 0, 0, 3, 21
-src/app/components/friendrequestmanage/friendrequestmanage.component.html, HTML, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 16
-src/app/components/friendrequestmanage/friendrequestmanage.component.ts, TypeScript, 0, 0, 0, 0, 0, 35, 0, 0, 0, 6, 41
-src/app/components/friendswall/friendswall.component.css, CSS, 0, 0, 0, 0, 0, 0, 10, 0, 0, 1, 11
-src/app/components/friendswall/friendswall.component.html, HTML, 0, 0, 0, 0, 0, 0, 0, 6, 0, 1, 7
-src/app/components/friendswall/friendswall.component.ts, TypeScript, 0, 0, 0, 0, 0, 47, 0, 0, 0, 4, 51
-src/app/components/login/login.component.css, CSS, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
-src/app/components/login/login.component.html, HTML, 0, 0, 0, 0, 0, 0, 0, 24, 0, 0, 24
-src/app/components/login/login.component.ts, TypeScript, 0, 0, 0, 0, 0, 51, 0, 0, 1, 5, 57
-src/app/components/navbar/navbar.component.css, CSS, 0, 0, 0, 0, 0, 0, 58, 0, 0, 6, 64
-src/app/components/navbar/navbar.component.html, HTML, 0, 0, 0, 0, 0, 0, 0, 35, 0, 0, 35
-src/app/components/navbar/navbar.component.ts, TypeScript, 0, 0, 0, 0, 0, 151, 0, 0, 1, 16, 168
-src/app/components/newpost/newpost.component.css, CSS, 0, 0, 0, 0, 0, 0, 78, 0, 0, 12, 90
-src/app/components/newpost/newpost.component.html, HTML, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 33
-src/app/components/newpost/newpost.component.ts, TypeScript, 0, 0, 0, 0, 0, 77, 0, 0, 0, 8, 85
-src/app/components/newpost/newpost.directive.ts, TypeScript, 0, 0, 0, 0, 0, 8, 0, 0, 0, 2, 10
-src/app/components/newsfeed/newsfeed.component.css, CSS, 0, 0, 0, 0, 0, 0, 28, 0, 0, 4, 32
-src/app/components/newsfeed/newsfeed.component.html, HTML, 0, 0, 0, 0, 0, 0, 0, 18, 0, 0, 18
-src/app/components/newsfeed/newsfeed.component.ts, TypeScript, 0, 0, 0, 0, 0, 66, 0, 0, 0, 8, 74
-src/app/components/register/register.component.css, CSS, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
-src/app/components/register/register.component.html, HTML, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 2
-src/app/components/register/register.component.ts, TypeScript, 0, 0, 0, 0, 0, 11, 0, 0, 0, 5, 16
-src/app/components/singlepost/singlepost.component.css, CSS, 0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 7
-src/app/components/singlepost/singlepost.component.html, HTML, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 3
-src/app/components/singlepost/singlepost.component.ts, TypeScript, 0, 0, 0, 0, 0, 38, 0, 0, 0, 4, 42
-src/app/components/wall/wall.component.css, CSS, 0, 0, 0, 0, 0, 0, 55, 0, 0, 6, 61
-src/app/components/wall/wall.component.html, HTML, 0, 0, 0, 0, 0, 0, 0, 12, 0, 0, 12
-src/app/components/wall/wall.component.ts, TypeScript, 0, 0, 0, 0, 0, 80, 0, 0, 0, 8, 88
-src/app/constants/app-const.ts, TypeScript, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 4
-src/app/models/comments.ts, TypeScript, 0, 0, 0, 0, 0, 7, 0, 0, 0, 0, 7
-src/app/models/friends.ts, TypeScript, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 6
-src/app/route-reuse.ts, TypeScript, 0, 0, 0, 0, 0, 40, 0, 0, 0, 7, 47
-src/app/services/authentication.service.ts, TypeScript, 0, 0, 0, 0, 0, 23, 0, 0, 0, 5, 28
-src/app/services/communication.service.ts, TypeScript, 0, 0, 0, 0, 0, 106, 0, 0, 0, 19, 125
-src/app/services/scroll.service.ts, TypeScript, 0, 0, 0, 0, 0, 19, 0, 0, 0, 6, 25
-src/app/services/websocketmessaging.service.ts, TypeScript, 0, 0, 0, 0, 0, 72, 0, 0, 0, 14, 86
-src/custom-theme.scss, SCSS, 0, 0, 0, 0, 7, 0, 0, 0, 14, 8, 29
-src/environments/environment.prod.ts, TypeScript, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 4
-src/environments/environment.ts, TypeScript, 0, 0, 0, 0, 0, 3, 0, 0, 11, 3, 17
-src/index.html, HTML, 0, 0, 0, 0, 0, 0, 0, 15, 0, 2, 17
-src/main.ts, TypeScript, 0, 0, 0, 0, 0, 9, 0, 0, 0, 4, 13
-src/polyfills.ts, TypeScript, 0, 0, 0, 0, 0, 2, 0, 0, 55, 7, 64
-src/styles.css, CSS, 0, 0, 0, 0, 0, 0, 2, 0, 1, 2, 5
-src/test.ts, TypeScript, 0, 0, 0, 0, 0, 13, 0, 0, 4, 4, 21
-tsconfig.app.json, JSON, 14, 0, 0, 0, 0, 0, 0, 0, 0, 1, 15
-tsconfig.json, JSON, 26, 0, 0, 0, 0, 0, 0, 0, 0, 1, 27
-tsconfig.spec.json, JSON, 18, 0, 0, 0, 0, 0, 0, 0, 0, 1, 19
-tslint.json, JSON, 92, 0, 0, 0, 0, 0, 0, 0, 0, 0, 92
-Total, -, 14031, 53, 10, 14, 7, 1199, 284, 183, 117, 254, 16152
+filename, language, TypeScript, CSS, HTML, comment, blank, total
+app-routing.module.ts, TypeScript, 26, 0, 0, 0, 4, 30
+app.component.css, CSS, 0, 0, 0, 0, 1, 1
+app.component.html, HTML, 0, 0, 7, 0, 0, 7
+app.component.ts, TypeScript, 50, 0, 0, 0, 5, 55
+app.module.ts, TypeScript, 65, 0, 0, 0, 3, 68
+components/chatcontainer/chatcontrol.ts, TypeScript, 139, 0, 0, 1, 13, 153
+components/friendrequest/friendrequest.component.css, CSS, 0, 28, 0, 0, 4, 32
+components/friendrequest/friendrequest.component.html, HTML, 0, 0, 12, 0, 0, 12
+components/friendrequest/friendrequest.component.ts, TypeScript, 43, 0, 0, 0, 4, 47
+components/friendrequestmanage/friendrequestmanage.component.css, CSS, 0, 32, 0, 0, 5, 37
+components/friendrequestmanage/friendrequestmanage.component.html, HTML, 0, 0, 16, 0, 0, 16
+components/friendrequestmanage/friendrequestmanage.component.ts, TypeScript, 37, 0, 0, 0, 5, 42
+components/friendswall/friendswall.component.css, CSS, 0, 10, 0, 0, 1, 11
+components/friendswall/friendswall.component.html, HTML, 0, 0, 6, 0, 1, 7
+components/friendswall/friendswall.component.ts, TypeScript, 47, 0, 0, 0, 4, 51
+components/login/login.component.css, CSS, 0, 32, 0, 0, 5, 37
+components/login/login.component.html, HTML, 0, 0, 36, 0, 0, 36
+components/login/login.component.ts, TypeScript, 110, 0, 0, 0, 3, 113
+components/navbar/navbar.component.css, CSS, 0, 57, 0, 0, 6, 63
+components/navbar/navbar.component.html, HTML, 0, 0, 35, 0, 0, 35
+components/navbar/navbar.component.ts, TypeScript, 149, 0, 0, 1, 14, 164
+components/newpost/newpost.component.css, CSS, 0, 78, 0, 0, 12, 90
+components/newpost/newpost.component.html, HTML, 0, 0, 33, 0, 0, 33
+components/newpost/newpost.component.ts, TypeScript, 77, 0, 0, 0, 8, 85
+components/newpost/newpost.directive.ts, TypeScript, 8, 0, 0, 0, 2, 10
+components/newsfeed/newsfeed.component.css, CSS, 0, 28, 0, 0, 4, 32
+components/newsfeed/newsfeed.component.html, HTML, 0, 0, 18, 0, 0, 18
+components/newsfeed/newsfeed.component.ts, TypeScript, 66, 0, 0, 0, 8, 74
+components/register/register.component.css, CSS, 0, 0, 0, 0, 1, 1
+components/register/register.component.html, HTML, 0, 0, 63, 0, 0, 63
+components/register/register.component.ts, TypeScript, 13, 0, 0, 0, 6, 19
+components/singlepost/singlepost.component.css, CSS, 0, 7, 0, 0, 0, 7
+components/singlepost/singlepost.component.html, HTML, 0, 0, 3, 0, 0, 3
+components/singlepost/singlepost.component.ts, TypeScript, 38, 0, 0, 0, 4, 42
+components/wall/wall.component.css, CSS, 0, 55, 0, 0, 6, 61
+components/wall/wall.component.html, HTML, 0, 0, 12, 0, 0, 12
+components/wall/wall.component.ts, TypeScript, 80, 0, 0, 0, 8, 88
+constants/app-const.ts, TypeScript, 4, 0, 0, 0, 0, 4
+models/comments.ts, TypeScript, 7, 0, 0, 0, 0, 7
+models/friends.ts, TypeScript, 6, 0, 0, 0, 0, 6
+route-reuse.ts, TypeScript, 40, 0, 0, 0, 7, 47
+services/authentication.service.ts, TypeScript, 23, 0, 0, 0, 5, 28
+services/communication.service.ts, TypeScript, 105, 0, 0, 0, 19, 124
+services/scroll.service.ts, TypeScript, 19, 0, 0, 0, 6, 25
+services/websocketmessaging.service.ts, TypeScript, 72, 0, 0, 0, 14, 86
+Total, -, 1224, 327, 241, 2, 188, 1982

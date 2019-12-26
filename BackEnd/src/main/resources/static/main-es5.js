@@ -118,7 +118,7 @@ module.exports = "<div class=\"container-newsfeed-main\">\n    <div class=\"cont
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class = \"register-form\">\n    <mat-card>\n      <mat-card-title class = \"register-form-title\">FriendBook</mat-card-title>\n      <mat-card-content  class = \"register-form-content\">\n        <form [formGroup]=\"registerForm\" (ngSubmit)=\"onRegisterFormSubmit(registerForm.value)\">\n          <p>\n            <mat-form-field>\n              <input type=\"text\" matInput placeholder=\"First Name\" formControlName=\"firstname\">\n              <mat-error *ngFor=\"let validation of validation_messages.firstname\">\n                <mat-error class=\"error-message\" *ngIf=\"registerForm.get('firstname').hasError(validation.type) && (registerForm.get('firstname').dirty \n                || registerForm.get('firstname').touched)\">{{validation.message}}</mat-error>\n              </mat-error>\n            </mat-form-field>\n          </p>      \n          <p>\n            <mat-form-field>\n              <input type=\"text\" matInput placeholder=\"Last Name\" formControlName=\"lastname\">\n              <mat-error *ngFor=\"let validation of validation_messages.lastname\">\n                <mat-error class=\"error-message\" *ngIf=\"registerForm.get('lastname').hasError(validation.type) && (registerForm.get('lastname').dirty \n                || registerForm.get('lastname').touched)\">{{validation.message}}</mat-error>\n              </mat-error>\n            </mat-form-field>\n          </p>\n          <p>\n            <mat-form-field>\n              <input type=\"text\" matInput placeholder=\"Email\" formControlName=\"email\">\n              <mat-error *ngFor=\"let validation of validation_messages.email\">\n                <mat-error class=\"error-message\" *ngIf=\"registerForm.get('email').hasError(validation.type) && (registerForm.get('email').dirty \n                  || registerForm.get('email').touched)\">{{validation.message}}\n                </mat-error>\n              </mat-error>\n            </mat-form-field>\n          </p>\n          <p>\n            <mat-form-field>\n              <input type=\"password\" matInput placeholder=\"Password\" formControlName=\"password\">\n              <mat-error *ngFor=\"let validation of validation_messages.password\">\n                <mat-error class=\"error-message\" *ngIf=\"registerForm.get('password').hasError(validation.type) && (registerForm.get('password').dirty \n                || registerForm.get('password').touched)\">{{validation.message}}</mat-error>\n              </mat-error>\n            </mat-form-field>\n          </p>      \n          <p>\n            <mat-form-field>\n              <input type=\"password\" matInput placeholder=\"Confirm Password\" formControlName=\"confirm_password\" [errorStateMatcher] = \"errorMatcher\">\n              <mat-error *ngIf=\"registerForm.hasError('notSame')\">\n                Passwords do not match\n              </mat-error>\n            </mat-form-field>\n          </p>      \n          <p>\n            <mat-form-field>\n              <input matInput type=\"tel\" placeholder=\"Phone\" formControlName=\"phone\">\n              <mat-error *ngFor=\"let validation of validation_messages.phone\">\n                <mat-error class=\"error-message\" *ngIf=\"registerForm.get('phone').hasError(validation.type) && \n                (registerForm.get('phone').dirty || registerForm.get('phone').touched)\">{{validation.message}}</mat-error>\n              </mat-error>\n            </mat-form-field>\n          </p>\n          <p>\n            <mat-form-field>\n              <mat-select placeholder=\"Gender\">\n                <mat-option *ngFor=\"let gender of genders\" [value]=\"gender\">\n                  {{ gender }}\n                </mat-option>\n              </mat-select>\n              <mat-error *ngFor=\"let validation of validation_messages.gender\">\n                <mat-error class=\"error-message\" *ngIf=\"registerForm.get('gender').hasError(validation.type) && (registerForm.get('gender').dirty || \n                registerForm.get('gender').touched)\">{{validation.message}}</mat-error>\n              </mat-error>\n            </mat-form-field>\n          </p>\n          <p>\n            <mat-form-field>\n              <input matInput [matDatepicker]=\"picker\" placeholder=\"Birthday\" formControlName=\"birthday\">\n              <mat-datepicker-toggle matSuffix [for]=\"picker\"></mat-datepicker-toggle>\n              <mat-datepicker #picker></mat-datepicker>\n              <mat-error *ngFor=\"let validation of validation_messages.birthday\">\n                <mat-error class=\"error-message\" *ngIf=\"registerForm.get('birthday').hasError(validation.type) && (registerForm.get('birthday').dirty || \n                registerForm.get('birthday').touched)\">{{validation.message}}</mat-error>\n              </mat-error>\n            </mat-form-field>\n          </p>\n          <p>\n            <input style=\"display: none\" type=\"file\" accept=\".jpg,.jpeg\" (change)=\"onFileChanged($event)\" #fileInput>\n            <button type=\"button\" (click)=\"fileInput.click()\">Select Display Picture</button>\n            <mat-error class=\"error-message\" *ngIf=\"selectFileTouched && !hasValidImageFile\">Wrong Image Size</mat-error>          \n          </p>\n          <mat-error class=\"error-message\" *ngIf=\"registerFailure\">Registration Failure</mat-error>\n          <button class = \"button-register\" type=\"submit\" [disabled]=\"!registerForm.valid\" mat-raised-button color=\"primary\">Register</button>              \n        </form>\n      </mat-card-content>\n    </mat-card>  \n</div>\n\n\n\n"
+module.exports = "<div class = \"register-form\">\n    <mat-card>\n      <mat-card-title class = \"register-form-title\">FriendBook</mat-card-title>\n      <mat-card-content  class = \"register-form-content\">\n        <form [formGroup]=\"registerForm\" (ngSubmit)=\"onRegisterFormSubmit(registerForm.value)\">\n          <p>\n            <mat-form-field>\n              <input type=\"text\" matInput placeholder=\"First Name\" formControlName=\"firstname\">\n              <mat-error *ngFor=\"let validation of validation_messages.firstname\">\n                <mat-error class=\"error-message\" *ngIf=\"registerForm.get('firstname').hasError(validation.type) && (registerForm.get('firstname').dirty \n                || registerForm.get('firstname').touched)\">{{validation.message}}</mat-error>\n              </mat-error>\n            </mat-form-field>\n          </p>      \n          <p>\n            <mat-form-field>\n              <input type=\"text\" matInput placeholder=\"Last Name\" formControlName=\"lastname\">\n              <mat-error *ngFor=\"let validation of validation_messages.lastname\">\n                <mat-error class=\"error-message\" *ngIf=\"registerForm.get('lastname').hasError(validation.type) && (registerForm.get('lastname').dirty \n                || registerForm.get('lastname').touched)\">{{validation.message}}</mat-error>\n              </mat-error>\n            </mat-form-field>\n          </p>\n          <p>\n            <mat-form-field>\n              <input type=\"text\" matInput placeholder=\"Email\" formControlName=\"email\">\n              <mat-error *ngFor=\"let validation of validation_messages.email\">\n                <mat-error class=\"error-message\" *ngIf=\"registerForm.get('email').hasError(validation.type) && (registerForm.get('email').dirty \n                  || registerForm.get('email').touched)\">{{validation.message}}\n                </mat-error>\n              </mat-error>\n            </mat-form-field>\n          </p>\n          <p>\n            <mat-form-field>\n              <input type=\"password\" matInput placeholder=\"Password\" formControlName=\"password\">\n              <mat-error *ngFor=\"let validation of validation_messages.password\">\n                <mat-error class=\"error-message\" *ngIf=\"registerForm.get('password').hasError(validation.type) && (registerForm.get('password').dirty \n                || registerForm.get('password').touched)\">{{validation.message}}</mat-error>\n              </mat-error>\n            </mat-form-field>\n          </p>      \n          <p>\n            <mat-form-field>\n              <input type=\"password\" matInput placeholder=\"Confirm Password\" formControlName=\"confirm_password\" [errorStateMatcher] = \"errorMatcher\">\n              <mat-error *ngIf=\"registerForm.hasError('notSame')\">\n                Passwords do not match\n              </mat-error>\n            </mat-form-field>\n          </p>      \n          <p>\n            <mat-form-field>\n              <input matInput type=\"tel\" placeholder=\"Phone\" formControlName=\"phone\">\n              <mat-error *ngFor=\"let validation of validation_messages.phone\">\n                <mat-error class=\"error-message\" *ngIf=\"registerForm.get('phone').hasError(validation.type) && \n                (registerForm.get('phone').dirty || registerForm.get('phone').touched)\">{{validation.message}}</mat-error>\n              </mat-error>\n            </mat-form-field>\n          </p>\n          <p>\n            <mat-form-field>\n              <mat-select placeholder=\"Gender\">\n                <mat-option *ngFor=\"let gender of genders\" [value]=\"gender\">\n                  {{ gender }}\n                </mat-option>\n              </mat-select>\n              <mat-error *ngFor=\"let validation of validation_messages.gender\">\n                <mat-error class=\"error-message\" *ngIf=\"registerForm.get('gender').hasError(validation.type) && (registerForm.get('gender').dirty || \n                registerForm.get('gender').touched)\">{{validation.message}}</mat-error>\n              </mat-error>\n            </mat-form-field>\n          </p>\n          <p>\n            <mat-form-field>\n              <input matInput [matDatepicker]=\"picker\" placeholder=\"Birthday\" formControlName=\"birthday\">\n              <mat-datepicker-toggle matSuffix [for]=\"picker\"></mat-datepicker-toggle>\n              <mat-datepicker #picker></mat-datepicker>\n              <mat-error *ngFor=\"let validation of validation_messages.birthday\">\n                <mat-error class=\"error-message\" *ngIf=\"registerForm.get('birthday').hasError(validation.type) && (registerForm.get('birthday').dirty || \n                registerForm.get('birthday').touched)\">{{validation.message}}</mat-error>\n              </mat-error>\n            </mat-form-field>\n          </p>\n          <p>\n            <input style=\"display: none\" type=\"file\" accept=\".jpg,.jpeg\" (change)=\"onFileChanged($event)\" #fileInput>\n            <button type=\"button\" (click)=\"fileInput.click()\">Select Display Picture</button>\n            <mat-error class=\"error-message\" *ngIf=\"selectFileTouched && !hasValidImageFile\">Wrong Image Size</mat-error>          \n          </p>\n          <mat-error class=\"error-message\" *ngIf=\"registerFailure\">Registration Failure</mat-error>\n          <button class = \"button-register\" type=\"submit\" mat-raised-button color=\"primary\">Register</button>              \n        </form>\n      </mat-card-content>\n    </mat-card>  \n</div>\n\n\n\n"
 
 /***/ }),
 
@@ -1373,10 +1373,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
-/* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
-/* harmony import */ var src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/services/communication.service */ "./src/app/services/communication.service.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/services/authentication.service */ "./src/app/services/authentication.service.ts");
+/* harmony import */ var src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! src/app/services/communication.service */ "./src/app/services/communication.service.ts");
+
 
 
 
@@ -1402,15 +1404,15 @@ var RegisterComponent = /** @class */ (function () {
         this.authService = authService;
         this.fb = fb;
         this.registerFailure = false;
-        this.hasValidImageFile = true;
+        this.hasValidImageFile = false;
         this.selectFileTouched = false;
         this.passwordMatchError = false;
         this.errorMatcher = new PasswordErrorStateMatcher();
+        this.uploadData = new FormData();
         this.emailPattern = "^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
         this.passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}$";
         this.phonePattern = "^[\+][0-9]{1,3}[0-9]{4,14}$";
         this.genders = ["Male", "Female", "Other"];
-        this.img = new Image();
         this.validation_messages = {
             'email': [
                 { type: 'required', message: 'Email is required' },
@@ -1463,7 +1465,7 @@ var RegisterComponent = /** @class */ (function () {
         var c = control.value;
         if (c.length > 6 && c.indexOf('@') !== -1 && c.indexOf('.') !== -1) {
             return new Promise(function (resolve) {
-                new rxjs__WEBPACK_IMPORTED_MODULE_5__["Observable"](function (observer) { return observer.next(c); }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["debounceTime"])(500), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["distinctUntilChanged"])(), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["switchMap"])(function (value) { return _this.commService.checkEmailAvailability(value); }))
+                new rxjs__WEBPACK_IMPORTED_MODULE_6__["Observable"](function (observer) { return observer.next(c); }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["debounceTime"])(500), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["distinctUntilChanged"])(), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_5__["switchMap"])(function (value) { return _this.commService.checkEmailAvailability(value); }))
                     .subscribe(function (res) {
                     console.log(res);
                     if (res.status === 'AVAILABLE') {
@@ -1486,33 +1488,56 @@ var RegisterComponent = /** @class */ (function () {
         return condition ? null : { notSame: true };
     };
     RegisterComponent.prototype.onRegisterFormSubmit = function (value) {
-        console.log(this.registerForm);
         if (this.registerForm.valid) {
-            console.log('Form Valid');
-            var uploadData = new FormData();
+            var userData = {
+                firstname: this.registerForm.get('firstname').value,
+                lastname: this.registerForm.get('lastname').value,
+                password: this.registerForm.get('password').value,
+                phone: this.registerForm.get('phone').value,
+                birthday: this.registerForm.get('birthday').value,
+                email: this.registerForm.get('email').value,
+                gender: this.registerForm.get('gender').value
+            };
+            this.uploadData.append('userData', JSON.stringify(userData));
+            this.commService.registerNewUser(this.uploadData).subscribe(function (event) {
+                switch (event.type) {
+                    case _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpEventType"].Sent:
+                        console.log('Request has been made!');
+                        break;
+                    case _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpEventType"].ResponseHeader:
+                        console.log('Response header has been received!');
+                        break;
+                    case _angular_common_http__WEBPACK_IMPORTED_MODULE_4__["HttpEventType"].UploadProgress:
+                        var progress = Math.round(event.loaded / event.total * 100);
+                        console.log("Uploaded! " + progress + "%");
+                        break;
+                }
+            }, function (error) { console.log(error); });
         }
     };
     RegisterComponent.prototype.onFileChanged = function (event) {
         var _this = this;
-        this.selectFileTouched = true;
         var fr = new FileReader;
-        var that = this;
+        var img = new Image();
         fr.onload = function () {
-            _this.img.onload = function () {
-                console.log(_this.img.width + " " + _this.img.height);
-                if (_this.img.width == 400 && _this.img.height == 400)
-                    that.hasValidImageFile = true;
+            img.onload = function () {
+                console.log(img.width + " " + img.height);
+                if (img.width == 400 && img.height == 400) {
+                    _this.hasValidImageFile = true;
+                    _this.selectedFile = event.target.files[0];
+                    _this.uploadData.append('imageFile', _this.selectedFile, _this.selectedFile.name);
+                }
                 else
-                    that.hasValidImageFile = false;
+                    _this.hasValidImageFile = false;
             };
-            _this.img.src = fr.result;
+            img.src = fr.result;
         };
         fr.readAsDataURL(event.target.files[0]);
     };
     RegisterComponent.ctorParameters = function () { return [
-        { type: src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_7__["CommunicationService"] },
+        { type: src_app_services_communication_service__WEBPACK_IMPORTED_MODULE_8__["CommunicationService"] },
         { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] },
-        { type: src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_6__["AuthenticationService"] },
+        { type: src_app_services_authentication_service__WEBPACK_IMPORTED_MODULE_7__["AuthenticationService"] },
         { type: _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"] }
     ]; };
     RegisterComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
@@ -1965,6 +1990,10 @@ var CommunicationService = /** @class */ (function () {
     CommunicationService.prototype.checkEmailAvailability = function (emailID) {
         var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'checkemailavailability/?emailID=' + emailID;
         return this.http.get(url);
+    };
+    CommunicationService.prototype.registerNewUser = function (formData) {
+        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'registernewuser';
+        return this.http.post(url, formData, { reportProgress: true, observe: 'events' });
     };
     CommunicationService.ctorParameters = function () { return [
         { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] }

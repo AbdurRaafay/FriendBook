@@ -3,6 +3,7 @@ package com.friendbook.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,24 +24,23 @@ import com.friendbook.service.UserDetailsServiceImpl;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
-
+    //Allow access to the following without authentication
     private static final String[] PUBLIC_MATCHERS =
-            {
-                    "/",
-                    "/checksession/**",
-                    "/register/**",
-                    "/checkemailavailability/**",
-                    "/actuator/**",
-                    "/index",
-                    "/index.html",
-                    "/scripts.js",
-                    "/*.js",
-                    "/*.js.map",
-                    "/*.css",
-                    "/*.ico",
-                    "/icons/*.svg",
-                    "/assets/images/*.jpg",
-            };
+    {
+            "/",
+            "/checkemailavailability/**",
+            "/checksession/**",
+            "/actuator/**",
+            "/index",
+            "/index.html",
+            "/scripts.js",
+            "/*.js",
+            "/*.js.map",
+            "/*.css",
+            "/*.ico",
+            "/icons/*.svg",
+            "/assets/images/*.jpg",
+    };
 
     @Autowired
     private CustomBasicAuthenticationEntryPoint authenticationEntryPoint;
@@ -80,7 +80,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception
     {
         http.httpBasic().authenticationEntryPoint(authenticationEntryPoint)
-                .and().authorizeRequests().antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated();
+                .and().authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/registernewuser/**").permitAll()
+                .antMatchers(PUBLIC_MATCHERS).permitAll().anyRequest().authenticated()
+                .and().csrf().ignoringAntMatchers("/registernewuser/**");
 
         //Prevent multiple logins with same userID password combination
         http.sessionManagement().maximumSessions(1).maxSessionsPreventsLogin(true).sessionRegistry(sessionRegistry());

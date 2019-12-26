@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, FormGroupDirective, NgForm } from '@angular/forms';
-import { Router, ResolveEnd } from '@angular/router';
+import { Router } from '@angular/router';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { debounceTime, distinctUntilChanged, filter, switchMap } from 'rxjs/operators';
 import { ErrorStateMatcher } from '@angular/material';
 import { Observable } from 'rxjs';
@@ -27,7 +28,7 @@ class PasswordErrorStateMatcher implements ErrorStateMatcher
 export class RegisterComponent implements OnInit 
 {
   registerFailure: boolean = false;
-  hasValidImageFile: boolean = true;
+  hasValidImageFile: boolean = false;
   selectFileTouched: boolean = false;
   passwordMatchError: boolean = false;
   errorMatcher = new PasswordErrorStateMatcher();
@@ -148,13 +149,35 @@ export class RegisterComponent implements OnInit
   {
     if(this.registerForm.valid)
     {
-      this.uploadData.append('firstname', this.registerForm.get('firstname').value);
-      this.uploadData.append('lastname', this.registerForm.get('lastname').value);
-      this.uploadData.append('password', this.registerForm.get('password').value);
-      this.uploadData.append('phone', this.registerForm.get('phone').value);
-      this.uploadData.append('birthday', this.registerForm.get('birthday').value);
-      this.uploadData.append('email', this.registerForm.get('email').value);
-      this.uploadData.append('gender', this.registerForm.get('gender').value);
+      var userData = 
+      { 
+        firstname: this.registerForm.get('firstname').value, 
+        lastname: this.registerForm.get('lastname').value,
+        password: this.registerForm.get('password').value,
+        phone: this.registerForm.get('phone').value,
+        birthday: this.registerForm.get('birthday').value,
+        email: this.registerForm.get('email').value,
+        gender: this.registerForm.get('gender').value
+      };
+      this.uploadData.append('userData', JSON.stringify(userData));
+      
+      this.commService.registerNewUser(this.uploadData).subscribe((event: HttpEvent<any>) =>
+      {
+        switch (event.type) 
+        {
+          case HttpEventType.Sent:
+            console.log('Request has been made!');
+            break;
+          case HttpEventType.ResponseHeader:
+            console.log('Response header has been received!');
+            break;
+          case HttpEventType.UploadProgress:
+            var progress = Math.round(event.loaded / event.total * 100);
+            console.log(`Uploaded! ${progress}%`);
+            break;  
+        }
+      },
+      error => { console.log(error); });      
     }
   }
 
@@ -162,19 +185,21 @@ export class RegisterComponent implements OnInit
   {
     let fr = new FileReader;
     let img = new Image();
-    var that = this;
     fr.onload = () => 
     {
       img.onload = () => 
       {
          console.log(img.width + " " + img.height);
          if(img.width == 400 && img.height == 400)
-          that.hasValidImageFile = true;
+         {
+           this.hasValidImageFile = true;
+           this.selectedFile = event.target.files[0];
+           this.uploadData.append('imageFile', this.selectedFile, this.selectedFile.name);
+         }          
          else
-          that.hasValidImageFile = false;
+         this.hasValidImageFile = false;
       }; 
       img.src = <string>fr.result;
-      this.uploadData.append('imageFile', this.selectedFile, this.selectedFile.name);
     };
     fr.readAsDataURL(event.target.files[0]);
   }

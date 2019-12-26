@@ -128,5 +128,9 @@ export class CommunicationService
     return this.http.get(url);    
   }
 
-
+  registerNewUser(formData: any): Observable<any>
+  {
+    let url = AppConst.serverPath + 'registernewuser';
+    return this.http.post(url, formData, { reportProgress: true, observe: 'events' });    
+  }  
 }
