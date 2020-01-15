@@ -72,7 +72,7 @@ public class LoginController
         Map<String, Object> map = new HashMap<>();
         User currentUser = usrrep.findByEmail(principal.getName());
         ousrrep.logoutUser(currentUser);
-        SecurityContextHolder.clearContext();
+        SecurityContextHolder.clearContext();//Delete currently logged in user
         notService.deleteSentNotifications(principal.getName());
         System.out.println(principal.getName() + " logged out");
         map.put("status", "LOGOUT_SUCCESS");
