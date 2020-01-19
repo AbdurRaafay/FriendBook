@@ -345,7 +345,7 @@ public class dbSeeder implements CommandLineRunner
 
     private Date GenerateRandomDate()
     {
-        int randYear = ThreadLocalRandom.current().nextInt(117, 118);
+        int randYear = ThreadLocalRandom.current().nextInt(117, 118);//Year start from 1900
         int randMonth = ThreadLocalRandom.current().nextInt(0, 11);
         int randDay = ThreadLocalRandom.current().nextInt(1, 28);
         int randHour = ThreadLocalRandom.current().nextInt(0, 23);

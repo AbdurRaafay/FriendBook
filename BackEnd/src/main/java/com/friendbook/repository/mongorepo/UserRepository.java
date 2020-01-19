@@ -14,4 +14,5 @@ public interface UserRepository
     Set<String> getFriendListFromUsrID(String userID);
     boolean isFriend(String email, String imageID);//Is imageID friend of email
     void addFriend(String userIDA, String userIDB);//Add userIDA as friend of userIDB and vice versa
+    void addNewUser(User usr);
 }

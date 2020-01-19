@@ -27,6 +27,7 @@ class PasswordErrorStateMatcher implements ErrorStateMatcher
 
 export class RegisterComponent implements OnInit 
 {
+  registrationInProgress: boolean = false;
   registerFailure: boolean = false;
   hasValidImageFile: boolean = false;
   selectFileTouched: boolean = false;
@@ -160,7 +161,7 @@ export class RegisterComponent implements OnInit
         gender: this.registerForm.get('gender').value
       };
       this.uploadData.append('userData', JSON.stringify(userData));
-      
+      this.registrationInProgress = true;
       this.commService.registerNewUser(this.uploadData).subscribe((event: HttpEvent<any>) =>
       {
         switch (event.type) 
@@ -174,9 +175,18 @@ export class RegisterComponent implements OnInit
           case HttpEventType.UploadProgress:
             var progress = Math.round(event.loaded / event.total * 100);
             console.log(`Uploaded! ${progress}%`);
-            break;  
+            break;
+          case HttpEventType.Response:
+            { 
+              if(event.body.status === "REGISTRATION_SUCCESSFUL")
+              {
+                console.log('Registration Successful');
+                //this.authService.login();
+                //this.router.navigate(['/newsfeed']);      
+              }
+            }                        
         }
-      },
+      },   
       error => { console.log(error); });      
     }
   }

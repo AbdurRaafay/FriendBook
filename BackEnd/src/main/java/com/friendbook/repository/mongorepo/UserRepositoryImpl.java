@@ -1,6 +1,5 @@
 package com.friendbook.repository.mongorepo;
 
-import com.friendbook.model.Post;
 import com.friendbook.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -141,6 +140,12 @@ public class UserRepositoryImpl implements UserRepository
             return false;
         else
             return true;
+    }
+
+    @Override
+    public void addNewUser(User usr)
+    {
+        mongoTemplate.insert(usr);
     }
 
     private User getUserFromUserID(String usrID)

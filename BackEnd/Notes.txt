@@ -27,6 +27,7 @@ https://reflectoring.io/spring-boot-mock/
 https://www.javacodegeeks.com/2017/05/mocking-spring-security-context-unit-testing.html
 
 *************************Angular Responsive Design
+https://tburleson-layouts-demos.firebaseapp.com/#/stackoverflow
 https://internetingishard.com/html-and-css/floats/
 https://internetingishard.com/html-and-css/flexbox/
 https://www.w3schools.com/css/css_website_layout.asp
