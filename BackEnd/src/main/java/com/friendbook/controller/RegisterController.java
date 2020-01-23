@@ -3,6 +3,7 @@ package com.friendbook.controller;
 import com.fasterxml.uuid.Generators;
 import com.friendbook.model.User;
 import com.friendbook.repository.mongorepo.UserRepository;
+import com.friendbook.utility.NamesSearchUtility;
 import com.friendbook.utility.SecurityUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -90,25 +91,20 @@ public class RegisterController
         secondLastIndex = info[6].lastIndexOf("\"", lastIndex - 1);
         String gender = info[6].substring(secondLastIndex + 1, lastIndex);
 
-        System.out.println("first name >>>> " + firstName);
-        System.out.println("lastName >>>> " + lastName);
-        System.out.println("password >>>> " + password);
-        System.out.println("phone >>>> " + phone);
-        System.out.println("birthday >>>> " + birthday);
-        System.out.println("email >>>> " + email);
-        System.out.println("gender >>>> " + gender);
-
         String bDay = birthday.split("T")[0];
         String bD[] = bDay.split("-");
         Date date = new Date(Integer.parseInt(bD[0]) - 1900,
-                Integer.parseInt(bD[1]) - 1, Integer.parseInt(bD[2]));
-        System.out.println("Date >>> " + date);
+                Integer.parseInt(bD[1]) - 1, Integer.parseInt(bD[2]) + 1);
 
         Set<String> UserFriendsID = new HashSet<String>();
 
         User usr = new User(firstName, lastName, email, phone,
                 SecurityUtility.passwordEncoder().encode(password),
                 true, date, gender, UserFriendsID, imageID);
+
+        usrrep.addNewUser(usr);
+        NamesSearchUtility.addNewUser(usr);
+
         System.out.println("User >>>>> " + usr);
 
         map.put("status", "REGISTRATION_SUCCESSFUL");

@@ -23,10 +23,10 @@
         </p>      
         <mat-error class="error-message" *ngIf="loginFailure">Invalid Login</mat-error>
         <div class = "button-login">
-          <button type="submit" mat-button>Login</button>
+          <button type="submit" [disabled]="!loginForm.valid" mat-raised-button color="primary">Login</button>
         </div>
         <div class = "button-register">
-          <button (click)="onRegister()" mat-button>Register</button>
+          <button (click)="onRegister()" mat-raised-button color="primary">Register</button>
         </div>  
       </form>
     </mat-card-content>

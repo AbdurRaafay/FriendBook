@@ -13,6 +13,7 @@ import { CommunicationService } from 'src/app/services/communication.service';
 
 export class LoginComponent implements OnInit 
 {
+  loginFormValid: boolean = false;
   loginFailure: boolean = false;
   emailPattern = "^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
   loginForm: FormGroup;

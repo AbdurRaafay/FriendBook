@@ -22,4 +22,9 @@ public final class NamesSearchUtility
     {
         return FuzzySearch.extractAll(searchTerm, userNames);
     }
+
+    public static void addNewUser(User usr)
+    {
+        userNames.add(usr.getImageFileID() + ":" + usr.getFirstName() + " " + usr.getLastName());
+    }
 }

@@ -84,9 +84,9 @@
         <p>
           <input style="display: none" type="file" accept=".jpg,.jpeg" (change)="onFileChanged($event)" #fileInput>
           <button type="button" (click)="fileInput.click()">Select Display Picture</button>
-          <div [hidden]="!hasValidImageFile">{{selectedFile.name}}</div>
           <mat-error class="error-message" *ngIf="selectFileTouched && !hasValidImageFile">Wrong Image Size</mat-error>
         </p>
+        <mat-label>{{selectedFileName}}</mat-label>
         <mat-error class="error-message" *ngIf="registerFailure">Registration Failure</mat-error>
         <button class = "button-register" type="submit" [disabled]="!registerForm.valid || !hasValidImageFile || registrationInProgress" 
           mat-raised-button color="primary">Register</button>              

@@ -32,6 +32,7 @@ export class RegisterComponent implements OnInit
   hasValidImageFile: boolean = false;
   selectFileTouched: boolean = false;
   passwordMatchError: boolean = false;
+  selectedFileName: string = "";
   errorMatcher = new PasswordErrorStateMatcher();
   uploadData = new FormData();
   emailPattern = "^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
@@ -204,6 +205,7 @@ export class RegisterComponent implements OnInit
          {
            this.hasValidImageFile = true;
            this.selectedFile = event.target.files[0];
+           this.selectedFileName = this.selectedFile.name;
            this.uploadData.append('imageFile', this.selectedFile, this.selectedFile.name);
          }          
          else

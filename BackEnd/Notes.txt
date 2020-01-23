@@ -27,6 +27,7 @@ https://reflectoring.io/spring-boot-mock/
 https://www.javacodegeeks.com/2017/05/mocking-spring-security-context-unit-testing.html
 
 *************************Angular Responsive Design
+https://www.youtube.com/watch?v=kbLfWKGVsMQ
 https://tburleson-layouts-demos.firebaseapp.com/#/stackoverflow
 https://internetingishard.com/html-and-css/floats/
 https://internetingishard.com/html-and-css/flexbox/
@@ -81,26 +82,4 @@ https://github.com/striderarun/ecommerce-microservices
 https://github.com/developma/spring-microservice-for-e-commerce
 https://github.com/shopizer-ecommerce/shopizer
 https://www.baeldung.com/spring-angular-ecommerce
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

@@ -269,18 +269,23 @@ public class dbSeeder implements CommandLineRunner
         File[] filelist = f.listFiles();
         try
         {
-            for(File fl : filelist)
+            for(String nm : names)
             {
-                if(fl.isFile())
+                while(true)
                 {
-                    String fName = fl.getName();
-                    String fNameSub = fName.substring(fName.length() - 4);
-                    if (fNameSub.equals(".jpg"))
+                    if(filelist[Ind].isFile())
                     {
-                        Path source  = Paths.get(s + "/images/" + fName);
-                        Path target = Paths.get(s + "/images/" + names.get(Ind++) + ".jpg");
-                        Files.move(source, target, StandardCopyOption.REPLACE_EXISTING);
+                        String fName = filelist[Ind].getName();
+                        String fNameSub = fName.substring(fName.length() - 4);
+                        if (fNameSub.equals(".jpg"))
+                        {
+                            Path source  = Paths.get(s + "/images/" + fName);
+                            Path target = Paths.get(s + "/images/" + nm + ".jpg");
+                            Files.move(source, target, StandardCopyOption.REPLACE_EXISTING);
+                            break;
+                        }
                     }
+                    Ind++;
                 }
             }
         }
