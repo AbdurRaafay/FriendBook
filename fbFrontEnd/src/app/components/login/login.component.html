@@ -20,7 +20,7 @@
               || loginForm.get('password').touched)">{{validation.message}}</mat-error>
             </mat-error>
           </mat-form-field>
-        </p>      
+        </p>
         <mat-error class="error-message" *ngIf="loginFailure">Invalid Login</mat-error>
         <div class = "button-login">
           <button type="submit" [disabled]="!loginForm.valid" mat-raised-button color="primary">Login</button>

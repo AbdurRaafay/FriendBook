@@ -88,3 +88,11 @@ ul
 {
     padding: 0;
 }
+
+@media (max-width: 600px) 
+{
+    .user-pic
+    {
+        display: none;
+    }
+}

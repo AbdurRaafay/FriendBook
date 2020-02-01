@@ -35,7 +35,7 @@ public class LoginController
     private NotificationService notService;
 
     @GetMapping("/login")
-    public ResponseEntity<?> token(HttpSession session, HttpServletRequest request)
+    public ResponseEntity<?> login(HttpSession session, HttpServletRequest request)
     {
         List<Map<String,Object>> fpreturn = new ArrayList<Map<String,Object>>();
         final String authorization = request.getHeader("Authorization");

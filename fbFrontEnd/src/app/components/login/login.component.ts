@@ -86,7 +86,8 @@ export class LoginComponent implements OnInit
       var usrName = this.loginForm.get('username').value;
       var passWord = this.loginForm.get('password').value;
       console.log(usrName + "  " + passWord);
-      this.commService.sendCredential(usrName , passWord).subscribe(
+      this.commService.sendCredential(usrName , passWord).subscribe
+      (
         res => 
         {
           console.log(res);

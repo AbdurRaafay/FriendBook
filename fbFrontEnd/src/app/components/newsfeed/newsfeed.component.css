@@ -30,3 +30,11 @@
     margin-top: 100px;
     text-align: center; 
 }
+
+@media (max-width: 600px) 
+{
+    .container-newsfeed-profile
+    {
+        display: none;
+    }
+}

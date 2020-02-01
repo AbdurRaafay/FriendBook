@@ -165,6 +165,7 @@ export class RegisterComponent implements OnInit
       this.registrationInProgress = true;
       this.commService.registerNewUser(this.uploadData).subscribe((event: HttpEvent<any>) =>
       {
+        localStorage.clear();
         switch (event.type) 
         {
           case HttpEventType.Sent:
@@ -182,8 +183,25 @@ export class RegisterComponent implements OnInit
               if(event.body.status === "REGISTRATION_SUCCESSFUL")
               {
                 console.log('Registration Successful');
-                //this.authService.login();
-                //this.router.navigate(['/newsfeed']);      
+                this.commService.sendCredential(userData.email, userData.password).subscribe
+                (
+                  res => 
+                  {
+                    console.log(res);
+                    localStorage.setItem('xAuthToken', res[0].token);
+                    localStorage.setItem('isLoggenIn', 'true');
+                    localStorage.setItem('resetNotificationMenu', 'true');      
+                    localStorage.setItem("userImageID", res[0].userImageID);
+                    localStorage.setItem("currentUserName", res[0].currentUserName);
+                    this.authService.login();
+                    this.router.navigate(['/newsfeed']);
+                  },
+                  error => 
+                  {
+                    //this.loginFailure = true;
+                    console.log(error);
+                  }
+                );
               }
             }                        
         }

@@ -1,63 +1,131 @@
-.nav-bar-friendbook
+.main-navbar 
 {
-    width: 100%;
-    top: 0;
-    position: fixed;
-    background-color: #b6bedf;
+  overflow: hidden;
+  background-color: #b6bedf;
 }
 
-.nav-item-title
+.navbar-title
 {
-    float: left;    
+    float: left;
     font-style: italic;
-    font-size: 50px;
     font-family: "Times New Roman", Times, serif;
-    margin-right: 50px;
-    margin-left: 10px;
+    font-size: 3vw;
+    margin-top: 2vh;
+    margin-left: 1vw;
 }
 
-.nav-bar-search
+.navbar-icons-group
+{
+    float: right;
+    display: block;
+    margin-right: 1vw;
+}
+
+.navbar-icons
 {
     float: left;
-    width: 10%;
-    height: 50px;
+    margin-top: 10px;
 }
 
-.search-result-item
+.navbar-icons-svg 
 {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    white-space: nowrap;
-    line-height: 45px;
-    height: 45px;
-    padding: 0 16px;
-    text-align: left;
-    max-width: 100%;
-    box-sizing: border-box;
+    height: 3vw;
+    width: 5vw;
+    margin-left: 1vw;
+    margin-top: 10px;
 }
 
-.search-text-input
-{
-    width: 100%;
-    height: 50px;
-}
-
-.nav-bar-notification, .nav-bar-newsfeed, .nav-bar-wall, .nav-bar-logout
+.navbar-search 
 {
     float: left;
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-top: 10px;
+    margin-right: 0px;
+    margin-left: 2vw;
 }
 
-.nav-bar-bubble
+.mat-form-field
 {
-    visibility: hidden;
-    position: relative;
-    top: -10px;
-    right: -70px;
-    padding: 5px 10px;
-    border-radius: 50%;
-    background-color: red;
-    color: white;
+    width: 55vw;    
+}
+
+.mat-form-field-wrapper 
+{
+    padding-bottom: -1.25em;
+}
+
+.mat-option
+{
+    margin-top: 1vw;
+}
+
+.search-user-pic
+{
+    float: left;
+    height: 5vw;
+    width: 5vw;
+    margin-right: 1vw;
+}
+
+.search-user-name
+{    
+    float: left;
+    margin-top: 1vw;
+}
+
+@media (max-width: 600px) 
+{
+    .navbar-title
+    {
+        display: none;
+    }
+
+    .navbar-search 
+    {
+        float: left;
+        margin-top: 0px;
+        margin-right: 0px;
+        margin-left: 5px;
+    }
+
+    .mat-form-field
+    {
+        width: 60vw;
+    }
+
+    .navbar-icons-group
+    {
+        margin-right: 5vw;
+    }
+    
+    .navbar-icons
+    {
+        margin-top: 10px;
+    }
+
+    .navbar-icons-svg 
+    {
+        height: 10vw;
+        width: 5vw;
+        margin-left: 3vw;
+        margin-top: 5px;
+    }
+    
+    .mat-option
+    {
+        margin-top: 0px;
+        height: unset;
+    }
+
+    .search-user-pic
+    {
+        float: none;
+        height: 3vw;
+        width: 3vw;
+    }
+    
+    .search-user-name
+    {
+        float: none;
+        font-size: 5vw;
+    }
 }
