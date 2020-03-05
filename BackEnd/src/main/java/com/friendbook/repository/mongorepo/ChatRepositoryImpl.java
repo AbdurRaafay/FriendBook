@@ -32,16 +32,20 @@ public class ChatRepositoryImpl implements ChatRepository
         List<Chat> fpcB = mongoTemplate.find(queryB, Chat.class);
 
         List<Chat> fpcCombined = new ArrayList<>();
-        if(fpcA != null && fpcA.size() > 0)
+        if((fpcA != null && fpcA.size() > 0) || (fpcB != null && fpcB.size() > 0))
         {
             if(fpcB != null && fpcB.size() > 0)
             {
+                System.out.println("Condition A");
                 fpcCombined.addAll(fpcA);
                 fpcCombined.addAll(fpcB);
+                System.out.println("A = " + fpcA.size() + " B = " + fpcB.size());
             }
             else
             {
+                System.out.println("Condition B");
                 fpcCombined.addAll(fpcA);
+                System.out.println("A = " + fpcA.size());
             }
             fpcCombined.sort(Comparator.comparing(Chat::getTimeStamp));
         }

@@ -112,37 +112,23 @@ export class ChatControl extends ChatAdapter
     getMessageHistory(userId: any): Observable<Message[]>
     {
         var mockedHistory: Array<Message> = [];
-        var userHistoryEntry = this.chatHistory.find(x => x.userImageID == userId);
-        if (typeof userHistoryEntry === 'undefined')
+        var usrMsgHistory: Array<Message> = [];
+        this.commService.getChatHistory(userId).subscribe(res=>
         {
-            var usrMsgHistory: Array<Message> = [];
-            userHistoryEntry = {userImageID: userId, userMessagesHistory: []};
-            //No history entry for this user so fetch history from server
-            this.commService.getChatHistory(userId).subscribe(res=>
+            if(res.hasOwnProperty('status'))//No history found
             {
-                if(res.hasOwnProperty('status'))//No history found
-                {
-                }
-                else
-                {
-                    res.forEach(t => 
-                    { 
-                        var msg = {fromId: t.fromUserID, toId: t.toUserID, message: t.text, dateSent: t.timeStamp};
-                        usrMsgHistory.push(msg);
-                    });
-                    Array.prototype.push.apply(userHistoryEntry.userMessagesHistory, usrMsgHistory);
-                    Array.prototype.push.apply(mockedHistory, usrMsgHistory);
-                }
-            });
-            this.chatHistory.push(userHistoryEntry);
-        }
-        else
-        {
-            if(userHistoryEntry.userMessagesHistory.length > 0)
-                Array.prototype.push.apply(mockedHistory, userHistoryEntry.userMessagesHistory);
-        }
-        console.log(mockedHistory);     
-        return of(mockedHistory).pipe(delay(2000));
+            }
+            else
+            {
+                res.forEach(t => 
+                { 
+                    var msg = {fromId: t.fromUserID, toId: t.toUserID, message: t.text, dateSent: t.timeStamp};
+                    mockedHistory.push(msg);
+                });
+                //Array.prototype.push.apply(mockedHistory, usrMsgHistory);
+            }
+        });
+        return of(mockedHistory).pipe(delay(200));
     }
     
     sendMessage(message: Message): void

@@ -102,6 +102,7 @@ public class dbSeeder implements CommandLineRunner
 
     private void InitializeMongoDB()
     {
+        System.out.println("************************************************Resetting Database************************************************");
         InitializeUsers();
         UpdateUsers();
         GenerateFriendIDs();

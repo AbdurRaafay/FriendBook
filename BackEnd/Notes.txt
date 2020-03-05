@@ -3,6 +3,9 @@ sudo service mongod start
 
 cat /dev/null > ~/.bash_history && history -c && exit
 
+
+docker run --net=host -v /home/khan/IdeaProjects/friendbook/BackEnd/images:/app/images -v /home/khan/IdeaProjects/friendbook/BackEnd/icons:/app/icons friendbookimage
+
 https://medium.com/@uditgogoi1/search-bar-with-autocomplete-using-angular-5-and-angular-material-c5a77a429da7
 https://stackblitz.com/edit/angular-material-google-search?file=app%2Fapp.component.ts
 https://www.positronx.io/angular-8-autocomplete-tutorial-with-angular-material/

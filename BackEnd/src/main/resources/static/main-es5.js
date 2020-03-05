@@ -85,7 +85,7 @@ module.exports = "<div class = \"login-form\">\n  <mat-card class=\"login-card\"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class = \"main-navbar\" *ngIf=\"isLoggedIn$ | async\">\n    <div class = \"navbar-title\">\n        FriendBook\n    </div>\n    <div class=\"navbar-search\">\n        <mat-form-field class=\"search-text-input\">\n            <input matInput placeholder=\"Search\" aria-label=\"Number\" [formControl]=\"searchFormControl\" [matAutocomplete]=\"auto\">\n            <mat-autocomplete class=\"search-autocomplete\" #auto=\"matAutocomplete\">\n            <mat-option (onSelectionChange)=\"onSearchItemSelected($event, option)\" *ngFor=\"let option of autoCompleteList | async\" [value]=\"option.name\">\n                <img class = \"search-user-pic\" src=\"/images/{{option.imageID}}.jpg\"><br>                               \n                <span class = \"search-user-name\">{{option.name}}</span>\n            </mat-option>\n            </mat-autocomplete>\n        </mat-form-field>\n    </div>\n    <div class = \"navbar-icons-group\">\n        <div class = \"navbar-icons\">\n            <i class=\"nav-bar-notification\" (click)=\"onNotificationClicked()\"><img class = \"navbar-icons-svg\" src=\"/icons/notification.svg\"></i>\n        </div>\n        <div class = \"navbar-icons\">\n            <i (click)=\"onNewsFeedClicked()\"><img class = \"navbar-icons-svg\" src=\"/icons/home.svg\"></i>\n        </div>\n        <div class = \"navbar-icons\">\n            <i (click)=\"onWallClicked()\"><img class = \"navbar-icons-svg\" src=\"/icons/firewall.svg\"></i>\n        </div>\n        <div class = \"navbar-icons\">\n            <i (click)=\"onLogoutClicked()\"><img class = \"navbar-icons-svg\" src=\"/icons/logout.svg\"></i>\n        </div>    \n    </div>\n</div>"
+module.exports = "<div class = \"main-navbar\" *ngIf=\"isLoggedIn$ | async\">\n    <div class = \"navbar-title\">\n        FriendBook\n    </div>\n    <div class=\"navbar-search\">\n        <mat-form-field class=\"search-text-input\">\n            <input matInput placeholder=\"Search\" aria-label=\"Number\" [formControl]=\"searchFormControl\" [matAutocomplete]=\"auto\">\n            <mat-autocomplete class=\"search-autocomplete\" #auto=\"matAutocomplete\">\n            <mat-option (onSelectionChange)=\"onSearchItemSelected($event, option)\" *ngFor=\"let option of autoCompleteList | async\" [value]=\"option.name\">\n                <img class = \"search-user-pic\" src=\"/images/{{option.imageID}}.jpg\">                            \n                <span class = \"search-user-name\">{{option.name}}</span>\n            </mat-option>\n            </mat-autocomplete>\n        </mat-form-field>\n    </div>\n    <div class = \"navbar-icons-group\">\n        <div class = \"navbar-icons\">\n            <i class=\"nav-bar-notification\" (click)=\"onNotificationClicked()\"><img class = \"navbar-icons-svg\" src=\"/icons/notification.svg\"></i>\n        </div>\n        <div class = \"navbar-icons\">\n            <i (click)=\"onNewsFeedClicked()\"><img class = \"navbar-icons-svg\" src=\"/icons/home.svg\"></i>\n        </div>\n        <div class = \"navbar-icons\">\n            <i (click)=\"onWallClicked()\"><img class = \"navbar-icons-svg\" src=\"/icons/firewall.svg\"></i>\n        </div>\n        <div class = \"navbar-icons\">\n            <i (click)=\"onLogoutClicked()\"><img class = \"navbar-icons-svg\" src=\"/icons/logout.svg\"></i>\n        </div>    \n    </div>\n</div>"
 
 /***/ }),
 
@@ -514,32 +514,20 @@ var ChatControl = /** @class */ (function (_super) {
     };
     ChatControl.prototype.getMessageHistory = function (userId) {
         var mockedHistory = [];
-        var userHistoryEntry = this.chatHistory.find(function (x) { return x.userImageID == userId; });
-        if (typeof userHistoryEntry === 'undefined') {
-            var usrMsgHistory = [];
-            userHistoryEntry = { userImageID: userId, userMessagesHistory: [] };
-            //No history entry for this user so fetch history from server
-            this.commService.getChatHistory(userId).subscribe(function (res) {
-                if (res.hasOwnProperty('status')) //No history found
-                 {
-                }
-                else {
-                    res.forEach(function (t) {
-                        var msg = { fromId: t.fromUserID, toId: t.toUserID, message: t.text, dateSent: t.timeStamp };
-                        usrMsgHistory.push(msg);
-                    });
-                    Array.prototype.push.apply(userHistoryEntry.userMessagesHistory, usrMsgHistory);
-                    Array.prototype.push.apply(mockedHistory, usrMsgHistory);
-                }
-            });
-            this.chatHistory.push(userHistoryEntry);
-        }
-        else {
-            if (userHistoryEntry.userMessagesHistory.length > 0)
-                Array.prototype.push.apply(mockedHistory, userHistoryEntry.userMessagesHistory);
-        }
-        console.log(mockedHistory);
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(mockedHistory).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["delay"])(2000));
+        var usrMsgHistory = [];
+        this.commService.getChatHistory(userId).subscribe(function (res) {
+            if (res.hasOwnProperty('status')) //No history found
+             {
+            }
+            else {
+                res.forEach(function (t) {
+                    var msg = { fromId: t.fromUserID, toId: t.toUserID, message: t.text, dateSent: t.timeStamp };
+                    usrMsgHistory.push(msg);
+                });
+                Array.prototype.push.apply(mockedHistory, usrMsgHistory);
+            }
+        });
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(mockedHistory).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["delay"])(200));
     };
     ChatControl.prototype.sendMessage = function (message) {
         console.log(message);

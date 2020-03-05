@@ -12,7 +12,7 @@
     <artifactId>friendbook</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>friendbook</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Social Media Demo project for Spring Boot</description>
 
     <properties>
         <java.version>11</java.version>
@@ -114,6 +114,19 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
