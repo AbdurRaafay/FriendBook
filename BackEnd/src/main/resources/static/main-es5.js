@@ -522,9 +522,9 @@ var ChatControl = /** @class */ (function (_super) {
             else {
                 res.forEach(function (t) {
                     var msg = { fromId: t.fromUserID, toId: t.toUserID, message: t.text, dateSent: t.timeStamp };
-                    usrMsgHistory.push(msg);
+                    mockedHistory.push(msg);
                 });
-                Array.prototype.push.apply(mockedHistory, usrMsgHistory);
+                //Array.prototype.push.apply(mockedHistory, usrMsgHistory);
             }
         });
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_2__["of"])(mockedHistory).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["delay"])(200));
@@ -829,6 +829,10 @@ var LoginComponent = /** @class */ (function () {
     LoginComponent.prototype.ngOnInit = function () {
         this.createLoginForm();
         this.logoutuser();
+        var url = window.location.href;
+        var indexOfIndex = url.indexOf("index");
+        this.commService.serverPath = url.substring(0, indexOfIndex); //Get url from index page and initilize comm service serverPath
+        console.log(this.commService.serverPath);
     };
     LoginComponent.prototype.createLoginForm = function () {
         this.loginForm = this.fb.group({
@@ -1760,27 +1764,6 @@ var WallComponent = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./src/app/constants/app-const.ts":
-/*!****************************************!*\
-  !*** ./src/app/constants/app-const.ts ***!
-  \****************************************/
-/*! exports provided: AppConst */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppConst", function() { return AppConst; });
-var AppConst = /** @class */ (function () {
-    function AppConst() {
-    }
-    AppConst.serverPath = 'http://localhost:8080/';
-    return AppConst;
-}());
-
-
-
-/***/ }),
-
 /***/ "./src/app/models/comments.ts":
 /*!************************************!*\
   !*** ./src/app/models/comments.ts ***!
@@ -1909,61 +1892,60 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _constants_app_const__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants/app-const */ "./src/app/constants/app-const.ts");
-
 
 
 
 var CommunicationService = /** @class */ (function () {
     function CommunicationService(http) {
         this.http = http;
+        this.serverPath = "";
     }
     CommunicationService.prototype.getFriendsWallPosts = function (friendImageID) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getfriendswall/' + friendImageID;
+        var url = this.serverPath + 'getfriendswall/' + friendImageID;
         return this.http.get(url);
     };
     CommunicationService.prototype.getWallPosts = function () {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getwallposts/';
+        var url = this.serverPath + 'getwallposts/';
         return this.http.get(url);
     };
     CommunicationService.prototype.getSinglePost = function (postID, notUserID) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getsinglepost/?PostID=' + postID + '&NotUserID=' + notUserID;
+        var url = this.serverPath + 'getsinglepost/?PostID=' + postID + '&NotUserID=' + notUserID;
         return this.http.get(url);
     };
     CommunicationService.prototype.getNewsFeed = function () {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getnewsfeed/';
+        var url = this.serverPath + 'getnewsfeed/';
         return this.http.get(url);
     };
     CommunicationService.prototype.getPostComments = function (postID) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getcomments/' + postID + '/';
+        var url = this.serverPath + 'getcomments/' + postID + '/';
         return this.http.get(url);
     };
     CommunicationService.prototype.getFriendsList = function () {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getfriendslist/';
+        var url = this.serverPath + 'getfriendslist/';
         return this.http.get(url);
     };
     CommunicationService.prototype.getChatHistory = function (userImageID) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getchathistory/?userImageID=' + userImageID;
+        var url = this.serverPath + 'getchathistory/?userImageID=' + userImageID;
         return this.http.get(url);
     };
     CommunicationService.prototype.addComment = function (postID, text) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'addcomment/' + postID + '/' + text + '/';
+        var url = this.serverPath + 'addcomment/' + postID + '/' + text + '/';
         return this.http.get(url);
     };
     CommunicationService.prototype.addLikes = function (postID) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'addlikes/' + postID + '/';
+        var url = this.serverPath + 'addlikes/' + postID + '/';
         return this.http.get(url);
     };
     CommunicationService.prototype.addDislikes = function (postID) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'adddislikes/' + postID + '/';
+        var url = this.serverPath + 'adddislikes/' + postID + '/';
         return this.http.get(url);
     };
     CommunicationService.prototype.addWallPost = function (text) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'addwallpost/' + text + '/';
+        var url = this.serverPath + 'addwallpost/' + text + '/';
         return this.http.get(url);
     };
     CommunicationService.prototype.sendCredential = function (email, password) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + '/login';
+        var url = this.serverPath + '/login';
         var encodedCredentials = btoa(email + ":" + password);
         var basicHeader = "Basic " + encodedCredentials;
         var headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
@@ -1973,34 +1955,34 @@ var CommunicationService = /** @class */ (function () {
         return this.http.get(url, { headers: headers });
     };
     CommunicationService.prototype.checkFriendRequestStatus = function (usrImageID) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'checkfriendrequeststatus/?userImageID=' + usrImageID;
+        var url = this.serverPath + 'checkfriendrequeststatus/?userImageID=' + usrImageID;
         console.log(url);
         return this.http.get(url);
     };
     CommunicationService.prototype.sendFriendRequest = function (usrImageID) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'sendfriendrequest/?userImageID=' + usrImageID;
+        var url = this.serverPath + 'sendfriendrequest/?userImageID=' + usrImageID;
         console.log(url);
         return this.http.get(url);
     };
     CommunicationService.prototype.manageFriendRequest = function (usrImageID, friendrequeststatus) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'managefriendrequest/?userImageID=' + usrImageID + '&frndrqststs=' + friendrequeststatus;
+        var url = this.serverPath + 'managefriendrequest/?userImageID=' + usrImageID + '&frndrqststs=' + friendrequeststatus;
         console.log(url);
         return this.http.get(url);
     };
     CommunicationService.prototype.logout = function () {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'logout/';
+        var url = this.serverPath + 'logout/';
         return this.http.get(url);
     };
     CommunicationService.prototype.checkSession = function (token) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'checksession/?sessiontoken=' + token;
+        var url = this.serverPath + 'checksession/?sessiontoken=' + token;
         return this.http.get(url);
     };
     CommunicationService.prototype.checkEmailAvailability = function (emailID) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'checkemailavailability/?emailID=' + emailID;
+        var url = this.serverPath + 'checkemailavailability/?emailID=' + emailID;
         return this.http.get(url);
     };
     CommunicationService.prototype.registerNewUser = function (formData) {
-        var url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'registernewuser';
+        var url = this.serverPath + 'registernewuser';
         return this.http.post(url, formData, { reportProgress: true, observe: 'events' });
     };
     CommunicationService.ctorParameters = function () { return [

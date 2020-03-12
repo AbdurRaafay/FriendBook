@@ -12,6 +12,8 @@ var stompClient = null;
 
 export class WebsocketmessagingService 
 {
+  public serverPath: string  = "";
+
   private chatSubject = new Subject<any>();
   chatObs = this.chatSubject.asObservable(); 
   
@@ -30,7 +32,8 @@ export class WebsocketmessagingService
   connectToChat()
   {
     var that = this;
-    const socket = new SockJS('http://localhost:8080/chat');
+    console.log(this.serverPath + 'chat');
+    const socket = new SockJS(this.serverPath + 'chat');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, 
       function(frame)

@@ -506,9 +506,9 @@ class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
             else {
                 res.forEach(t => {
                     var msg = { fromId: t.fromUserID, toId: t.toUserID, message: t.text, dateSent: t.timeStamp };
-                    usrMsgHistory.push(msg);
+                    mockedHistory.push(msg);
                 });
-                Array.prototype.push.apply(mockedHistory, usrMsgHistory);
+                //Array.prototype.push.apply(mockedHistory, usrMsgHistory);
             }
         });
         return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["of"])(mockedHistory).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["delay"])(200));
@@ -804,6 +804,10 @@ let LoginComponent = class LoginComponent {
     ngOnInit() {
         this.createLoginForm();
         this.logoutuser();
+        var url = window.location.href;
+        var indexOfIndex = url.indexOf("index");
+        this.commService.serverPath = url.substring(0, indexOfIndex); //Get url from index page and initilize comm service serverPath
+        console.log(this.commService.serverPath);
     }
     createLoginForm() {
         this.loginForm = this.fb.group({
@@ -1709,23 +1713,6 @@ WallComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
 
 /***/ }),
 
-/***/ "./src/app/constants/app-const.ts":
-/*!****************************************!*\
-  !*** ./src/app/constants/app-const.ts ***!
-  \****************************************/
-/*! exports provided: AppConst */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppConst", function() { return AppConst; });
-class AppConst {
-}
-AppConst.serverPath = 'http://localhost:8080/';
-
-
-/***/ }),
-
 /***/ "./src/app/models/comments.ts":
 /*!************************************!*\
   !*** ./src/app/models/comments.ts ***!
@@ -1843,61 +1830,60 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm2015/http.js");
-/* harmony import */ var _constants_app_const__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../constants/app-const */ "./src/app/constants/app-const.ts");
-
 
 
 
 let CommunicationService = class CommunicationService {
     constructor(http) {
         this.http = http;
+        this.serverPath = "";
     }
     getFriendsWallPosts(friendImageID) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getfriendswall/' + friendImageID;
+        let url = this.serverPath + 'getfriendswall/' + friendImageID;
         return this.http.get(url);
     }
     getWallPosts() {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getwallposts/';
+        let url = this.serverPath + 'getwallposts/';
         return this.http.get(url);
     }
     getSinglePost(postID, notUserID) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getsinglepost/?PostID=' + postID + '&NotUserID=' + notUserID;
+        let url = this.serverPath + 'getsinglepost/?PostID=' + postID + '&NotUserID=' + notUserID;
         return this.http.get(url);
     }
     getNewsFeed() {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getnewsfeed/';
+        let url = this.serverPath + 'getnewsfeed/';
         return this.http.get(url);
     }
     getPostComments(postID) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getcomments/' + postID + '/';
+        let url = this.serverPath + 'getcomments/' + postID + '/';
         return this.http.get(url);
     }
     getFriendsList() {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getfriendslist/';
+        let url = this.serverPath + 'getfriendslist/';
         return this.http.get(url);
     }
     getChatHistory(userImageID) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'getchathistory/?userImageID=' + userImageID;
+        let url = this.serverPath + 'getchathistory/?userImageID=' + userImageID;
         return this.http.get(url);
     }
     addComment(postID, text) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'addcomment/' + postID + '/' + text + '/';
+        let url = this.serverPath + 'addcomment/' + postID + '/' + text + '/';
         return this.http.get(url);
     }
     addLikes(postID) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'addlikes/' + postID + '/';
+        let url = this.serverPath + 'addlikes/' + postID + '/';
         return this.http.get(url);
     }
     addDislikes(postID) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'adddislikes/' + postID + '/';
+        let url = this.serverPath + 'adddislikes/' + postID + '/';
         return this.http.get(url);
     }
     addWallPost(text) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'addwallpost/' + text + '/';
+        let url = this.serverPath + 'addwallpost/' + text + '/';
         return this.http.get(url);
     }
     sendCredential(email, password) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + '/login';
+        let url = this.serverPath + '/login';
         let encodedCredentials = btoa(email + ":" + password);
         let basicHeader = "Basic " + encodedCredentials;
         let headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
@@ -1907,34 +1893,34 @@ let CommunicationService = class CommunicationService {
         return this.http.get(url, { headers });
     }
     checkFriendRequestStatus(usrImageID) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'checkfriendrequeststatus/?userImageID=' + usrImageID;
+        let url = this.serverPath + 'checkfriendrequeststatus/?userImageID=' + usrImageID;
         console.log(url);
         return this.http.get(url);
     }
     sendFriendRequest(usrImageID) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'sendfriendrequest/?userImageID=' + usrImageID;
+        let url = this.serverPath + 'sendfriendrequest/?userImageID=' + usrImageID;
         console.log(url);
         return this.http.get(url);
     }
     manageFriendRequest(usrImageID, friendrequeststatus) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'managefriendrequest/?userImageID=' + usrImageID + '&frndrqststs=' + friendrequeststatus;
+        let url = this.serverPath + 'managefriendrequest/?userImageID=' + usrImageID + '&frndrqststs=' + friendrequeststatus;
         console.log(url);
         return this.http.get(url);
     }
     logout() {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'logout/';
+        let url = this.serverPath + 'logout/';
         return this.http.get(url);
     }
     checkSession(token) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'checksession/?sessiontoken=' + token;
+        let url = this.serverPath + 'checksession/?sessiontoken=' + token;
         return this.http.get(url);
     }
     checkEmailAvailability(emailID) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'checkemailavailability/?emailID=' + emailID;
+        let url = this.serverPath + 'checkemailavailability/?emailID=' + emailID;
         return this.http.get(url);
     }
     registerNewUser(formData) {
-        let url = _constants_app_const__WEBPACK_IMPORTED_MODULE_3__["AppConst"].serverPath + 'registernewuser';
+        let url = this.serverPath + 'registernewuser';
         return this.http.post(url, formData, { reportProgress: true, observe: 'events' });
     }
 };

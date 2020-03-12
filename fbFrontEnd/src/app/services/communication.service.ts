@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from "rxjs";
-import { AppConst } from '../constants/app-const';
 
 @Injectable({
   providedIn: 'root'
@@ -9,77 +8,80 @@ import { AppConst } from '../constants/app-const';
 
 export class CommunicationService 
 {
+
+  public serverPath: string  = "";
+  
   constructor(private http:HttpClient) { }
 
   getFriendsWallPosts(friendImageID: string): Observable<any>
   {
-    let url = AppConst.serverPath + 'getfriendswall/' + friendImageID;
+    let url = this.serverPath + 'getfriendswall/' + friendImageID;
     return this.http.get(url);  
   }
 
   getWallPosts(): Observable<any> 
   {
-    let url = AppConst.serverPath + 'getwallposts/';
+    let url = this.serverPath + 'getwallposts/';
     return this.http.get(url);  
   }
 
   getSinglePost(postID: string, notUserID: string): Observable<any> 
   {
-    let url = AppConst.serverPath + 'getsinglepost/?PostID=' + postID + '&NotUserID=' + notUserID;
+    let url = this.serverPath + 'getsinglepost/?PostID=' + postID + '&NotUserID=' + notUserID;
     return this.http.get(url);  
   }
 
   getNewsFeed(): Observable<any> 
   {
-    let url = AppConst.serverPath + 'getnewsfeed/';
+    let url = this.serverPath + 'getnewsfeed/';
     return this.http.get(url);  
   }
 
   getPostComments(postID: string)
   {
-    let url = AppConst.serverPath + 'getcomments/' + postID + '/';
+    let url = this.serverPath + 'getcomments/' + postID + '/';
     return this.http.get(url);
   }
 
   getFriendsList()
   {
-    let url = AppConst.serverPath + 'getfriendslist/';
+    let url = this.serverPath + 'getfriendslist/';
     return this.http.get(url);
   }
 
   getChatHistory(userImageID: string): Observable<any>
   {
-    let url = AppConst.serverPath + 'getchathistory/?userImageID=' + userImageID;
+    let url = this.serverPath + 'getchathistory/?userImageID=' + userImageID;
     return this.http.get(url);
   }
 
   addComment(postID: string, text: string)
   {
-    let url = AppConst.serverPath + 'addcomment/' + postID + '/' + text + '/';
+    let url = this.serverPath + 'addcomment/' + postID + '/' + text + '/';
     return this.http.get(url);
   }
 
   addLikes(postID: string)
   {
-    let url = AppConst.serverPath + 'addlikes/' + postID + '/';
+    let url = this.serverPath + 'addlikes/' + postID + '/';
     return this.http.get(url);
   }
 
   addDislikes(postID: string)
   {
-    let url = AppConst.serverPath + 'adddislikes/' + postID + '/';
+    let url = this.serverPath + 'adddislikes/' + postID + '/';
     return this.http.get(url);
   }
 
   addWallPost(text: string)
   {
-    let url = AppConst.serverPath + 'addwallpost/' + text + '/';
+    let url = this.serverPath + 'addwallpost/' + text + '/';
     return this.http.get(url);
   }
 
   sendCredential(email: string, password: string)
   {
-  	let url = AppConst.serverPath + '/login';
+  	let url = this.serverPath + '/login';
   	let encodedCredentials = btoa(email+":"+password);
 		let basicHeader = "Basic "+encodedCredentials;
   	let headers = new HttpHeaders({
@@ -91,46 +93,46 @@ export class CommunicationService
 
   checkFriendRequestStatus(usrImageID: string): Observable<any>
   {
-    let url = AppConst.serverPath + 'checkfriendrequeststatus/?userImageID=' + usrImageID;
+    let url = this.serverPath + 'checkfriendrequeststatus/?userImageID=' + usrImageID;
     console.log(url);
     return this.http.get(url);
   }
 
   sendFriendRequest(usrImageID: string): Observable<any>
   {
-    let url = AppConst.serverPath + 'sendfriendrequest/?userImageID=' + usrImageID;
+    let url = this.serverPath + 'sendfriendrequest/?userImageID=' + usrImageID;
     console.log(url);
     return this.http.get(url);
   }
 
   manageFriendRequest(usrImageID: string, friendrequeststatus: string): Observable<any>
   {
-    let url = AppConst.serverPath + 'managefriendrequest/?userImageID=' + usrImageID + '&frndrqststs=' + friendrequeststatus;
+    let url = this.serverPath + 'managefriendrequest/?userImageID=' + usrImageID + '&frndrqststs=' + friendrequeststatus;
     console.log(url);
     return this.http.get(url);
   }
 
   logout(): Observable<any>
   {
-    let url = AppConst.serverPath + 'logout/';
+    let url = this.serverPath + 'logout/';
     return this.http.get(url);    
   }
 
   checkSession(token: string): Observable<any>
   {
-    let url = AppConst.serverPath + 'checksession/?sessiontoken=' + token;
+    let url = this.serverPath + 'checksession/?sessiontoken=' + token;
     return this.http.get(url);    
   }
 
   checkEmailAvailability(emailID: string): Observable<any>
   {
-    let url = AppConst.serverPath + 'checkemailavailability/?emailID=' + emailID;
+    let url = this.serverPath + 'checkemailavailability/?emailID=' + emailID;
     return this.http.get(url);    
   }
 
   registerNewUser(formData: any): Observable<any>
   {
-    let url = AppConst.serverPath + 'registernewuser';
+    let url = this.serverPath + 'registernewuser';
     return this.http.post(url, formData, { reportProgress: true, observe: 'events' });    
   }  
 }

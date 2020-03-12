@@ -39,6 +39,11 @@ export class NavbarComponent implements OnInit
 
   ngOnInit() 
   {
+    var url = window.location.href;
+    var indexOfIndex = url.indexOf("index");
+    this.commService.serverPath = url.substring(0, indexOfIndex); //Get url from index page and initilize comm service serverPath
+    this.wscommService.serverPath = this.commService.serverPath;
+
     this.isLoggedIn$ = this.authService.isLoggedIn;
     this.isLoggedIn$.subscribe(res => 
       {

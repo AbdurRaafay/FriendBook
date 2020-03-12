@@ -18,6 +18,8 @@ public class RequestFilter implements Filter
 {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
     {
+        System.out.println("Pre-fight");
+
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
@@ -39,14 +41,12 @@ public class RequestFilter implements Filter
         }
         else
         {
-            System.out.println("Pre-fight");
             response.setHeader("Access-Control-Allowed-Methods", "POST, GET, DELETE");
             response.setHeader("Access-Control-Max-Age", "3600");
             response.setHeader("Access-Control-Allow-Headers", "authorization, content-type, x-auth-token, " +
                     "access-control-request-headers,access-control-request-method,accept,origin,authorization,x-requested-with");
             response.setStatus(HttpServletResponse.SC_OK);
         }
-
     }
 
     public void init(FilterConfig filterConfig) {}
