@@ -3,9 +3,187 @@ sudo service mongod start
 
 cat /dev/null > ~/.bash_history && history -c && exit
 
-https://medium.com/@uditgogoi1/search-bar-with-autocomplete-using-angular-5-and-angular-material-c5a77a429da7
-https://stackblitz.com/edit/angular-material-google-search?file=app%2Fapp.component.ts
-https://www.positronx.io/angular-8-autocomplete-tutorial-with-angular-material/
+                     Portrait
+                  Width    Height         
+Moto G4           360      640
+Galaxy S5         360      640
+Pixel 2           411      731
+Pixel 2 XL        411      823
+iPhone 5/SE       320      568
+iPhone 6/7/8      375      667
+iPhone 6/7/8 Plus 414      736
+iPhone X          375      812
+
+
+iPad              768      1024
+iPad Pro          1024     1366
+
+                     Landscape
+                  Width    Height         
+Moto G4           640      360 
+Galaxy S5         640      360
+Pixel 2           731      411      
+Pixel 2 XL        823      411      
+iPhone 5/SE       568      320      
+iPhone 6/7/8      667      375      
+iPhone 6/7/8 Plus 736      414      
+iPhone X          812      375      
+
+
+iPad              1024     768      
+iPad Pro          1366     1024     
+
+
+*******************************************************
+Corona Statistics
+https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data
+https://ourworldindata.org/coronavirus-data?country=PAK
+https://corona.lmao.ninja/docs/
+https://covid.vakhramoff.ru/country/de
+https://www.storybench.org/a-roundup-of-coronavirus-dashboards-datasets-and-resources/
+https://www.statsandr.com/blog/how-to-create-a-simple-coronavirus-dashboard-specific-to-your-country-in-r/
+https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases
+https://towardsdatascience.com/creating-a-bubbles-map-using-react-leaflet-e75124ca1cd2
+
+
+https://www.youtube.com/watch?v=dB0B9prem_E GIS and COVID-19: How Mapping Supports the Response and Recovery <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+https://www.youtube.com/watch?v=rHd-AnDtOsQ Spatial Analysis in ArcGIS Online
+https://www.youtube.com/watch?v=B9BKrC5i1hE URISA & Esri: GIS Tools,Templates, and Free Resources for COVID-19 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+https://www.youtube.com/watch?v=xJPelj0UhZk Enhanced Logistics for Operational Efficiency in Petroleum
+https://www.youtube.com/watch?v=7CadOIX40Q8 Feature Extraction from Imagery
+
+https://www.youtube.com/watch?v=QP_XxfNgApU
+How to Create Coronavirus Maps with Free Tools and Data
+
+
+*******************************************************
+
+https://medium.com/better-programming/build-fast-json-powered-forms-on-angular-with-ngx-formly-b7a00733e66e
+https://medium.com/better-programming/how-to-build-fast-advanced-json-powered-forms-on-angular-with-ngx-formly-77aeed406f73
+
+https://ainize.ai/laeyoung/wuhan-coronavirus-api
+https://plnkr.co/edit/SVJfLf8gR0VysrFVkwsS?p=preview&preview
+https://stackblitz.com/edit/angular-ngx-leaflet?file=app%2Fapp.component.ts
+https://codesandbox.io/s/l99zpw0kml?file=/src/app/states.json
+https://leafletjs.com/examples/choropleth/
+
+
+
+
+*************************Angular Static deployment
+What helped me was,
+
+    Run an ng build --prod --base-href ./ in the app route directory and generate the dist/ files
+
+    In the dist/ directory, edit the index.html to remote the type="module" and nomodule defer attributes from the scripts.
+
+    Ex:
+
+    <script src="runtime-es2015.1eba213af0b233498d9d.js" type="module"></script>
+    <script src="runtime-es5.1eba213af0b233498d9d.js" nomodule defer></script>
+
+    should be changed to,
+
+    <script src="runtime-es2015.1eba213af0b233498d9d.js"></script>
+    <script src="runtime-es5.1eba213af0b233498d9d.js"></script>
+
+Now you should be able to render the index.html file in a browser.
+
+
+Estimating actual COVID 19 cases (novel corona virus infections) in an area based on deaths
+https://www.youtube.com/watch?v=mCa0JXEwDEk
+
+Mapping the Coronavirus Cases in 2020 using Python GeoPandas and ArcGIS
+https://www.youtube.com/watch?v=cxLht5KN3pQ
+
+COVID-19 Response: Location Allocation
+https://www.youtube.com/watch?v=tLO1T55Orac
+
+URISA & Esri: GIS Tools,Templates, and Free Resources for COVID-19
+https://www.youtube.com/watch?v=B9BKrC5i1hE
+
+GIS and COVID-19: How Mapping Supports the Response and Recovery
+https://www.youtube.com/watch?v=dB0B9prem_E
+
+Esri 2014 UC Tech Session: Spatial Data Mining: A Deep Dive into Cluster Analysis
+https://www.youtube.com/watch?v=m6wFsgQUbM8
+
+*************************Angular performance
+https://github.com/mgechev/angular-performance-checklist
+https://christianlydemann.com/the-complete-guide-to-angular-load-time-optimization/
+https://medium.com/faun/44-quick-tips-to-fine-tune-angular-performance-9f5768f5d945
+
+*************************Angular Leaflet examples
+https://codesandbox.io/examples/package/@asymmetrik/ngx-leaflet
+
+*************************Redux fundamentals
+https://redux.js.org/introduction/three-principles
+
+*************************Angular simple state management
+https://www.npmjs.com/package/@rx-angular/state
+
+*************************GIS Sample App
+https://toddwschneider.com/posts/analyzing-1-1-billion-nyc-taxi-and-uber-trips-with-a-vengeance/
+http://freerangestats.info/blog/2019/12/22/nyc-taxis-sql
+
+https://www.ngdevelop.tech/prerender-angular-application-using-angular-universal-prerenderer/
+https://www.ngdevelop.tech/implement-angular-server-side-rendering/
+
+*************************CSS Media Query Device List
+https://css-tricks.com/snippets/css/media-queries-for-standard-devices/
+
+*************************CSS Flexbox
+https://www.smashingmagazine.com/2018/08/flexbox-alignment/
+
+*************************PostGIS GIS
+https://blog.scottlogic.com/2018/01/12/playing-with-postgis.html
+https://longair.net/blog/2017/07/10/approximate-postcode-boundaries/
+https://stackoverflow.com/questions/27624940/map-a-postgis-geometry-point-field-with-hibernate-on-spring-boot
+https://spring.io/blog/2016/03/20/a-geospatial-messenger-with-kotlin-spring-boot-and-postgresql
+https://www.youtube.com/watch?v=8QPqIgRV4FM
+
+*************************Angular Material Table Responsive
+https://stackblitz.com/edit/angular-closing-side-nav-in-mobile?file=app%2Fsidenav-responsive-example.ts
+https://stackoverflow.com/questions/54765933/side-nav-is-not-working-properly-angular-material-angular-7
+https://www.digitalocean.com/community/tutorials/angular-breakpoints-angular-cdk
+https://stackblitz.com/angular/drevrrgpaqx?file=src%2Fapp%2Ftable-selection-example.ts
+https://stackblitz.com/edit/material-table-responsive?file=src%2Fapp%2Ftable-basic-example.html
+https://stackblitz.com/edit/cdk-breakpoint-observer-so?file=app%2Fscreen-type%2Fscreen-type.component.ts
+
+*************************Angular Material Table Date Sort
+https://stackoverflow.com/questions/47506984/how-to-sort-date-time-column-in-angular-4-material-sort
+
+*************************Angular Responsive Design
+https://stackoverflow.com/questions/47741965/angular-full-screen-layout-with-toolbar
+
+https://medium.com/@karsonbraaten/create-an-angular-material-responsive-sidenav-directive-5f641c53b2be <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+https://stackblitz.com/edit/angular-akre5x?file=app/sidenav-responsive-example.html
+https://robferguson.org/blog/2018/11/10/angular-material-toolbar-and-sidenav/
+https://stackblitz.com/edit/angular-khnxwz-qotjpp?file=app%2Fsidenav-fixed-example.html
+https://stackblitz.com/edit/angular-khnxwz-sg9fnn?file=app%2Fsidenav-fixed-example.html
+https://stackoverflow.com/questions/54528120/angular-material-fixed-side-bar-header-not-a-fixed
+https://stackoverflow.com/questions/57885511/angular-material-nav-sidebar-only-shows-on-responsive-resizing
+
+https://codesandbox.io/s/angular-sme5o?file=/src/app/chart.component.ts
+
+https://jsfiddle.net/highcharts/ehg3zwvy/?utm_source=website&utm_medium=embed&utm_campaign=ehg3zwvy   <<<<<<<<<<<<<<<<<< CORONA
+http://jsfiddle.net/8rgtuhbn/1/   <<<<<<<<<<<<<<<<<< Zoom
+http://jsfiddle.net/beaver71/nccwpmen/   <<<<<<<<<<<<<<<<<< Continents
+https://jsfiddle.net/BlackLabel/uw71Lsxk   <<<<<<<<<<<<<<<<<< Switch maps
+https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/samples/maps/plotoptions/series-allareas-false/ 
+https://javascriptkicks.com/articles/201940/using-angular-components-with-third-party-libraries  <<<<<<<<<<<<<<  Highcharts tooltip from angular detect changes
+https://stackblitz.com/edit/angular-x81pmv  <<<<<<<<<<<<<<  Highcharts angular click back
+
+https://stackoverflow.com/questions/54143002/run-angular-7-project-locally-on-file-without-server
+https://stackoverflow.com/questions/40024147/run-angular2-as-static-app-in-browser-without-a-server
+https://stackblitz.com/edit/angular-myhyjs?file=src%2Fapp%2Fmapdata.js
+https://stackblitz.com/edit/angular-highcharts-stock-byjo6a?file=app%2Fapp.component.ts
+https://www.highcharts.com/blog/tutorials/a-small-covid-19-dashboard-from-scratch/
+https://medium.com/@anshurajlive/covid-19-analyzer-app-in-angular-using-highcharts-world-map-9dacb67ba928
+https://alligator.io/angular/
+https://alligator.io/angular/unique-field-validation/
+https://alligator.io/angular/angular-and-leaflet-shape-service/
+
 https://coderprog.com/mastering-spring-effective-enterprise-applications/
 
 *************************Docker Spring Boot
@@ -26,33 +204,7 @@ https://reflectoring.io/spring-boot-web-controller-test/
 https://reflectoring.io/spring-boot-mock/
 https://www.javacodegeeks.com/2017/05/mocking-spring-security-context-unit-testing.html
 
-*************************Angular Responsive Design
-https://www.youtube.com/watch?v=kbLfWKGVsMQ
-https://tburleson-layouts-demos.firebaseapp.com/#/stackoverflow
-https://internetingishard.com/html-and-css/floats/
-https://internetingishard.com/html-and-css/flexbox/
-https://www.w3schools.com/css/css_website_layout.asp
-https://www.w3schools.com/css/css_rwd_intro.asp
-https://www.w3schools.com/howto/howto_css_blog_layout.asp
-https://www.youtube.com/watch?v=6pidsgeLLzE
-https://github.com/angular/flex-layout/wiki/Responsive-API
-https://www.smashingmagazine.com/2018/10/news-application-with-angular-and-material-design/
-https://medium.com/@nima_ap/creating-a-responsive-dashboard-in-angular-5-from-scratch-147f6a493d9e
-https://stackoverflow.com/questions/41923289/how-to-make-angular-flex-layout-wrap-based-on-screensize
-https://slides.com/thomasburleson/flex-layout#/8/5
-https://www.infragistics.com/products/ignite-ui-angular/angular/components/general/wpf_to_angular_guide/layout.html
-https://alligator.io/angular/flex-layout/
-https://www.positronx.io/angular-css3-flexbox-holy-grail-layout/
-http://blog.sodhanalibrary.com/2015/08/responsive-web-design-using-angularjs.html
-https://stackoverflow.com/questions/50760480/angular-flex-layout-responsive-layout-combining-row-and-column
-https://brianflove.com/2017/05/03/responsive-angular/
-https://stackoverflow.com/questions/41923289/how-to-make-angular-flex-layout-wrap-based-on-screensize
-https://www.youtube.com/watch?v=geqjUtKJX5s
-https://www.youtube.com/watch?v=BhHJexXUx1A
-https://www.youtube.com/watch?v=Q6qhzG7mObU
-https://www.youtube.com/watch?v=ZYV6dYtz4HA
-https://www.youtube.com/watch?v=k32voqQhODc
-https://stackoverflow.com/questions/57919656/responsive-grid-with-angular-flex-layout-angular-material-and-mat-card-with-i
+https://github.com/creativetimofficial/material-dashboard-angular2
 
 *************************Elasticsearch
 https://www.elastic.co/blog/a-practical-introduction-to-elasticsearch

@@ -1,30 +1,16 @@
-<div class = "main-navbar" *ngIf="isLoggedIn$ | async">
-    <div class = "navbar-title">
+<div fxLayout = "row" fxLayout.xs = "column" fxLayoutAlign="space-around start" class = "fbNavBar">
+    <div fxFlex = "10" class = "fbNavBarTitle">
         FriendBook
     </div>
-    <div class="navbar-search">
-        <mat-form-field class="search-text-input">
-            <input matInput placeholder="Search" aria-label="Number" [formControl]="searchFormControl" [matAutocomplete]="auto">
-            <mat-autocomplete class="search-autocomplete" #auto="matAutocomplete">
-            <mat-option (onSelectionChange)="onSearchItemSelected($event, option)" *ngFor="let option of autoCompleteList | async" [value]="option.name">
-                <img class = "search-user-pic" src="/images/{{option.imageID}}.jpg">                            
-                <span class = "search-user-name">{{option.name}}</span>
-            </mat-option>
-            </mat-autocomplete>
+    <div fxFlex = "70">
+        <mat-form-field class="fbNavBarSearchInput">
+            <input matInput placeholder="Search" aria-label="Number" [formControl]="searchFormControl">
         </mat-form-field>
     </div>
-    <div class = "navbar-icons-group">
-        <div class = "navbar-icons">
-            <i class="nav-bar-notification" (click)="onNotificationClicked()"><img class = "navbar-icons-svg" src="/icons/notification.svg"></i>
-        </div>
-        <div class = "navbar-icons">
-            <i (click)="onNewsFeedClicked()"><img class = "navbar-icons-svg" src="/icons/home.svg"></i>
-        </div>
-        <div class = "navbar-icons">
-            <i (click)="onWallClicked()"><img class = "navbar-icons-svg" src="/icons/firewall.svg"></i>
-        </div>
-        <div class = "navbar-icons">
-            <i (click)="onLogoutClicked()"><img class = "navbar-icons-svg" src="/icons/logout.svg"></i>
-        </div>    
+    <div fxFlex = "10" fxLayout = "row">
+        <i (click)="onNotificationClicked()"><img class = "fbNavBarIcon" src="/icons/notification.svg"></i>
+        <i (click)="onNewsFeedClicked()"><img class = "fbNavBarIcon" src="/icons/home.svg"></i>
+        <i (click)="onWallClicked()"><img class = "fbNavBarIcon" src="/icons/firewall.svg"></i>
+        <i (click)="onLogoutClicked()"><img class = "fbNavBarIcon" src="/icons/logout.svg"></i>
     </div>
 </div>

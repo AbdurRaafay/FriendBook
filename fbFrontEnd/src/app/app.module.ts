@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatInputModule, MatAutocompleteModule, MatFormFieldModule, MatMenuModule, MatCardModule, MatButtonModule, 
-  MatNativeDateModule, MatSelectModule, MatToolbarModule, MatListModule, MatSidenavModule, MatDatepickerModule } from '@angular/material';
+  MatNativeDateModule, MatSelectModule, MatToolbarModule, MatListModule, MatSidenavModule, MatDatepickerModule, MatIconModule } from '@angular/material';
 import { TimeAgoPipe } from 'time-ago-pipe';
 import { NgChatModule } from 'ng-chat';
 
@@ -59,6 +59,7 @@ import { RegisterComponent } from './components/register/register.component';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatIconModule,
     FlexLayoutModule
   ],
   providers: [ MatDatepickerModule ],

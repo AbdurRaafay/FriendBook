@@ -18,8 +18,6 @@ public class RequestFilter implements Filter
 {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
     {
-        System.out.println("Pre-fight");
-
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
 
