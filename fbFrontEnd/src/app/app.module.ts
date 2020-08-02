@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
+import { NewsfeedComponent } from './components/newsfeed/newsfeed/newsfeed.component';
 
 const appearance: MatFormFieldDefaultOptions = 
 {
@@ -65,8 +66,10 @@ export function passwordMatchValidator(control: AbstractControl)
 }
 
 @NgModule({
-  declarations: [
-    AppComponent
+  declarations: 
+  [
+    AppComponent,
+    NewsfeedComponent
   ],
   imports: [ 
     BrowserAnimationsModule,
@@ -75,7 +78,6 @@ export function passwordMatchValidator(control: AbstractControl)
     FormlyModule.forRoot({
       validationMessages: 
       [
-        // Custom validation message
         { name: 'password', message: PasswordValidatorMessage },
         { name: 'telephone', message: TelephoneValidatorMessage },
 				{ name: 'email', message: EmailValidatorMessage },
@@ -91,9 +93,10 @@ export function passwordMatchValidator(control: AbstractControl)
     MatNativeDateModule,
     FormlyMaterialModule,
     FormlyMatDatepickerModule,
-
+    HttpClientModule,
   ],
-  providers: [
+  providers: 
+  [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: appearance

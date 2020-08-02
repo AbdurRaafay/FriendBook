@@ -11,10 +11,8 @@
 
 <div [style.display]="showRegister ? 'flex': 'none'" class="loginPageStyle">
   <div class="startPageTitle">FriendBook Registration</div>
-  <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+  <form class="registerFormStyle" [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
     <formly-form [form]="registerForm" [model]="registerModel" [fields]="registerFields"></formly-form>
-    <div class="loginButtonGroup">
-      <button [disabled]="registerForm.invalid" type="submit" mat-raised-button color="primary">Register</button>
-    </div>
   </form>
+  <button [disabled]="registerForm.invalid" type="submit" mat-raised-button color="primary">Register</button>
 </div>
