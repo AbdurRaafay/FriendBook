@@ -1,69 +1,104 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatInputModule, MatAutocompleteModule, MatFormFieldModule, MatMenuModule, MatCardModule, MatButtonModule, 
-  MatNativeDateModule, MatSelectModule, MatToolbarModule, MatListModule, MatSidenavModule, MatDatepickerModule, MatIconModule } from '@angular/material';
-import { TimeAgoPipe } from 'time-ago-pipe';
-import { NgChatModule } from 'ng-chat';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NewsfeedComponent } from './components/newsfeed/newsfeed.component';
-import { NewpostComponent } from './components/newpost/newpost.component';
-import { NPostDirective } from './components/newpost/newpost.directive';
-import { LoginComponent } from './components/login/login.component';
-import { WallComponent } from './components/wall/wall.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SinglepostComponent } from './components/singlepost/singlepost.component';
-import { FriendswallComponent } from './components/friendswall/friendswall.component';
-import { FriendrequestComponent } from './components/friendrequest/friendrequest.component';
-import { FriendrequestmanageComponent } from './components/friendrequestmanage/friendrequestmanage.component';
-import { RegisterComponent } from './components/register/register.component';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
+import { ReactiveFormsModule, FormControl, ValidationErrors, AbstractControl } from '@angular/forms'
+import { FormlyModule, FormlyFieldConfig } from '@ngx-formly/core';
+import { FormlyMaterialModule } from '@ngx-formly/material';
+import { HttpClientModule } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core';
+import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
+
+const appearance: MatFormFieldDefaultOptions = 
+{
+  appearance: 'outline'
+};
+
+export function EmailValidator(control: FormControl): ValidationErrors 
+{
+	return !control.value || /^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(control.value) ? null : { 'email': true };
+}
+
+export function EmailValidatorMessage(err, field: FormlyFieldConfig) 
+{
+	return `"${field.formControl.value}" is not a valid email address`;
+}
+
+export function PasswordValidator(control: FormControl): ValidationErrors 
+{
+	return !control.value || /^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(control.value) ? null : { 'ip': true };
+}
+
+export function PasswordValidatorMessage(err, field: FormlyFieldConfig) 
+{
+	return `"${field.formControl.value}" is not a valid password`;
+}
+
+export function TelephoneValidator(control: FormControl): ValidationErrors 
+{
+	return !control.value || /^[\+][0-9]{1,3}[0-9]{4,14}$/.test(control.value) ? null : { 'telephone': true };
+}
+
+export function TelephoneValidatorMessage(err, field: FormlyFieldConfig) 
+{
+	return `"${field.formControl.value}" is not a valid telephone number`;
+}
+
+export function passwordMatchValidator(control: AbstractControl) 
+{
+  const { password, passwordConfirm } = control.value;
+
+  // avoid displaying the message error when values are empty
+  if (!passwordConfirm || !password) {
+    return null;
+  }
+
+  if (passwordConfirm === password) {
+    return null;
+  }
+
+  return { passwordMatch: { message: 'Password Not Matching' } };
+}
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NewsfeedComponent,
-    NewpostComponent,
-    NPostDirective,
-    LoginComponent,
-    WallComponent,
-    NavbarComponent,
-    TimeAgoPipe,
-    SinglepostComponent,
-    FriendrequestComponent,
-    FriendswallComponent,
-    FriendrequestmanageComponent,
-    RegisterComponent
+    AppComponent
   ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatInputModule, 
-    MatAutocompleteModule, 
-    MatFormFieldModule,
-    AppRoutingModule,
-    HttpClientModule,
-    NgChatModule,
-    NoopAnimationsModule,
-    MatToolbarModule,
-    MatMenuModule,
-    MatListModule,
-    MatCardModule, 
+  imports: [ 
+    BrowserAnimationsModule,
     MatButtonModule,
-    MatSidenavModule,
-    MatSelectModule,
-    MatDatepickerModule,
+    ReactiveFormsModule,
+    FormlyModule.forRoot({
+      validationMessages: 
+      [
+        // Custom validation message
+        { name: 'password', message: PasswordValidatorMessage },
+        { name: 'telephone', message: TelephoneValidatorMessage },
+				{ name: 'email', message: EmailValidatorMessage },
+			],
+      validators: 
+      [
+				{ name: 'password', validation: PasswordValidator },
+				{ name: 'telephone', validation: TelephoneValidator },
+        { name: 'email', validation: EmailValidator },
+        { name: 'passwordMatch', validation: passwordMatchValidator },
+			],
+    }),
     MatNativeDateModule,
-    MatIconModule,
-    FlexLayoutModule
+    FormlyMaterialModule,
+    FormlyMatDatepickerModule,
+
   ],
-  providers: [ MatDatepickerModule ],
-  bootstrap: [ AppComponent ],
-  entryComponents: [ NewpostComponent ]
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: appearance
+    }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

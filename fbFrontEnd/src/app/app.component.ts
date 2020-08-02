@@ -1,55 +1,132 @@
-import { Component, Renderer2, HostListener } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
-import { Observable } from 'rxjs';
-
-import { ScrollService } from 'src/app/services/scroll.service';
-import { ChatControl } from './components/chatcontainer/chatcontrol';
-import { AuthenticationService } from './services/authentication.service';
-import { CommunicationService } from 'src/app/services/communication.service';
-import { WebsocketmessagingService } from 'src/app/services/websocketmessaging.service';
+import { Component } from '@angular/core';
+import {FormGroup} from '@angular/forms';
+import {FormlyFieldConfig} from '@ngx-formly/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-
-export class AppComponent
+export class AppComponent 
 {
-  title = 'fbFrontEnd';
-  adapter: ChatControl = new ChatControl();
-  isLoggedIn$: Observable<boolean>;
+  showLogin: boolean = false;
+  showRegister: boolean = true;
 
-  constructor(private renderer: Renderer2, private router: Router, private scrSrv: ScrollService, private authService: AuthenticationService,
-    private commService: CommunicationService, private wscommService: WebsocketmessagingService)
-  {
-    this.renderer.setStyle(document.body, 'background-color', 'rgb(231, 235, 242)');
-    this.isLoggedIn$ = this.authService.isLoggedIn;
-    this.isLoggedIn$.subscribe(res => 
+  loginForm = new FormGroup({});
+  loginModel = {};
+  loginFields: FormlyFieldConfig[] = 
+  [
+    {
+      key: 'email',
+      type: 'input',
+      templateOptions: 
       {
-        if(res == true)
+        type: 'email',
+        label: 'Email',
+        placeholder: 'Email',
+        minLength: 6,
+        maxLength: 30,
+        required: true,
+      },
+      validators: 
+      {
+        validation: ['email'],
+      },
+    },
+    {
+      key: 'password',
+      type: 'input',
+      templateOptions: 
+      {
+        type: 'password',
+        label: 'Password',
+        placeholder: 'Password',
+        minLength: 6,
+        maxLength: 30,
+        required: true,
+      },
+      validators: { validation: ['password'] },
+    }
+  ];
+
+  registerForm = new FormGroup({});
+  registerModel = {};
+  registerFields: FormlyFieldConfig[] = 
+  [    
+    {
+      key: 'firstName', type: 'input', templateOptions: { label: 'First Name', required: true, },
+    },
+    {
+      key: 'lastName', type: 'input', templateOptions: { label: 'Last Name', required: true, },
+    },
+    {
+      key: 'email', type: 'input', templateOptions: { label: 'Email', placeholder: 'Email', required: true, },
+      validators: { validation: ['email'], },
+    },
+    { 
+      validators: { validation: [ { name: 'passwordMatch', options: { errorPath: 'passwordConfirm' } }, ], },
+      fieldGroup: [
         {
-          this.adapter.commService = this.commService;
-          this.adapter.wsService = this.wscommService;
-          this.adapter.setFriendsList();
-          this.adapter.registerCallBacks();
-          this.wscommService.connectToChat();
-        }
-      });
+          key: 'password',
+          type: 'input',
+          templateOptions: {
+            type: 'password',
+            label: 'Password',
+            placeholder: 'Must be at least 3 characters',
+            required: true,
+            minLength: 3,
+          },
+        },
+        {
+          key: 'passwordConfirm',
+          type: 'input',
+          templateOptions: {
+            type: 'password',
+            label: 'Confirm Password',
+            placeholder: 'Please re-enter your password',
+            required: true,
+          },
+        },
+      ],
+    },
+    {
+      key: 'telephone', type: 'input', templateOptions: { label: 'Telephone', placeholder: 'Telephone', required: true, },
+      validators: { validation: ['telephone'] },
+    },
+    {
+      key: 'genderSelect', type: 'select',
+      templateOptions: 
+      {
+        label: 'Gender', placeholder: 'Placeholder', required: true, options: [ { value: 1, label: 'Male'  }, { value: 2, label: 'Female'  }, { value: 3, label: 'Other' } ],
+      },
+    },
+    { 
+      key: 'Datepicker', type: 'datepicker', templateOptions: { label: 'Date of birth', placeholder: 'Date of birth', required: true, },
+    },
+  ];
+
+  onLoginSubmit() 
+  {
+    if (this.loginForm.valid) 
+    {
+      console.log(this.loginModel);
+    }
   }
 
-  @HostListener('window:scroll')
-  checkScroll() 
+  onRegisterSubmit() 
   {
-    let a = document.documentElement.scrollTop;
-    let b = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    let c = a/b*100;
-    if( c == 100 )
+    if (this.registerForm.valid) 
     {
-      if(this.router.url === '/newsfeed')
-        this.scrSrv.sendScrollMessage('newsfeed');
-      else if(this.router.url === '/wall')
-        this.scrSrv.sendScrollMessage('wall');
+      console.log(this.registerModel);
+    }
+  }
+
+  loadPage(choice: string)
+  {
+    if(choice === 'register')
+    {
+      this.showLogin = false;
+      this.showRegister = true;
     }
   }
 }

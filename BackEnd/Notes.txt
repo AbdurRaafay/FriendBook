@@ -3,6 +3,56 @@ sudo service mongod start
 
 cat /dev/null > ~/.bash_history && history -c && exit
 
+Access from LAN
+ng serve --host 0.0.0.0
+ng serve --host 0.0.0.0 --port 8080
+
+ng add @ngx-formly/core@5.x
+
+ng add @ngx-formly/schematics --ui-theme=material
+
+npm install @angular/cdk@^9.2.4 --save
+npm install @angular/flex-layout@^9.0.0-beta.29 --save
+npm install @angular/material@^9.2.4 --save
+
+In angular.json change "outputPath": "dist/" 
+ng build --prod --base-href="https://abdurraafay.github.io/AngularCoronaDashBoard/"
+
+To run from local folder without ng serve
+ng build --prod --base-href ./
+
+change index.html delete nomodule
+sudo angular-cli-ghpages --no-silent
+https://abdurraafay.github.io/AngularCoronaDashBoard
+
+git log --oneline --graph
+
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/AbdurRaafay/test.git
+git push -u origin master
+
+ng build --stats-json
+npx webpack-bundle-analyzer dist/stats.json
+
+https://blog.mgechev.com/2019/02/06/5-angular-cli-features/
+https://medium.com/runic-software/the-simple-guide-to-angular-leaflet-maps-41de83db45f1
+
+https://itnext.io/build-an-enterprise-scalable-dashboard-using-angular-155aa4280a74
+https://web.dev/one-line-layouts/
+
+https://public.tableau.com/profile/kffdata#!/vizhome/KFF-CoronavirusTracker-Update4-10-20/Overview
+https://community.powerbi.com/t5/COVID-19-Data-Stories-Gallery/bd-p/pbi_covid19_datastories
+https://www.techrepublic.com/article/esris-new-covid-19-dashboard-gives-daily-update-on-coronavirus-impact-for-every-us-county/
+https://github.com/pomber/covid19
+https://pomber.github.io/covid19/timeseries.json
+https://github.com/entorb/COVID-19-Coronavirus-German-Regions
+
+https://stackblitz.com/edit/angular-af55ep?file=src%2Fapp%2Fapp.component.html
+https://github.com/cthiebaud/cthiebaud.github.io/blob/master/js/model/population.js
+https://github.com/cthiebaud/cthiebaud.github.io/tree/master/js/model
+
                      Portrait
                   Width    Height         
 Moto G4           360      640
@@ -13,7 +63,6 @@ iPhone 5/SE       320      568
 iPhone 6/7/8      375      667
 iPhone 6/7/8 Plus 414      736
 iPhone X          375      812
-
 
 iPad              768      1024
 iPad Pro          1024     1366
@@ -29,13 +78,61 @@ iPhone 6/7/8      667      375
 iPhone 6/7/8 Plus 736      414      
 iPhone X          812      375      
 
-
 iPad              1024     768      
 iPad Pro          1366     1024     
 
+https://stackblitz.com/edit/angular-chartjs-multiple-charts?file=src%2Fapp%2Fapp.component.html
+https://stackblitz.com/edit/angular-chart-js?file=package.json
+https://andrew-flower.com/blog/angular-chartjs
+
+*******************************************************
+Angular NgTemplateOutlet
+*******************************************************
+https://alligator.io/angular/reusable-components-ngtemplateoutlet/
+
+*******************************************************
+CSS Grid and FlexBox
+*******************************************************
+https://medium.com/swlh/how-i-use-css-grid-and-flexbox-to-create-a-one-page-website-262aeea3592a
+https://medium.com/better-programming/how-i-use-css-grid-and-flexbox-to-create-a-one-page-website-part-2-e575edb422fe
+https://medium.com/@elad/becoming-a-css-grid-ninja-f4c6db018cc1
+https://www.w3schools.com/css/css_grid_item.asp
+https://stackoverflow.com/questions/35574514/how-can-i-use-flexbox-to-achieve-a-complex-responsive-html-layout
+https://stackoverflow.com/questions/44377343/css-only-masonry-layout
+https://tobiasahlin.com/blog/masonry-with-css/
+https://codepen.io/collection/XPjvPP/
+https://codepen.io/imjuangarcia/pen/MLyQPO
+*******************************************************
+Angular profiling
+*******************************************************
+chrome://tracing
+ng build --prod --profile 
+
+chrome-profiler-events.json
+
+Open chrome://tracing and click on “Load” in the top left corner
+
+Select chrome-profiler-events.json
+
+*******************************************************
+Corona Infection Simulation
+https://github.com/neherlab/covid19_scenarios
+*******************************************************
 
 *******************************************************
 Corona Statistics
+*******************************************************
+https://github.com/pomber/covid19
+https://github.com/entorb/COVID-19-Coronavirus-German-Regions
+https://entorb.net/COVID-19-coronavirus/?yAxis=Deaths_Last_Week_Per_Million&countries=DE#CountriesCustomChart
+
+https://www.kaggle.com/sudalairajkumar/novel-corona-virus-2019-dataset
+https://console.cloud.google.com/marketplace/product/bigquery-public-datasets/covid19-open-data
+https://www.mathematica.org/features/covid-19-curated-data-modeling-and-policy-resources
+https://www.storybench.org/a-roundup-of-coronavirus-dashboards-datasets-and-resources/
+http://www.arcgis.com/home/item.html?id=c18b87f786c4462fab34ade571f7a025
+https://www.esri.com/videos/watch?videoid=Bh_H_55AicU&title=14-sharpen-your-skills-location-allocation
+
 https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data
 https://ourworldindata.org/coronavirus-data?country=PAK
 https://corona.lmao.ninja/docs/
@@ -43,8 +140,28 @@ https://covid.vakhramoff.ru/country/de
 https://www.storybench.org/a-roundup-of-coronavirus-dashboards-datasets-and-resources/
 https://www.statsandr.com/blog/how-to-create-a-simple-coronavirus-dashboard-specific-to-your-country-in-r/
 https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases
-https://towardsdatascience.com/creating-a-bubbles-map-using-react-leaflet-e75124ca1cd2
 
+
+https://coderprog.com/mastering-tableau-2019-1-2nd/
+https://coderprog.com/mastering-postgresql-11-2nd/
+https://coderprog.com/machine-learning-elastic-stack-techniques/
+https://coderprog.com/tableau-desktop-certified-associate-exam-guide/
+https://coderprog.com/mastering-c-programming-best-practices/
+https://coderprog.com/advanced-c-cookbook-programmer-concurrency/
+https://coderprog.com/sql-postgresql-beginners-expert-video/
+https://stackoverflow.com/questions/5905492/dynamic-function-name-in-javascript
+https://stackoverflow.com/questions/9479046/is-there-any-non-eval-way-to-create-a-function-with-a-runtime-determined-name/9479081#9479081
+https://stackoverflow.com/questions/969743/how-do-i-call-a-dynamically-named-method-in-javascript
+
+https://www.youtube.com/watch?v=lwUDvNfVeEo
+https://www.youtube.com/watch?v=wZ9_8mR6658
+https://www.youtube.com/watch?v=fqXxEy4OCsc
+https://www.youtube.com/watch?v=AM4t4xH-wqI
+https://www.youtube.com/watch?v=BsiPZYbQaBc
+https://www.youtube.com/watch?v=zrxYWzSvJ6E
+https://www.youtube.com/watch?v=NBbH9hWpY_4
+https://www.youtube.com/watch?v=Tdfl1hQ1kNw
+https://www.youtube.com/watch?v=UMaBQx9wMDk
 
 https://www.youtube.com/watch?v=dB0B9prem_E GIS and COVID-19: How Mapping Supports the Response and Recovery <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 https://www.youtube.com/watch?v=rHd-AnDtOsQ Spatial Analysis in ArcGIS Online
@@ -61,14 +178,17 @@ How to Create Coronavirus Maps with Free Tools and Data
 https://medium.com/better-programming/build-fast-json-powered-forms-on-angular-with-ngx-formly-b7a00733e66e
 https://medium.com/better-programming/how-to-build-fast-advanced-json-powered-forms-on-angular-with-ngx-formly-77aeed406f73
 
+https://towardsdatascience.com/creating-a-bubbles-map-using-react-leaflet-e75124ca1cd2
+
 https://ainize.ai/laeyoung/wuhan-coronavirus-api
 https://plnkr.co/edit/SVJfLf8gR0VysrFVkwsS?p=preview&preview
 https://stackblitz.com/edit/angular-ngx-leaflet?file=app%2Fapp.component.ts
+https://stackblitz.com/edit/angular-tppntk?file=src%2Fapp%2Fapp.component.ts
 https://codesandbox.io/s/l99zpw0kml?file=/src/app/states.json
 https://leafletjs.com/examples/choropleth/
 
 
-
+https://github.com/ng-matero/ng-matero
 
 *************************Angular Static deployment
 What helped me was,
@@ -108,12 +228,18 @@ https://www.youtube.com/watch?v=dB0B9prem_E
 Esri 2014 UC Tech Session: Spatial Data Mining: A Deep Dive into Cluster Analysis
 https://www.youtube.com/watch?v=m6wFsgQUbM8
 
+*************************CSS Color Gradient
+https://uigradients.com/#Rastafari
+http://blogs.perl.org/users/ovid/2010/12/perl101-red-to-green-gradient.html
+https://uigradients.com/#PlayingwithReds
+
 *************************Angular performance
 https://github.com/mgechev/angular-performance-checklist
 https://christianlydemann.com/the-complete-guide-to-angular-load-time-optimization/
 https://medium.com/faun/44-quick-tips-to-fine-tune-angular-performance-9f5768f5d945
 
 *************************Angular Leaflet examples
+https://stackblitz.com/edit/angular-tppntk?file=src%2Fapp%2Fapp.component.ts
 https://codesandbox.io/examples/package/@asymmetrik/ngx-leaflet
 
 *************************Redux fundamentals
@@ -174,10 +300,6 @@ https://jsfiddle.net/gh/get/library/pure/highcharts/highcharts/tree/master/sampl
 https://javascriptkicks.com/articles/201940/using-angular-components-with-third-party-libraries  <<<<<<<<<<<<<<  Highcharts tooltip from angular detect changes
 https://stackblitz.com/edit/angular-x81pmv  <<<<<<<<<<<<<<  Highcharts angular click back
 
-https://stackoverflow.com/questions/54143002/run-angular-7-project-locally-on-file-without-server
-https://stackoverflow.com/questions/40024147/run-angular2-as-static-app-in-browser-without-a-server
-https://stackblitz.com/edit/angular-myhyjs?file=src%2Fapp%2Fmapdata.js
-https://stackblitz.com/edit/angular-highcharts-stock-byjo6a?file=app%2Fapp.component.ts
 https://www.highcharts.com/blog/tutorials/a-small-covid-19-dashboard-from-scratch/
 https://medium.com/@anshurajlive/covid-19-analyzer-app-in-angular-using-highcharts-world-map-9dacb67ba928
 https://alligator.io/angular/

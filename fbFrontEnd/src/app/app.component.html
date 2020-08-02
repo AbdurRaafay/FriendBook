@@ -1,7 +1,20 @@
-<app-navbar></app-navbar>
-<div class = "" *ngIf="isLoggedIn$ | async">
-    <ng-chat class = "container-friends" [adapter]="adapter" [userId]="999" [historyEnabled]="true" [historyPageSize]="4" 
-        [hideFriendsList]="false" [audioEnabled]="false" [browserNotificationsEnabled]="false" [pollFriendsList]="false" [pollingInterval]="0">
-    </ng-chat>
+<div [style.display]="showLogin ? 'flex': 'none'" class="loginPageStyle">
+  <div class="startPageTitle">FriendBook</div>
+  <form class="loginFormStyle" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+    <formly-form [form]="loginForm" [model]="loginModel" [fields]="loginFields"></formly-form>
+    <div class="loginButtonGroup">
+      <button [disabled]="loginForm.invalid" type="submit" mat-raised-button color="primary">Login</button>
+      <button (click)="loadPage('register')" mat-raised-button color="primary">Register</button>
+    </div>
+  </form>
 </div>
-<router-outlet></router-outlet>
+
+<div [style.display]="showRegister ? 'flex': 'none'" class="loginPageStyle">
+  <div class="startPageTitle">FriendBook Registration</div>
+  <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
+    <formly-form [form]="registerForm" [model]="registerModel" [fields]="registerFields"></formly-form>
+    <div class="loginButtonGroup">
+      <button [disabled]="registerForm.invalid" type="submit" mat-raised-button color="primary">Register</button>
+    </div>
+  </form>
+</div>
