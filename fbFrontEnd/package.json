@@ -25,6 +25,7 @@
     "@ngx-formly/material": "^5.0.0",
     "@ngx-formly/schematics": "^5.9.3",
     "ng-chat": "^3.0.3",
+    "ngx-formly-material-file": "^1.0.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

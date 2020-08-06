@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import {FormGroup} from '@angular/forms';
-import {FormlyFieldConfig} from '@ngx-formly/core';
+import { Router } from '@angular/router';
+import { FormGroup, FormControl, ValidationErrors } from '@angular/forms';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { map } from 'rxjs/operators';
+import { CommunicationService } from 'src/app/services/communication.service';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +14,10 @@ export class AppComponent
 {
   showLogin: boolean = false;
   showRegister: boolean = true;
+  selectFileTouched: boolean = false;
+  selectedFileName: string = "";
+  isValidImageFile: boolean = false;
+  selectedFile: File
 
   loginForm = new FormGroup({});
   loginModel = {};
@@ -21,7 +28,6 @@ export class AppComponent
       type: 'input',
       templateOptions: 
       {
-        type: 'email',
         label: 'Email',
         placeholder: 'Email',
         minLength: 6,
@@ -54,58 +60,66 @@ export class AppComponent
   registerFields: FormlyFieldConfig[] = 
   [    
     {
-      key: 'firstName', type: 'input', templateOptions: { label: 'First Name', required: true, },
+      key: 'firstName', type: 'input', templateOptions: { label: 'First Name', maxLength: 50, },
     },
     {
-      key: 'lastName', type: 'input', templateOptions: { label: 'Last Name', required: true, },
+      key: 'lastName', type: 'input', templateOptions: { label: 'Last Name', maxLength: 50, },
     },
     {
-      key: 'email', type: 'input', templateOptions: { label: 'Email', placeholder: 'Email', required: true, },
-      validators: { validation: ['email'], },
+      key: 'email', type: 'input', templateOptions: { type: 'email', label: 'Email', placeholder: 'Email', minLength: 5, maxLength: 30, },
+      asyncValidators: 
+      {
+        validation: 
+        [
+          (control: FormControl) => this.commService.checkEmailAvailability(control.value).pipe
+          (
+            map( res => 
+              { 
+                console.log(res); 
+                if (res.status === 'AVAILABLE') 
+                {
+                  return null;
+                } 
+                else if (res.status === 'NOT_AVAILABLE')
+                {
+                  return { uniqueUsername: true };
+                }
+              }),
+          ),
+        ]
+      },
     },
     { 
       validators: { validation: [ { name: 'passwordMatch', options: { errorPath: 'passwordConfirm' } }, ], },
-      fieldGroup: [
+      fieldGroup: 
+      [
         {
-          key: 'password',
-          type: 'input',
-          templateOptions: {
-            type: 'password',
-            label: 'Password',
-            placeholder: 'Must be at least 3 characters',
-            required: true,
-            minLength: 3,
-          },
+          key: 'password', type: 'input', templateOptions: { type: 'password', label: 'Password', placeholder: 'Must be at least 3 characters', minLength: 3, },
         },
         {
-          key: 'passwordConfirm',
-          type: 'input',
-          templateOptions: {
-            type: 'password',
-            label: 'Confirm Password',
-            placeholder: 'Please re-enter your password',
-            required: true,
-          },
+          key: 'passwordConfirm', type: 'input', templateOptions: { type: 'password', label: 'Confirm Password', placeholder: 'Please re-enter your password', },
         },
       ],
     },
     {
-      key: 'telephone', type: 'input', templateOptions: { label: 'Telephone', placeholder: 'Telephone', required: true, },
+      key: 'telephone', type: 'input', templateOptions: { label: 'Telephone', placeholder: 'Telephone', },
       validators: { validation: ['telephone'] },
     },
     {
       key: 'genderSelect', type: 'select',
       templateOptions: 
       {
-        label: 'Gender', placeholder: 'Placeholder', required: true, options: [ { value: 1, label: 'Male'  }, { value: 2, label: 'Female'  }, { value: 3, label: 'Other' } ],
+        label: 'Gender', placeholder: 'Placeholder', options: [ { value: 1, label: 'Male'  }, { value: 2, label: 'Female'  }, { value: 3, label: 'Other' } ],
       },
     },
     { 
-      key: 'Datepicker', type: 'datepicker', templateOptions: { label: 'Date of birth', placeholder: 'Date of birth', required: true, },
+      key: 'Datepicker', type: 'datepicker', templateOptions: { label: 'Date of birth', placeholder: 'Date of birth', },
     },
   ];
 
-  onLoginSubmit() 
+  constructor(private commService: CommunicationService, private router:Router) { }
+
+  onLoginSubmit()
   {
     if (this.loginForm.valid) 
     {
@@ -113,13 +127,13 @@ export class AppComponent
     }
   }
 
-  onRegisterSubmit() 
+  onRegisterSubmit()
   {
     if (this.registerForm.valid) 
     {
-      console.log(this.registerModel);
+      console.log(this.registerModel );
     }
-  }
+  }  
 
   loadPage(choice: string)
   {
@@ -128,5 +142,32 @@ export class AppComponent
       this.showLogin = false;
       this.showRegister = true;
     }
+  }
+
+  onFileChanged(event)
+  {
+    let fr = new FileReader;
+    this.selectFileTouched = true;
+    this.selectedFile = event.target.files[0];
+    this.selectedFileName = this.selectedFile.name;
+    let img = new Image();
+    fr.onload = () => 
+    {
+      img.onload = () => 
+      {
+         console.log(img.width + " " + img.height);
+         if(img.width == 400 && img.height == 400)
+         {
+           this.isValidImageFile = true;
+           this.selectedFile = event.target.files[0];
+           this.selectedFileName = this.selectedFile.name;
+          //  this.uploadData.append('imageFile', this.selectedFile, this.selectedFile.name);
+         }          
+         else
+         this.isValidImageFile = false;
+      }; 
+      img.src = <string>fr.result;
+    };
+    fr.readAsDataURL(event.target.files[0]);
   }
 }

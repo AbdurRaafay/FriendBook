@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldDefaultOptions } from '@angular/material/form-field';
@@ -10,14 +9,14 @@ import { FormlyModule, FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+
 import { MatNativeDateModule } from '@angular/material/core';
 import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
-import { NewsfeedComponent } from './components/newsfeed/newsfeed/newsfeed.component';
+import { MainComponent } from './components/main/main.component';
 
-const appearance: MatFormFieldDefaultOptions = 
-{
-  appearance: 'outline'
-};
+const appearance: MatFormFieldDefaultOptions = { appearance: 'outline' };
 
 export function EmailValidator(control: FormControl): ValidationErrors 
 {
@@ -31,7 +30,7 @@ export function EmailValidatorMessage(err, field: FormlyFieldConfig)
 
 export function PasswordValidator(control: FormControl): ValidationErrors 
 {
-	return !control.value || /^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(control.value) ? null : { 'ip': true };
+	return !control.value || /^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(control.value) ? null : { 'password': true };
 }
 
 export function PasswordValidatorMessage(err, field: FormlyFieldConfig) 
@@ -47,6 +46,11 @@ export function TelephoneValidator(control: FormControl): ValidationErrors
 export function TelephoneValidatorMessage(err, field: FormlyFieldConfig) 
 {
 	return `"${field.formControl.value}" is not a valid telephone number`;
+}
+
+export function ImageFileSize(err, field: FormlyFieldConfig) 
+{
+	return `Image is large`;
 }
 
 export function passwordMatchValidator(control: AbstractControl) 
@@ -69,26 +73,34 @@ export function passwordMatchValidator(control: AbstractControl)
   declarations: 
   [
     AppComponent,
-    NewsfeedComponent
+    MainComponent,
   ],
-  imports: [ 
+  imports: 
+  [ 
     BrowserAnimationsModule,
     MatButtonModule,
+    MatInputModule,
+    MatFormFieldModule,    
     ReactiveFormsModule,
+    HttpClientModule,
+    AppRoutingModule,
     FormlyModule.forRoot({
       validationMessages: 
       [
+        { name: 'minlength', message: 'Minimum length should be 5 characters' },
+        { name: 'maxlength', message: 'Maximum length exceeded' },
+        { name: 'uniqueUsername', message: 'This username is already taken.' },
         { name: 'password', message: PasswordValidatorMessage },
         { name: 'telephone', message: TelephoneValidatorMessage },
-				{ name: 'email', message: EmailValidatorMessage },
-			],
+        { name: 'email', message: EmailValidatorMessage },
+      ],
       validators: 
       [
 				{ name: 'password', validation: PasswordValidator },
 				{ name: 'telephone', validation: TelephoneValidator },
         { name: 'email', validation: EmailValidator },
         { name: 'passwordMatch', validation: passwordMatchValidator },
-			],
+      ],
     }),
     MatNativeDateModule,
     FormlyMaterialModule,
@@ -97,11 +109,9 @@ export function passwordMatchValidator(control: AbstractControl)
   ],
   providers: 
   [
-    {
-      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-      useValue: appearance
-    }
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: appearance }
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

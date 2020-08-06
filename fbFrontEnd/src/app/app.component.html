@@ -1,9 +1,9 @@
 <div [style.display]="showLogin ? 'flex': 'none'" class="loginPageStyle">
   <div class="startPageTitle">FriendBook</div>
-  <form class="loginFormStyle" [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
+  <form class="loginFormStyle" [formGroup]="loginForm">
     <formly-form [form]="loginForm" [model]="loginModel" [fields]="loginFields"></formly-form>
     <div class="loginButtonGroup">
-      <button [disabled]="loginForm.invalid" type="submit" mat-raised-button color="primary">Login</button>
+      <button [disabled]="loginForm.invalid" (click)="onLoginSubmit()" mat-raised-button color="primary">Login</button>
       <button (click)="loadPage('register')" mat-raised-button color="primary">Register</button>
     </div>
   </form>
@@ -11,8 +11,14 @@
 
 <div [style.display]="showRegister ? 'flex': 'none'" class="loginPageStyle">
   <div class="startPageTitle">FriendBook Registration</div>
-  <form class="registerFormStyle" [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
-    <formly-form [form]="registerForm" [model]="registerModel" [fields]="registerFields"></formly-form>
+  <form class="registerFormStyle" [formGroup]="registerForm">
+    <formly-form [form]="registerForm" [model]="registerModel" [fields]="registerFields"></formly-form>    
+    <p>
+      <input style="display: none" type="file" accept=".jpg,.jpeg" (change)="onFileChanged($event)" #fileInput>
+      <button type="button" (click)="fileInput.click()">Select Display Picture</button>
+    </p>
+    <mat-error [style.display]="(selectFileTouched && !isValidImageFile) ? 'inline': 'none'" class="error-message">Wrong Image Size</mat-error>
+    <mat-label>{{selectedFileName}}</mat-label>
   </form>
-  <button [disabled]="registerForm.invalid" type="submit" mat-raised-button color="primary">Register</button>
+  <button [disabled]="registerForm.invalid" (click)="onRegisterSubmit()" mat-raised-button color="primary">Register</button>
 </div>
