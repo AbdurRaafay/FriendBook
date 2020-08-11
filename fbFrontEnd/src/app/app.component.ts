@@ -1,173 +1,55 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormGroup, FormControl, ValidationErrors } from '@angular/forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
-import { map } from 'rxjs/operators';
+import { Component, Renderer2, HostListener } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { Observable } from 'rxjs';
+
+import { ScrollService } from 'src/app/services/scroll.service';
+import { ChatControl } from './components/chatcontainer/chatcontrol';
+import { AuthenticationService } from './services/authentication.service';
 import { CommunicationService } from 'src/app/services/communication.service';
+import { WebsocketmessagingService } from 'src/app/services/websocketmessaging.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent 
+
+export class AppComponent
 {
-  showLogin: boolean = false;
-  showRegister: boolean = true;
-  selectFileTouched: boolean = false;
-  selectedFileName: string = "";
-  isValidImageFile: boolean = false;
-  selectedFile: File
+  title = 'fbFrontEnd';
+  adapter: ChatControl = new ChatControl();
+  isLoggedIn$: Observable<boolean>;
 
-  loginForm = new FormGroup({});
-  loginModel = {};
-  loginFields: FormlyFieldConfig[] = 
-  [
-    {
-      key: 'email',
-      type: 'input',
-      templateOptions: 
-      {
-        label: 'Email',
-        placeholder: 'Email',
-        minLength: 6,
-        maxLength: 30,
-        required: true,
-      },
-      validators: 
-      {
-        validation: ['email'],
-      },
-    },
-    {
-      key: 'password',
-      type: 'input',
-      templateOptions: 
-      {
-        type: 'password',
-        label: 'Password',
-        placeholder: 'Password',
-        minLength: 6,
-        maxLength: 30,
-        required: true,
-      },
-      validators: { validation: ['password'] },
-    }
-  ];
-
-  registerForm = new FormGroup({});
-  registerModel = {};
-  registerFields: FormlyFieldConfig[] = 
-  [    
-    {
-      key: 'firstName', type: 'input', templateOptions: { label: 'First Name', maxLength: 50, },
-    },
-    {
-      key: 'lastName', type: 'input', templateOptions: { label: 'Last Name', maxLength: 50, },
-    },
-    {
-      key: 'email', type: 'input', templateOptions: { type: 'email', label: 'Email', placeholder: 'Email', minLength: 5, maxLength: 30, },
-      asyncValidators: 
-      {
-        validation: 
-        [
-          (control: FormControl) => this.commService.checkEmailAvailability(control.value).pipe
-          (
-            map( res => 
-              { 
-                console.log(res); 
-                if (res.status === 'AVAILABLE') 
-                {
-                  return null;
-                } 
-                else if (res.status === 'NOT_AVAILABLE')
-                {
-                  return { uniqueUsername: true };
-                }
-              }),
-          ),
-        ]
-      },
-    },
-    { 
-      validators: { validation: [ { name: 'passwordMatch', options: { errorPath: 'passwordConfirm' } }, ], },
-      fieldGroup: 
-      [
-        {
-          key: 'password', type: 'input', templateOptions: { type: 'password', label: 'Password', placeholder: 'Must be at least 3 characters', minLength: 3, },
-        },
-        {
-          key: 'passwordConfirm', type: 'input', templateOptions: { type: 'password', label: 'Confirm Password', placeholder: 'Please re-enter your password', },
-        },
-      ],
-    },
-    {
-      key: 'telephone', type: 'input', templateOptions: { label: 'Telephone', placeholder: 'Telephone', },
-      validators: { validation: ['telephone'] },
-    },
-    {
-      key: 'genderSelect', type: 'select',
-      templateOptions: 
-      {
-        label: 'Gender', placeholder: 'Placeholder', options: [ { value: 1, label: 'Male'  }, { value: 2, label: 'Female'  }, { value: 3, label: 'Other' } ],
-      },
-    },
-    { 
-      key: 'Datepicker', type: 'datepicker', templateOptions: { label: 'Date of birth', placeholder: 'Date of birth', },
-    },
-  ];
-
-  constructor(private commService: CommunicationService, private router:Router) { }
-
-  onLoginSubmit()
+  constructor(private renderer: Renderer2, private router: Router, private scrSrv: ScrollService, private authService: AuthenticationService,
+    private commService: CommunicationService, private wscommService: WebsocketmessagingService)
   {
-    if (this.loginForm.valid) 
-    {
-      console.log(this.loginModel);
-    }
+    this.renderer.setStyle(document.body, 'background-color', 'rgb(231, 235, 242)');
+    this.isLoggedIn$ = this.authService.isLoggedIn;
+    this.isLoggedIn$.subscribe(res => 
+      {
+        if(res == true)
+        {
+          this.adapter.commService = this.commService;
+          this.adapter.wsService = this.wscommService;
+          this.adapter.setFriendsList();
+          this.adapter.registerCallBacks();
+          this.wscommService.connectToChat();
+        }
+      });
   }
 
-  onRegisterSubmit()
+  @HostListener('window:scroll')
+  checkScroll() 
   {
-    if (this.registerForm.valid) 
+    let a = document.documentElement.scrollTop;
+    let b = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    let c = a/b*100;
+    if( c == 100 )
     {
-      console.log(this.registerModel );
+      if(this.router.url === '/newsfeed')
+        this.scrSrv.sendScrollMessage('newsfeed');
+      else if(this.router.url === '/wall')
+        this.scrSrv.sendScrollMessage('wall');
     }
-  }  
-
-  loadPage(choice: string)
-  {
-    if(choice === 'register')
-    {
-      this.showLogin = false;
-      this.showRegister = true;
-    }
-  }
-
-  onFileChanged(event)
-  {
-    let fr = new FileReader;
-    this.selectFileTouched = true;
-    this.selectedFile = event.target.files[0];
-    this.selectedFileName = this.selectedFile.name;
-    let img = new Image();
-    fr.onload = () => 
-    {
-      img.onload = () => 
-      {
-         console.log(img.width + " " + img.height);
-         if(img.width == 400 && img.height == 400)
-         {
-           this.isValidImageFile = true;
-           this.selectedFile = event.target.files[0];
-           this.selectedFileName = this.selectedFile.name;
-          //  this.uploadData.append('imageFile', this.selectedFile, this.selectedFile.name);
-         }          
-         else
-         this.isValidImageFile = false;
-      }; 
-      img.src = <string>fr.result;
-    };
-    fr.readAsDataURL(event.target.files[0]);
   }
 }

@@ -1,0 +1,63 @@
+.nav-bar-friendbook
+{
+    width: 100%;
+    top: 0;
+    position: fixed;
+    background-color: #b6bedf;
+}
+
+.nav-item-title
+{
+    float: left;    
+    font-style: italic;
+    font-size: 50px;
+    font-family: "Times New Roman", Times, serif;
+    margin-right: 50px;
+    margin-left: 10px;
+}
+
+.nav-bar-search
+{
+    float: left;
+    width: 10%;
+    height: 50px;
+}
+
+.search-result-item
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    white-space: nowrap;
+    line-height: 45px;
+    height: 45px;
+    padding: 0 16px;
+    text-align: left;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.search-text-input
+{
+    width: 100%;
+    height: 50px;
+}
+
+.nav-bar-notification, .nav-bar-newsfeed, .nav-bar-wall, .nav-bar-logout
+{
+    float: left;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.nav-bar-bubble
+{
+    visibility: hidden;
+    position: relative;
+    top: -10px;
+    right: -70px;
+    padding: 5px 10px;
+    border-radius: 50%;
+    background-color: red;
+    color: white;
+}

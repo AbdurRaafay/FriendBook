@@ -1,0 +1,35 @@
+<mat-toolbar class="nav-bar-friendbook" fxLayout="row" fxLayoutAlign="start center" *ngIf="isLoggedIn$ | async">
+    <div class="nav-item-title">
+        FriendBook
+    </div>
+    <form class="nav-bar-search" fxFlex = "60%">
+        <mat-form-field class="search-text-input">
+            <input matInput placeholder="Search" aria-label="Number" [formControl]="searchFormControl" [matAutocomplete]="auto">
+            <mat-autocomplete class="search-autocomplete" #auto="matAutocomplete">
+            <mat-option (onSelectionChange)="onSearchItemSelected($event, option)" *ngFor="let option of autoCompleteList | async" [value]="option.name">
+                <div class = "search-result-item">
+                    <img class = "search-user-pic" src="/images/{{option.imageID}}.jpg" width="30" height="30"> &nbsp; &nbsp;
+                    <span class = "search-user-name">{{option.name}}</span>
+                </div>
+            </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </form>
+    <span fxFlex></span>
+    <div class="nav-bar-bubble" [ngStyle]="{'visibility':enableNotification ? 'visible' : 'hidden'}" [matMenuTriggerFor]="notificationMenu">{{noOfNotification}}</div>
+    <i class="nav-bar-notification" (click)="onNotificationClicked()"><img src="/icons/notification.svg" width="50" height="50"></i>
+    <mat-menu #notificationMenu="matMenu" yPosition="above">
+        <ng-container *ngFor="let item of notificationMenuArray">
+            <button *ngIf=!item.templateName mat-menu-item (click)="onNotificationItemSelected(item)">{{item.text}}</button>
+        </ng-container>
+    </mat-menu>
+    <div class="nav-bar-newsfeed">
+        <i (click)="onNewsFeedClicked()"><img src="/icons/home.svg" width="50" height="50"></i>
+    </div>
+    <div class="nav-bar-wall">
+        <i (click)="onWallClicked()"><img src="/icons/firewall.svg" width="50" height="50"></i>
+    </div>
+    <div class="nav-bar-logout">
+        <i (click)="onLogoutClicked()"><img src="/icons/logout.svg" width="50" height="50"></i> 
+    </div>
+</mat-toolbar>

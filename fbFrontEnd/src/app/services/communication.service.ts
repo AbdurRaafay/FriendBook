@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from "rxjs";
-import { AppConst } from "../app-const";
+import { AppConst } from '../constants/app-const';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,6 @@ import { AppConst } from "../app-const";
 
 export class CommunicationService 
 {
- 
   constructor(private http:HttpClient) { }
 
   getFriendsWallPosts(friendImageID: string): Observable<any>
