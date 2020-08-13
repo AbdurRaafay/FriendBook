@@ -96,7 +96,7 @@ module.exports = "<mat-toolbar class=\"nav-bar-friendbook\" fxLayout=\"row\" fxL
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<br/>\n<div class=\"panel\"> \n  <div class = \"post-heading\">\n    <div class = \"title\">\n          <img class = \"user-pic\" src=\"/images/{{imagePath}}.jpg\">            \n          <span class = \"post-user-name\">{{fullName}}</span> &nbsp; made a post\n    </div>\n    <div class = \"post-time\">{{timestamp}}</div>\n  </div>\n  <div class = \"post-description\">\n    <div class =\"post-text\">\n        <p>\n            {{text}}\n        </p>\n    </div>\n    <div class = \"stats\">\n          <i (click)=\"onAddLikes()\"><img src=\"/icons/like.svg\" width=\"20\" height=\"20\"> <span class = \"stats-likes\">{{likes}}</span> </i> \n          <i (click)=\"onAddDislikes()\"><img src=\"/icons/dislike.svg\" width=\"20\" height=\"20\"> <span class = \"stats-likes\">{{dislikes}}</span> </i> \n          <i (click)=\"onGetComments()\"><img src=\"/icons/comment.svg\" width=\"20\" height=\"20\"> <span class = \"stats-likes\">{{numComments}}</span> </i> \n    </div>\n    <input class = \"comment-input\" #commentbox (keyup.enter)=\"onEnterComment(commentbox.value)\" placeholder = \"Add a comment ...\" type = \"text\">\n  <div *ngIf=\"showComments\" class = \"panel-footer\">\n    <ul style = \"list-style-type:none\">\n        <li *ngFor=\"let cmnt of comments\" class = \"comment-list-element\">\n          <div class = \"comment-body\">\n              <img class = \"comment-user-pic\" src=\"/images/{{cmnt.imagePath}}.jpg\">\n              <span class = \"comment-user-name\">{{cmnt.fullName}}  &nbsp;  &nbsp; {{cmnt.timestamp}}</span>\n          </div>\n          <div class = \"comment-text\">{{cmnt.text}}</div>          \n        </li>\n    </ul>\n  </div>\n</div>"
+module.exports = "<br/>\n<div class=\"panel\"> \n  <div class = \"post-heading\">\n    <div class = \"title\">\n          <img class = \"user-pic\" src=\"/images/{{imagePath}}.jpg\">            \n          <span class = \"post-user-name\">{{fullName}}</span> &nbsp; made a post\n    </div>\n    <div class = \"post-time\">{{timestamp | timeago}}</div>\n  </div>\n  <div class = \"post-description\">\n    <div class =\"post-text\">\n        <p>\n            {{text}}\n        </p>\n    </div>\n    <div class = \"stats\">\n          <i (click)=\"onAddLikes()\"><img src=\"/icons/like.svg\" width=\"20\" height=\"20\"> <span class = \"stats-likes\">{{likes}}</span> </i> \n          <i (click)=\"onAddDislikes()\"><img src=\"/icons/dislike.svg\" width=\"20\" height=\"20\"> <span class = \"stats-likes\">{{dislikes}}</span> </i> \n          <i (click)=\"onGetComments()\"><img src=\"/icons/comment.svg\" width=\"20\" height=\"20\"> <span class = \"stats-likes\">{{numComments}}</span> </i> \n    </div>\n    <input class = \"comment-input\" #commentbox (keyup.enter)=\"onEnterComment(commentbox.value)\" placeholder = \"Add a comment ...\" type = \"text\">\n  <div *ngIf=\"showComments\" class = \"panel-footer\">\n    <ul style = \"list-style-type:none\">\n        <li *ngFor=\"let cmnt of comments\" class = \"comment-list-element\">\n          <div class = \"comment-body\">\n              <img class = \"comment-user-pic\" src=\"/images/{{cmnt.imagePath}}.jpg\">\n              <span class = \"comment-user-name\">{{cmnt.fullName}}  &nbsp;  &nbsp; {{cmnt.timestamp | timeago}}</span>\n          </div>\n          <div class = \"comment-text\">{{cmnt.text}}</div>          \n        </li>\n    </ul>\n  </div>\n</div>"
 
 /***/ }),
 
@@ -314,20 +314,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/flex-layout */ "./node_modules/@angular/flex-layout/esm2015/flex-layout.js");
 /* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm2015/material.js");
 /* harmony import */ var ng_chat__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ng-chat */ "./node_modules/ng-chat/fesm2015/ng-chat.js");
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _components_newsfeed_newsfeed_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/newsfeed/newsfeed.component */ "./src/app/components/newsfeed/newsfeed.component.ts");
-/* harmony import */ var _components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/newpost/newpost.component */ "./src/app/components/newpost/newpost.component.ts");
-/* harmony import */ var _components_newpost_newpost_directive__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/newpost/newpost.directive */ "./src/app/components/newpost/newpost.directive.ts");
-/* harmony import */ var _components_login_login_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/login/login.component */ "./src/app/components/login/login.component.ts");
-/* harmony import */ var _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/wall/wall.component */ "./src/app/components/wall/wall.component.ts");
-/* harmony import */ var _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/navbar/navbar.component */ "./src/app/components/navbar/navbar.component.ts");
-/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm2015/animations.js");
-/* harmony import */ var _components_singlepost_singlepost_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./components/singlepost/singlepost.component */ "./src/app/components/singlepost/singlepost.component.ts");
-/* harmony import */ var _components_friendswall_friendswall_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/friendswall/friendswall.component */ "./src/app/components/friendswall/friendswall.component.ts");
-/* harmony import */ var _components_friendrequest_friendrequest_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/friendrequest/friendrequest.component */ "./src/app/components/friendrequest/friendrequest.component.ts");
-/* harmony import */ var _components_friendrequestmanage_friendrequestmanage_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/friendrequestmanage/friendrequestmanage.component */ "./src/app/components/friendrequestmanage/friendrequestmanage.component.ts");
-/* harmony import */ var _components_register_register_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/register/register.component */ "./src/app/components/register/register.component.ts");
+/* harmony import */ var ngx_timeago__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ngx-timeago */ "./node_modules/ngx-timeago/fesm2015/ngx-timeago.js");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _components_newsfeed_newsfeed_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/newsfeed/newsfeed.component */ "./src/app/components/newsfeed/newsfeed.component.ts");
+/* harmony import */ var _components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./components/newpost/newpost.component */ "./src/app/components/newpost/newpost.component.ts");
+/* harmony import */ var _components_newpost_newpost_directive__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./components/newpost/newpost.directive */ "./src/app/components/newpost/newpost.directive.ts");
+/* harmony import */ var _components_login_login_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./components/login/login.component */ "./src/app/components/login/login.component.ts");
+/* harmony import */ var _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./components/wall/wall.component */ "./src/app/components/wall/wall.component.ts");
+/* harmony import */ var _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./components/navbar/navbar.component */ "./src/app/components/navbar/navbar.component.ts");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm2015/animations.js");
+/* harmony import */ var _components_singlepost_singlepost_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./components/singlepost/singlepost.component */ "./src/app/components/singlepost/singlepost.component.ts");
+/* harmony import */ var _components_friendswall_friendswall_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./components/friendswall/friendswall.component */ "./src/app/components/friendswall/friendswall.component.ts");
+/* harmony import */ var _components_friendrequest_friendrequest_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./components/friendrequest/friendrequest.component */ "./src/app/components/friendrequest/friendrequest.component.ts");
+/* harmony import */ var _components_friendrequestmanage_friendrequestmanage_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./components/friendrequestmanage/friendrequestmanage.component */ "./src/app/components/friendrequestmanage/friendrequestmanage.component.ts");
+/* harmony import */ var _components_register_register_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./components/register/register.component */ "./src/app/components/register/register.component.ts");
+
 
 
 
@@ -355,30 +357,31 @@ let AppModule = class AppModule {
 AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
         declarations: [
-            _app_component__WEBPACK_IMPORTED_MODULE_9__["AppComponent"],
-            _components_newsfeed_newsfeed_component__WEBPACK_IMPORTED_MODULE_10__["NewsfeedComponent"],
-            _components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_11__["NewpostComponent"],
-            _components_newpost_newpost_directive__WEBPACK_IMPORTED_MODULE_12__["NPostDirective"],
-            _components_login_login_component__WEBPACK_IMPORTED_MODULE_13__["LoginComponent"],
-            _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_14__["WallComponent"],
-            _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_15__["NavbarComponent"],
-            _components_singlepost_singlepost_component__WEBPACK_IMPORTED_MODULE_17__["SinglepostComponent"],
-            _components_friendrequest_friendrequest_component__WEBPACK_IMPORTED_MODULE_19__["FriendrequestComponent"],
-            _components_friendswall_friendswall_component__WEBPACK_IMPORTED_MODULE_18__["FriendswallComponent"],
-            _components_friendrequestmanage_friendrequestmanage_component__WEBPACK_IMPORTED_MODULE_20__["FriendrequestmanageComponent"],
-            _components_register_register_component__WEBPACK_IMPORTED_MODULE_21__["RegisterComponent"]
+            _app_component__WEBPACK_IMPORTED_MODULE_10__["AppComponent"],
+            _components_newsfeed_newsfeed_component__WEBPACK_IMPORTED_MODULE_11__["NewsfeedComponent"],
+            _components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_12__["NewpostComponent"],
+            _components_newpost_newpost_directive__WEBPACK_IMPORTED_MODULE_13__["NPostDirective"],
+            _components_login_login_component__WEBPACK_IMPORTED_MODULE_14__["LoginComponent"],
+            _components_wall_wall_component__WEBPACK_IMPORTED_MODULE_15__["WallComponent"],
+            _components_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_16__["NavbarComponent"],
+            _components_singlepost_singlepost_component__WEBPACK_IMPORTED_MODULE_18__["SinglepostComponent"],
+            _components_friendrequest_friendrequest_component__WEBPACK_IMPORTED_MODULE_20__["FriendrequestComponent"],
+            _components_friendswall_friendswall_component__WEBPACK_IMPORTED_MODULE_19__["FriendswallComponent"],
+            _components_friendrequestmanage_friendrequestmanage_component__WEBPACK_IMPORTED_MODULE_21__["FriendrequestmanageComponent"],
+            _components_register_register_component__WEBPACK_IMPORTED_MODULE_22__["RegisterComponent"]
         ],
         imports: [
             _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
+            ngx_timeago__WEBPACK_IMPORTED_MODULE_8__["TimeagoModule"].forRoot(),
             _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormsModule"],
             _angular_forms__WEBPACK_IMPORTED_MODULE_4__["ReactiveFormsModule"],
             _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatInputModule"],
             _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatAutocompleteModule"],
             _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatFormFieldModule"],
-            _app_routing_module__WEBPACK_IMPORTED_MODULE_8__["AppRoutingModule"],
+            _app_routing_module__WEBPACK_IMPORTED_MODULE_9__["AppRoutingModule"],
             _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
             ng_chat__WEBPACK_IMPORTED_MODULE_7__["NgChatModule"],
-            _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_16__["NoopAnimationsModule"],
+            _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_17__["NoopAnimationsModule"],
             _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatToolbarModule"],
             _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatMenuModule"],
             _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatListModule"],
@@ -391,8 +394,8 @@ AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
             _angular_flex_layout__WEBPACK_IMPORTED_MODULE_5__["FlexLayoutModule"]
         ],
         providers: [_angular_material__WEBPACK_IMPORTED_MODULE_6__["MatDatepickerModule"]],
-        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_9__["AppComponent"]],
-        entryComponents: [_components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_11__["NewpostComponent"]]
+        bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_10__["AppComponent"]],
+        entryComponents: [_components_newpost_newpost_component__WEBPACK_IMPORTED_MODULE_12__["NewpostComponent"]]
     })
 ], AppModule);
 
@@ -494,9 +497,11 @@ class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
         }
     }
     getMessageHistory(userId) {
+        console.log('Get history');
         var mockedHistory = [];
         var userHistoryEntry = this.chatHistory.find(x => x.userImageID == userId);
         if (typeof userHistoryEntry === 'undefined') {
+            console.log('History not found');
             var usrMsgHistory = [];
             userHistoryEntry = { userImageID: userId, userMessagesHistory: [] };
             //No history entry for this user so fetch history from server
@@ -516,11 +521,12 @@ class ChatControl extends ng_chat__WEBPACK_IMPORTED_MODULE_0__["ChatAdapter"] {
             this.chatHistory.push(userHistoryEntry);
         }
         else {
+            console.log('History found');
             if (userHistoryEntry.userMessagesHistory.length > 0)
                 Array.prototype.push.apply(mockedHistory, userHistoryEntry.userMessagesHistory);
         }
         console.log(mockedHistory);
-        return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["of"])(mockedHistory).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["delay"])(2000));
+        return Object(rxjs__WEBPACK_IMPORTED_MODULE_1__["of"])(mockedHistory).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["delay"])(20));
     }
     sendMessage(message) {
         console.log(message);
@@ -1004,14 +1010,16 @@ let NavbarComponent = class NavbarComponent {
         window.location.reload(); //Do a reload to erase everything and start with a fresh state
     }
     onNotificationItemSelected(menuItem) {
-        if (typeof this.alreadyClicked.find(x => x === menuItem.userImageID) === 'undefined') {
-            console.log('New item clicked');
-            this.alreadyClicked.push(menuItem.userImageID); //Put this notification menu item in seen list
-            if (this.noOfNotification > 0)
-                this.noOfNotification--;
-            if (this.noOfNotification === 0)
-                this.enableNotification = false;
-        }
+        console.log('New item clicked');
+        this.alreadyClicked.push(menuItem.userImageID); //Put this notification menu item in seen list
+        if (this.noOfNotification > 0)
+            this.noOfNotification--;
+        if (this.noOfNotification === 0)
+            this.enableNotification = false;
+        console.log(this.noOfNotification);
+        // if (typeof this.alreadyClicked.find(x => x === menuItem.userImageID) === 'undefined')
+        // {
+        // }
         if (menuItem.menuItemType === 'POST') {
             if (!menuItem.hasOwnProperty('postID')) //Non friend post
              {

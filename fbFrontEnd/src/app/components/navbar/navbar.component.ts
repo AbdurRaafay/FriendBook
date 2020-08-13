@@ -124,15 +124,14 @@ export class NavbarComponent implements OnInit
 
   onNotificationItemSelected(menuItem: any)
   {
-    if (typeof this.alreadyClicked.find(x => x === menuItem.userImageID) === 'undefined')
-    {
-      console.log('New item clicked');
-      this.alreadyClicked.push(menuItem.userImageID);//Put this notification menu item in seen list
-      if(this.noOfNotification > 0)
-        this.noOfNotification--;   
-      if(this.noOfNotification === 0)
-        this.enableNotification = false;
-    }
+    console.log('New item clicked');
+    this.alreadyClicked.push(menuItem.userImageID);//Put this notification menu item in seen list
+    if(this.noOfNotification > 0)
+      this.noOfNotification--;   
+    if(this.noOfNotification === 0)
+      this.enableNotification = false;
+    console.log(this.noOfNotification);
+
     if(menuItem.menuItemType === 'POST')
     {
       if(!menuItem.hasOwnProperty('postID'))//Non friend post

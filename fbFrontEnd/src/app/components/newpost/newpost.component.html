@@ -5,7 +5,7 @@
           <img class = "user-pic" src="/images/{{imagePath}}.jpg">            
           <span class = "post-user-name">{{fullName}}</span> &nbsp; made a post
     </div>
-    <div class = "post-time">{{timestamp}}</div>
+    <div class = "post-time">{{timestamp | timeago}}</div>
   </div>
   <div class = "post-description">
     <div class ="post-text">
@@ -24,7 +24,7 @@
         <li *ngFor="let cmnt of comments" class = "comment-list-element">
           <div class = "comment-body">
               <img class = "comment-user-pic" src="/images/{{cmnt.imagePath}}.jpg">
-              <span class = "comment-user-name">{{cmnt.fullName}}  &nbsp;  &nbsp; {{cmnt.timestamp}}</span>
+              <span class = "comment-user-name">{{cmnt.fullName}}  &nbsp;  &nbsp; {{cmnt.timestamp | timeago}}</span>
           </div>
           <div class = "comment-text">{{cmnt.text}}</div>          
         </li>

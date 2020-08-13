@@ -18,13 +18,11 @@ For AngularCoronaDashBoard
 npm install @angular/cdk@^9.2.4 --save
 npm install @angular/material@^9.2.4 --save
 
-
 For FriendBook
 npm i @angular/material@8.2.3 @angular/cdk@^8.2.3 --save
 npm install @stomp/stompjs@^4.0.8 --save
 npm install sockjs-client@1.4.0 --save
 npm install ng-chat@2.0.5 --save    
-npm i time-ago-pipe --save
 npm i @angular/flex-layout@8.0.0-beta.26
 
 

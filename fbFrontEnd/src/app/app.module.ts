@@ -6,6 +6,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatInputModule, MatAutocompleteModule, MatFormFieldModule, MatMenuModule, MatCardModule, MatButtonModule, 
   MatNativeDateModule, MatSelectModule, MatToolbarModule, MatListModule, MatSidenavModule, MatDatepickerModule } from '@angular/material';
 import { NgChatModule } from 'ng-chat';
+import { TimeagoModule } from 'ngx-timeago';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,6 +40,7 @@ import { RegisterComponent } from './components/register/register.component';
   ],
   imports: [
     BrowserModule,
+    TimeagoModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
     MatInputModule, 

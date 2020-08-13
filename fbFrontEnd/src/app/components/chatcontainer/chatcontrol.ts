@@ -111,10 +111,12 @@ export class ChatControl extends ChatAdapter
 
     getMessageHistory(userId: any): Observable<Message[]>
     {
+        console.log('Get history');
         var mockedHistory: Array<Message> = [];
         var userHistoryEntry = this.chatHistory.find(x => x.userImageID == userId);
         if (typeof userHistoryEntry === 'undefined')
         {
+            console.log('History not found');
             var usrMsgHistory: Array<Message> = [];
             userHistoryEntry = {userImageID: userId, userMessagesHistory: []};
             //No history entry for this user so fetch history from server
@@ -138,11 +140,12 @@ export class ChatControl extends ChatAdapter
         }
         else
         {
+            console.log('History found');
             if(userHistoryEntry.userMessagesHistory.length > 0)
                 Array.prototype.push.apply(mockedHistory, userHistoryEntry.userMessagesHistory);
         }
         console.log(mockedHistory);     
-        return of(mockedHistory).pipe(delay(2000));
+        return of(mockedHistory).pipe(delay(20));
     }
     
     sendMessage(message: Message): void
