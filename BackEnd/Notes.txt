@@ -25,8 +25,6 @@ npm install sockjs-client@1.4.0 --save
 npm install ng-chat@2.0.5 --save    
 npm i @angular/flex-layout@8.0.0-beta.26
 
-
-
 In angular.json change "outputPath": "dist/" 
 ng build --prod --base-href="https://abdurraafay.github.io/AngularCoronaDashboard/"
 
@@ -35,7 +33,7 @@ ng build --prod --base-href ./
 
 change index.html delete nomodule
 sudo angular-cli-ghpages --no-silent
-https://abdurraafay.github.io/AngularCoronaDashBoard
+https://abdurraafay.github.io/AngularCoronaDashboard
 
 https://github.com/AbdurRaafay/AngularCoronaDashboard.git
 
@@ -106,6 +104,39 @@ iPad Pro          1366     1024
 https://stackblitz.com/edit/angular-chartjs-multiple-charts?file=src%2Fapp%2Fapp.component.html
 https://stackblitz.com/edit/angular-chart-js?file=package.json
 https://andrew-flower.com/blog/angular-chartjs
+
+*******************************************************
+Make screen GIF
+*******************************************************
+sleep 10; ffmpeg -y -video_size 1366x680 -framerate 25 -f x11grab -i :0.0+0,80 output.mp4
+## sleep {X}:                      prepare for X seconds before start recording
+## -y:                             overwrite output.mp4 if exists
+## -video_size {width}x{height}:   make frame size to width x height
+## -framerate:                     frame per second
+## -f x11grab:                     the encoder used, you shouldn't modify this =/
+## -i {a}.{b}+{left},{top}:        record screen {a}.{b}(FYI: X server $DISPLAY) with offset from left top corner of screen to {left} {top}
+
+ffmpeg -y -i output.mp4 -ss 3 -t 11 myclip.mp4; ffplay myclip.mp4
+## -i:         specify which input file
+## --ss {n}:   trim {n} seconds from begining
+## -t {d}:     secify the duration of myclip.mp4
+## ffplay:     play myclip.mp4 once the encoding ends
+
+rm -rf frames
+mkdir frames
+ffmpeg -i myclip.mp4 -vf scale=320:-1:flags=lanczos,fps=10 frames/ffout%03d.png
+## frames/:            make a new directory to store output pictures
+## scale={width}:-1:   make pictures at scale of {width} with calculated height
+## flags={whatever}:   some MAGIC
+## fps={x}:            make pictures with playback at {x}fps
+## ffout%03d.png:      file name with 001, 002, ..., 999
+
+convert -delay 3 -loop 0 -dither None -colors 80 "frames/ffout*.png" -fuzz "10%" -layers OptimizeFrame "output.gif"
+## -delay {f}: skip {f} frames between each frame in GIF, making GIF playing fast
+## -loop 0: make GIF loop forever
+## -color {c}: Make about {c} colors in available in GIF
+## -fuzz "10%": fuzz each frame, would make GIF not recognizable
+## -layers: some MAGIC
 
 *******************************************************
 Angular NgTemplateOutlet
